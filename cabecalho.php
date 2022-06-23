@@ -40,7 +40,7 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"> </script>
     <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
 </head>
-<body onload="exibir_modulo_session('<?php echo $_SESSION['modulosconfig'];?>')">
+<body>
 
 
     <header>    

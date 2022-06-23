@@ -1,14 +1,6 @@
 <?php 
     //CABECALHO
     include 'cabecalho.php';
-
-    //DIRETORIO DO PROJETO
-    $page_file_temp = $_SERVER["PHP_SELF"];
-    $_SESSION['RAIZ'] = $_SERVER['DOCUMENT_ROOT'] . '/' . dirname($page_file_temp) . '/';
-
-    //DEFININDO O MODULO PRODUTO COMO PADRÃO NA SESSION
-    $_SESSION['modulosconfig'] = 'div_produto';
-
 ?>
 
 <div class="div_br"> </div>

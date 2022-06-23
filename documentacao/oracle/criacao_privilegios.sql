@@ -17,7 +17,8 @@ GRANT SELECT ON DBASGU.PAPEL TO escala_medica;
 --GRANT SELECT ON dbamv.SEQ_PRODUTO TO portal_cadastro;
 
 --SELECT + INSERT
---GRANT SELECT, INSERT ON dbamv.PRO_FAT TO portal_cadastro;
+GRANT SELECT, INSERT ON dbamv.PRO_FAT TO portal_cadastro;
 
 --SELECT
-GRANT SELECT ON dbamv.ESPECIE TO portal_cadastro;
+GRANT SELECT ON dbamv.PRESTADOR TO escala_medica;
+GRANT REFERENCES ON dbamv.PRESTADOR TO escala_medica;

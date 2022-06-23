@@ -18,7 +18,7 @@
 
                 <div class="div_br"> </div>
 
-                <a href="workflow.php" class="botao_home" type="submit"><i class="fa-regular fa-clipboard"></i> Workflow</a></td></tr>
+                <a href="setor.php" class="botao_home" type="submit"><i class="fa-regular fa-clipboard"></i> Setores</a></td></tr>
 
                 <span class="espaco_pequeno"></span>
 

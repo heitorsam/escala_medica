@@ -289,13 +289,11 @@ p,li{
     font-size: 0.875rem !important;
     background-color: #3185c1 !important;
     border-color: #3185c1 !important;	
-    min-width: 90px;	
 }
 
 .btn-primary:hover{ 
     background-color: #31b2d0 !important; 
     border-color: #31b2d0 !important;	
-    min-width: 90px;	
 }
 
 

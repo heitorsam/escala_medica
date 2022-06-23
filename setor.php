@@ -5,10 +5,13 @@
     include 'conexao.php';
 ?>
 
-<div class="div_br"> </div>
+    <h11><i class="fa fa-building"></i> Setor:</h11>
+    <span class="espaco_pequeno" style="width: 6px;" ></span>
+    <h27> <a href="home.php" style="color: #444444; text-decoration: none;"> <i class="fa fa-reply" aria-hidden="true"></i> Voltar </a> </h27> 
+    <div class="div_br"> </div> 
 
-         <!--MENSAGENS-->
-         <?php
+        <!--MENSAGENS-->
+        <?php
             include 'js/mensagens.php';
             include 'js/mensagens_usuario.php';
         ?>
@@ -27,7 +30,7 @@
         </div>
         <div class="col-md-2">
             Código:
-            <input type="text" id="cd_responsavel" onblur="campos_responsavel('1')" class="form-control">
+            <input type="number" id="cd_responsavel" onkeyup = "campos_responsavel('1')" class="form-control">
         </div>
         <div class="col-md-4">
             Responsavel:
@@ -35,7 +38,7 @@
             <?php 
             
                 //CONSULTA_LISTA
-                $consulta_lista = "SELECT pre.CD_PRESTADOR AS CODIGO, replace(pre.Nm_Mnemonico,CHR(10),'') AS NOME from dbamv.PRESTADOR pre ORDER BY 2";
+                $consulta_lista = "SELECT pre.CD_PRESTADOR AS CODIGO, replace(pre.Nm_Mnemonico,CHR(10),'') AS NOME from dbamv.PRESTADOR pre WHERE pre.TP_SITUACAO = 'A' ORDER BY 2";
                 $result_lista = oci_parse($conn_ora, $consulta_lista);																									
 
                 //EXECUTANDO A CONSULTA SQL (ORACLE)
@@ -65,8 +68,7 @@
             <!--FIM CAIXA AUTOCOMPLETE-->   
         </div>
         <div class="col-md-1">
-            <div class="div_br"></div>
-            <div class="div_br"></div>
+            <br>
             <button class="btn btn-primary" onclick="cadastrar_setor()"><i class="fas fa-plus"></i></button>
         </div>
     </div>
@@ -87,6 +89,7 @@
     function cadastrar_setor(){
         var tipo = document.getElementById('tipo').value;
         var ds_setor = document.getElementById('ds_setor').value;
+        var cd_responsavel = document.getElementById('cd_responsavel').value;
         var responsavel = document.getElementById('input_valor').value;
 
         if(tipo == ''){
@@ -95,6 +98,8 @@
             document.getElementById('ds_setor').focus();
         }else if(responsavel == ''){
             document.getElementById('input_valor').focus();
+        }else if(cd_responsavel == ''){
+            document.getElementById('cd_responsavel').focus();
         }else{
             
             $.ajax({
@@ -103,15 +108,16 @@
                 data: {
                     tipo: tipo,
                     ds_setor: ds_setor,
-                    responsavel: responsavel
+                    cd_responsavel: cd_responsavel
                     },
                 cache: false,
                 success: function(dataResult){
-                    document.getElementById('tipo').selectedIndex = 0;
-                    document.getElementById('ds_setor').focus();
-                    document.getElementById('input_valor').focus();
-                    criar_tabela_setor();
                     //alert(dataResult);
+                    document.getElementById('ds_setor').value = '';
+                    document.getElementById('input_valor').value = '';
+                    document.getElementById('cd_responsavel').value = '';
+                    criar_tabela_setor();
+                    
                     
                 },
             });
@@ -120,7 +126,7 @@
     }
 
     function criar_tabela_setor(){
-        $('#tabela_setor').load('funcoes/setor/ajax_tabela_setor.php')
+        $('#tabela_setor').load('funcoes/setor/ajax_tabela_setor.php');
     }
 
     function excluir_setor(cd_setor){
@@ -140,8 +146,10 @@
     }
 
     function campos_responsavel(tipo){
+        //tipo 1 : código
         if(tipo == '1'){
             var campo = document.getElementById('cd_responsavel').value;
+        //tipo 2 : nome
         }else{
             var campo = document.getElementById('input_valor').value;
         }
@@ -164,7 +172,12 @@
                     
                 },
             });
-
+        }else{
+            if(tipo == '1'){
+                document.getElementById('input_valor').value = '';
+            }else{
+                document.getElementById('cd_responsavel').value = '';
+            }
         }
     }
 

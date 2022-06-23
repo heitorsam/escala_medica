@@ -13,7 +13,7 @@ if (!isset($_SESSION['usuarioNome'])){
 		$_SESSION['sn_admin'],
 		$_SESSION['sn_lancamento'],
 		$_SESSION['sn_cadastro'],
-		$_SESSION['sn_usuario_comum']
+		$_SESSION['sn_administrador']
 	);
 	
 	$_SESSION['msgerro_usuario'] = "Sessão expirada!";
@@ -22,7 +22,7 @@ if (!isset($_SESSION['usuarioNome'])){
 };
 
 //Se o usuário não for admin
-if($_SESSION['sn_admin'] == 'N'){
+if($_SESSION['sn_administrador'] == 'N'){
 
 	session_start();
 	

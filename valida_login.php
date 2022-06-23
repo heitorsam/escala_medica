@@ -18,22 +18,28 @@
 		
 		echo $usuario;	echo '</br>'; echo $senha; echo '</br>';
 		
-		$result_usuario = oci_parse($conn_ora, "SELECT portal_cadastro.VALIDA_SENHA_FUNC_CADASTRO(:usuario,:senha) AS RESP_LOGIN,
+		$result_usuario = oci_parse($conn_ora, "SELECT escala_medica.VALIDA_SENHA_FUNC_LOGIN(:usuario,:senha) AS RESP_LOGIN,
 												(SELECT INITCAP(usu.NM_USUARIO)
 													FROM dbasgu.USUARIOS usu
 													WHERE usu.CD_USUARIO = :usuario) AS NM_USUARIO,													
 													CASE
 														WHEN :usuario IN (SELECT DISTINCT puia.CD_USUARIO
 																			FROM dbasgu.PAPEL_USUARIOS puia
-																			WHERE puia.CD_PAPEL = 352) THEN 'S' --PORTAL CADASTRO
+																			WHERE puia.CD_PAPEL = 374) THEN 'S' --ADMINISTRADOR
 														ELSE 'N'
-													END SN_PORTAL_CADASTRO
+													END SN_ADMINISTRADOR,
+													CASE
+														WHEN :usuario IN (SELECT DISTINCT puia.CD_USUARIO
+																			FROM dbasgu.PAPEL_USUARIOS puia
+																			WHERE puia.CD_PAPEL = 375) THEN 'S' --CALL CENTER
+														ELSE 'N'
+													END SN_CALL_CENTER
 												FROM DUAL");																															
 												
 		oci_bind_by_name($result_usuario, ':usuario', $usuario);
 		oci_bind_by_name($result_usuario, ':senha', $senha);
 
-		echo '</br> RESULT USUARIO:' . $result_usuario . '</br>';
+		echo '</br> RESULTA USUARIO:' . $result_usuario . '</br>';
 		
 		oci_execute($result_usuario);
         $resultado = oci_fetch_row($result_usuario);
@@ -46,7 +52,8 @@
 			if($resultado[0] == 'Login efetuado com sucesso') {
 				$_SESSION['usuarioLogin'] = $usuario;
 				$_SESSION['usuarioNome'] = $resultado[1];
-				$_SESSION['SN_PORTAL_CADASTRO'] = $resultado[2];
+				$_SESSION['sn_administrador'] = $resultado[2];
+				$_SESSION['sn_call_center'] = $resultado[3];
 				header("Location: $pag_apos");
 			} else { 
 				$_SESSION['msgerro'] = $resultado[0] . '!';

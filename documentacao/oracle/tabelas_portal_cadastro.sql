@@ -21,10 +21,10 @@ HR_ULT_ALT          TIMESTAMP,
 CONSTRAINT pk_cd_setor PRIMARY KEY (CD_SETOR),
 
 --TRAVA DE CARACTER TP SETOR (D OU P)
-CONSTRAINT check_tp_setor CHECK (TP_SETOR IN ('D', 'P')),
+CONSTRAINT check_tp_setor CHECK (TP_SETOR IN ('D', 'P'))
 
 --FOREING KEY (CHAVE ESTRANGEIRA) CONEXAO COM dbamv.PRESTADOR
-CONSTRAINT fk_cd_prestador_mv FOREIGN KEY (CD_PRESTADOR_MV) REFERENCES dbamv.PRESTADOR(CD_PRESTADOR)
+--CONSTRAINT fk_cd_prestador_mv FOREIGN KEY (CD_PRESTADOR_MV) REFERENCES dbamv.PRESTADOR(CD_PRESTADOR)
 
 );
 
@@ -37,3 +37,11 @@ NOCYCLE;
 
 COMMENT ON COLUMN escala_medica.SETOR.CD_SETOR IS 'SEQ_CD_SETOR';
 COMMENT ON COLUMN escala_medica.SETOR.TP_SETOR IS 'D - Distancia | P - Presencial';
+
+DROP TABLE escala_medica.DIVISAO_HORA;
+create table DIVISAO_HORA
+(
+  tp_hora VARCHAR2(1) not null,
+  ds_hora VARCHAR2(5) not null
+);
+--executar a pagina alimentar_tabela_horas.php localizado 

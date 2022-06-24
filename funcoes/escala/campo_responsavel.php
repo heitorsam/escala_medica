@@ -5,9 +5,9 @@
     $var_campo = $_POST['campo'];
 
     if($var_tipo == '1'){
-        $cons_campo = "SELECT NM_MNEMONICO AS CAMPO FROM dbamv.PRESTADOR WHERE CD_PRESTADOR = '$var_campo' AND TP_SITUACAO = 'A'";
+        $cons_campo = "SELECT NM_PRESTADOR AS CAMPO FROM dbamv.PRESTADOR WHERE CD_PRESTADOR = '$var_campo' AND TP_SITUACAO = 'A'";
     }else{
-        $cons_campo = "SELECT CD_PRESTADOR AS CAMPO FROM dbamv.PRESTADOR WHERE NM_MNEMONICO LIKE '%$var_campo%' AND TP_SITUACAO = 'A'";
+        $cons_campo = "SELECT CD_PRESTADOR AS CAMPO FROM dbamv.PRESTADOR WHERE NM_PRESTADOR LIKE '%$var_campo%' AND TP_SITUACAO = 'A'";
     }
 
     $result_campo = oci_parse($conn_ora, $cons_campo);

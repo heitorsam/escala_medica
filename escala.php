@@ -266,7 +266,10 @@ now = new Date
                         },
                     cache: false,
                     success: function(dataResult){
-                        alert(dataResult);
+                        if(dataResult == '2'){
+                            alert(dataResult);
+                        }
+
                         $('#calendario').load('funcoes/escala/calendario.php?mes='+ mes +'&&ano='+ano+'&&setor='+setor);
                     },
                 });

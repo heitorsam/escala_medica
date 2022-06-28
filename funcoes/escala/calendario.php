@@ -36,6 +36,18 @@ echo '<table style="margin: 0 auto;">';
 
     //LIBERA CONTADOR
     $libera_contador = 0;
+
+    echo '<thead><tr>';
+
+    echo '<th class="align-middle quadro_semana" style="text-align: center !important;">Domingo</th>';
+    echo '<th class="align-middle quadro_semana" style="text-align: center !important;"><span>Segunda</span></th>';
+    echo '<th class="align-middle quadro_semana" style="text-align: center !important;"><span>Terça</span></th>';
+    echo '<th class="align-middle quadro_semana" style="text-align: center !important;"><span>Quarta</span></th>';
+    echo '<th class="align-middle quadro_semana" style="text-align: center !important;"><span>Quinta</span></th>';
+    echo '<th class="align-middle quadro_semana" style="text-align: center !important;"><span>Sexta</span></th>';
+    echo '<th class="align-middle quadro_semana" style="text-align: center !important;"><span>Sábado</span></th>';
+
+    echo '</tr></thead>'; 
     
     while($cont_estrut <= 49){
 
@@ -43,13 +55,10 @@ echo '<table style="margin: 0 auto;">';
 
             $data_aux_semana = 2020 . '-' . 11 . '-' . $dia_aux_semana; 
 
-            echo '<td class="quadro_semana">';                    
 
-                echo utf8_encode(ucfirst(str_replace('-feira','',strftime('%A', strtotime($data_aux_semana)))));                   
+            $dia_aux_semana = $dia_aux_semana + 1;
 
-                $dia_aux_semana = $dia_aux_semana + 1;
-
-            echo '</td>';
+            
 
         }else{
 

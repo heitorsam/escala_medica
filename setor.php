@@ -18,13 +18,13 @@
     <div class="row">
         <div class="col-md-2">
             Tipo:
-            <select id="tipo" class="form-control">
+            <select id="tipo" class="form-control" onchange="campo_tipo()">
                 <option value="">Selecione</option>
                 <option value="D">Distancia</option>
                 <option value="P">Presencial</option>
             </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" id="div_tipo">
             Descrição:
             <input type="text" id="ds_setor" class="form-control">
         </div>
@@ -88,14 +88,23 @@
 
     function cadastrar_setor(){
         var tipo = document.getElementById('tipo').value;
-        var ds_setor = document.getElementById('ds_setor').value;
+        if(tipo == 'P'){
+            var ds_setor = document.getElementById('ds_setor').value;
+        }else{
+            var ds_setor = document.getElementById('input_valor_tipo').value;
+        }
         var cd_responsavel = document.getElementById('cd_responsavel').value;
         var responsavel = document.getElementById('input_valor').value;
 
         if(tipo == ''){
             document.getElementById('tipo').focus();
         }else if(ds_setor == ''){
-            document.getElementById('ds_setor').focus();
+            if(tipo == 'P'){
+                document.getElementById('ds_setor').focus();
+            }else{
+                document.getElementById('input_valor_tipo').focus();
+            }
+            
         }else if(responsavel == ''){
             document.getElementById('input_valor').focus();
         }else if(cd_responsavel == ''){
@@ -113,11 +122,15 @@
                 cache: false,
                 success: function(dataResult){
                     //alert(dataResult);
-                    document.getElementById('ds_setor').value = '';
+                    if(tipo == 'P'){
+                        document.getElementById('ds_setor').value = '';
+                    }else{
+                        document.getElementById('input_valor_tipo').value = '';
+                    }
+                    
                     document.getElementById('input_valor').value = '';
                     document.getElementById('cd_responsavel').value = '';
                     criar_tabela_setor();
-                                       
                 },
             });
 
@@ -256,6 +269,17 @@
                 },
             });
 
+    }
+
+    function campo_tipo(){
+        var tipo = document.getElementById('tipo').value;
+
+        if(tipo == 'D'){
+            $('#div_tipo').load('funcoes/setor/tipo_d.php');
+        }else{
+            $('#div_tipo').load('funcoes/setor/tipo_p.php');
+
+        }
     }
 
 

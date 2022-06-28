@@ -70,10 +70,11 @@
         $result_setor = oci_parse($conn_ora, $cons_setor);
         oci_execute($result_setor);
 
-        echo 'Cadastrado com sucesso!';
+        echo '1';
 
     }else{
 
+        echo '2';
         echo 'Já existe um cadastro com esse horario!';
 
     }

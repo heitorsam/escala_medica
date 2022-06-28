@@ -180,6 +180,42 @@
         }
     }
 
+    function campos_responsavel_modal(tipo){
+        //tipo 1 : código
+        if(tipo == '1'){
+            var campo = document.getElementById('cd_responsavel_modal').value;
+        //tipo 2 : nome
+        }else{
+            var campo = document.getElementById('input_valor_modal').value;
+        }
+
+        if(campo != ''){
+            $.ajax({
+                url: "funcoes/setor/campo_responsavel.php",
+                type: "POST",
+                data: {
+                    tipo: tipo,
+                    campo: campo,
+                    },
+                cache: false,
+                success: function(dataResult){
+                    if(tipo == '1'){
+                        document.getElementById('input_valor_modal').value = dataResult;
+                    }else{
+                        document.getElementById('cd_responsavel_modal').value = dataResult;
+                    }
+                    
+                },
+            });
+        }else{
+            if(tipo == '1'){
+                document.getElementById('input_valor_modal').value = '';
+            }else{
+                document.getElementById('cd_responsavel_modal').value = '';
+            }
+        }
+    }
+
     function editar_setor(tp_setor, ds_setor, cd_setor, cd_responsavel, responsavel){
 
         document.getElementById('cd_setor_modal').value = cd_setor;
@@ -191,6 +227,7 @@
         }
         
         document.getElementById('cd_responsavel_modal').value = cd_responsavel;
+        document.getElementById('input_valor_modal').value = responsavel;
 
         $('#editar_modal').modal({
             show: true
@@ -214,6 +251,7 @@
                     },
                 cache: false,
                 success: function(dataResult){
+                    alert(dataResult);
                     document.location.reload(true);
                 },
             });

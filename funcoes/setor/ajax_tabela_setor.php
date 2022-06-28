@@ -68,7 +68,46 @@
                     </div>
                     <div class="col-md-3">
                         Código Responsavel:
-                        <input type="text" class="form-control" id="cd_responsavel_modal">
+                        <input type="text" class="form-control" onkeyup = "campos_responsavel_modal('1')" id="cd_responsavel_modal">
+                    </div>
+                    <div class="col-md-4">
+                        Responsavel:
+                        <!--auto complete funcionario responsavel-->
+                        <?php 
+                        
+                            //CONSULTA_LISTA
+                            $consulta_lista = "SELECT pre.CD_PRESTADOR AS CODIGO, replace(pre.Nm_Mnemonico,CHR(10),'') AS NOME from dbamv.PRESTADOR pre WHERE pre.TP_SITUACAO = 'A' ORDER BY 2";
+                            $result_lista = oci_parse($conn_ora, $consulta_lista);																									
+
+                            //EXECUTANDO A CONSULTA SQL (ORACLE)
+                            oci_execute($result_lista);            
+
+                        ?>
+
+                        <script>
+
+                            //LISTA
+                            var countries = [     
+                                <?php
+                                    while($row_lista = oci_fetch_array($result_lista)){	
+                                        echo '"'. str_replace('"' , '', $row_lista['NOME']) .'",';                
+                                    }
+                                ?>
+                            ];
+
+                        </script>
+
+                            <?php 
+                            
+                            include 'autocomplete_modal.php';
+
+                            ?>
+
+                                
+
+
+                                    
+                        <!--FIM CAIXA AUTOCOMPLETE-->   
                     </div>
                 </div>
             </div>

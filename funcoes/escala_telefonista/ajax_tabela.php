@@ -36,7 +36,15 @@
                             (SELECT tip.ds_tip_comun_prest
                             from dbamv.prestador_tip_comun tip
                             where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 11) CELULAR_2
+                                and tip.cd_tip_comun = 11) CELULAR_2,
+                            (SELECT tip.nr_ddd_celular
+                            from dbamv.prestador_tip_comun tip
+                            where tip.cd_prestador = pr.cd_prestador
+                                and tip.cd_tip_comun = 1) DDD,
+                            (SELECT tip.nr_ddi_celular
+                            from dbamv.prestador_tip_comun tip
+                            where tip.cd_prestador = pr.cd_prestador
+                                and tip.cd_tip_comun = 1) DDI
                         FROM escala_medica.ESCALA esc
                         INNER JOIN dbamv.Prestador pr
                             ON esc.cd_prestador_mv = pr.cd_prestador
@@ -73,7 +81,15 @@
                             (SELECT tip.ds_tip_comun_prest
                             from dbamv.prestador_tip_comun tip
                             where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 11) CELULAR_2
+                                and tip.cd_tip_comun = 11) CELULAR_2,
+                            (SELECT tip.nr_ddd_celular
+                            from dbamv.prestador_tip_comun tip
+                            where tip.cd_prestador = pr.cd_prestador
+                                and tip.cd_tip_comun = 1) DDD,
+                            (SELECT tip.nr_ddi_celular
+                            from dbamv.prestador_tip_comun tip
+                            where tip.cd_prestador = pr.cd_prestador
+                                and tip.cd_tip_comun = 1) DDI
                         FROM escala_medica.ESCALA esc
                         INNER JOIN dbamv.Prestador pr
                             ON esc.cd_prestador_mv = pr.cd_prestador
@@ -112,7 +128,15 @@
                             (SELECT tip.ds_tip_comun_prest
                             from dbamv.prestador_tip_comun tip
                             where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 11) CELULAR_2
+                                and tip.cd_tip_comun = 11) CELULAR_2,
+                            (SELECT tip.nr_ddd_celular
+                            from dbamv.prestador_tip_comun tip
+                            where tip.cd_prestador = pr.cd_prestador
+                                and tip.cd_tip_comun = 1) DDD,
+                            (SELECT tip.nr_ddi_celular
+                            from dbamv.prestador_tip_comun tip
+                            where tip.cd_prestador = pr.cd_prestador
+                                and tip.cd_tip_comun = 1) DDI
                         FROM escala_medica.ESCALA esc
                         INNER JOIN dbamv.Prestador pr
                             ON esc.cd_prestador_mv = pr.cd_prestador

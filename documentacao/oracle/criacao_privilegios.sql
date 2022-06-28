@@ -21,4 +21,6 @@ GRANT SELECT, INSERT ON dbamv.PRO_FAT TO portal_cadastro;
 
 --SELECT
 GRANT SELECT ON dbamv.PRESTADOR TO escala_medica;
+GRANT SELECT ON dbamv.PRESTADOR_TIP_COMUN TO escala_medica;
+GRANT SELECT ON dbamv.TIP_COMUN TO escala_medica;
 GRANT REFERENCES ON dbamv.PRESTADOR TO escala_medica;

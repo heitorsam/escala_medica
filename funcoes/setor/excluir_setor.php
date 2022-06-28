@@ -17,7 +17,7 @@
     $cons_setor = "DELETE escala_medica.SETOR str WHERE str.CD_SETOR = $var_cd_setor";
     $result_setor = oci_parse($conn_ora, $cons_setor);
     oci_execute($result_setor);
-    echo 'setor apagado com sucesso!';
+    echo 'Setor apagado com sucesso!';
     }
 
 ?>

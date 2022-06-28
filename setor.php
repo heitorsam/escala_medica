@@ -117,8 +117,7 @@
                     document.getElementById('input_valor').value = '';
                     document.getElementById('cd_responsavel').value = '';
                     criar_tabela_setor();
-                    
-                    
+                                       
                 },
             });
 

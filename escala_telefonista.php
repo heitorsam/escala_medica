@@ -53,16 +53,16 @@
             </select>
         </div>
         
-        <div id="div_dia" class="col-md-1">
+        <div id="div_dia" class="col-md-2">
             Dia:
             <select id="dia" class="form-control">
-                <option value="">--</option>
+                <option value=""></option>
             </select>
         </div>
         <div class="col-md-3">
             Setor:
             <select class="form-control" id="setor">
-                <option value=''>---</option>
+                <option value=''>Todos</option>
                 <?php
                     $cons_setor = "SELECT CD_SETOR AS CODIGO, DS_SETOR AS DESCRICAO FROM escala_medica.SETOR";
                     $result_setor = oci_parse($conn_ora, $cons_setor);
@@ -111,7 +111,7 @@
         var mes = document.getElementById('mes').value;
         var ano = document.getElementById('ano').value;
 
-        $('#div_dia').load('funcoes/escala/ajax_campo_dia.php?mes='+ mes +'&&ano=' + ano);
+        $('#div_dia').load('funcoes/escala_telefonista/ajax_campo_dia.php?mes='+ mes +'&&ano=' + ano);
 
     }
 

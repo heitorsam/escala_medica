@@ -28,7 +28,7 @@
                         echo "<td class='align-middle' style='text-align: center;'> ". $row_setor['CD_PRESTADOR'] ." </td>";
                         echo "<td class='align-middle' style='text-align: center;'> Dr(a). ". $row_setor['RESPONSAVEL'] ." </td>"; ?>
                         <td class='aling-middle' style='text-align: center;'><button class='btn btn-primary' onclick="editar_setor('<?php echo $row_setor['TIPO'] ?>','<?php echo $row_setor['DS_SETOR'] ?>','<?php echo $row_setor['CD_SETOR'] ?>', '<?php echo $row_setor['CD_PRESTADOR'] ?>', '<?php echo $row_setor['RESPONSAVEL'] ?>')"><i class='fas fa-edit'></i>
-                        <?php echo "<button class='btn btn-adm' onclick='excluir_setor(". $row_setor['CD_SETOR'] .")'><i class='fas fa-trash'></i></button></td>";
+                        <?php echo  "</button> <button class='btn btn-adm' onclick='excluir_setor(". $row_setor['CD_SETOR'] .")'><i class='fas fa-trash'></i></button></td>";
                     echo '</tr>';
                 } 
             echo '</tbody>';         

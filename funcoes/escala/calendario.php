@@ -175,7 +175,7 @@ echo '</table>';
     .quadro_semana{
 
         border: solid 1px #d5d5d5;
-        width: 100px;
+        width: 140px;
         height: 10px;
         text-align: center;
         background-color: #efefef;

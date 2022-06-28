@@ -123,7 +123,8 @@
                 $result_hr_in = oci_parse($conn_ora, $cons_hr_in);
                 oci_execute($result_hr_in);
 
-                echo "<select id='hora_inicial' class='form-control'>";
+                echo "<select id='hora_inicial' class='form-control' onchange='campo_horario()'>";
+                echo "<option value=''> --:-- </option>";
                     while($row_hr_in = oci_fetch_array($result_hr_in)){
                         echo "<option value=" . $row_hr_in['HORA'] .">". $row_hr_in['HORA'] ."</option>";
                     }
@@ -137,7 +138,8 @@
                 $result_hr_fn = oci_parse($conn_ora, $cons_hr_fn);
                 oci_execute($result_hr_fn);
 
-                echo "<select id='hora_final' class='form-control'>";
+                echo "<select id='hora_final' class='form-control'  onchange='campo_horario()'>";
+                echo "<option value=''>  --:--  </option>";
                     while($row_hr_fn = oci_fetch_array($result_hr_fn)){
                         echo "<option value=" . $row_hr_fn['HORA'] .">". $row_hr_fn['HORA'] ."</option>";
                     }
@@ -149,6 +151,12 @@
             <button class="btn btn-primary" onclick="cad_escala()"><i class="fas fa-plus"></i></button>
         </div>
     </div>
+    <div class="div_br"></div>
+
+    <div id ="calendario">
+    </div>
+
+    
 <?php
     //RODAPE
     include 'rodape.php';
@@ -156,10 +164,21 @@
 
 <script>
 
-    window.onload = function() { campo_dia() };
+now = new Date
+
+    window.onload = function() { document.getElementById('mes').selectedIndex = now.getMonth();campo_dia();};
+
 
     function buscar_escala(){
-        //alert('Função em desenvolvimento');
+        var mes = document.getElementById('mes').value;
+        var ano = document.getElementById('ano').value;
+        var setor = document.getElementById('setor').value;
+
+        if(setor != ''){
+            $('#calendario').load('funcoes/escala/calendario.php?mes='+ mes +'&&ano='+ano+'&&setor='+setor);
+        }else{
+            document.getElementById('setor');
+        }
     }
 
     function campos_responsavel(tipo){
@@ -216,30 +235,85 @@
         var hr_in = document.getElementById('hora_inicial').value;
         var hr_fn = document.getElementById('hora_final').value;
 
-        //alert('mes: '+ mes +' ano: '+ ano +' tipo: '+ tipo +' setor: '+ setor +' codigo: '+ codigo +' dia: '+ dia +' hr_in: '+ hr_in +' hr_fn: '+ hr_fn)
+        if(tipo == ''){
+            document.getElementById('tipo').focus();
+        }else if(setor == ''){
+            document.getElementById('setor').focus();
+
+        }else if(codigo == ''){
+            document.getElementById('cd_responsavel').focus();
+
+        }else if(hr_in == ''){
+            document.getElementById('hora_inicial').focus();
+
+        }else if(hr_fn == '' || hr_fn < hr_in){
+            document.getElementById('hora_final').focus();
+
+        }else{
+
+            $.ajax({
+                    url: "funcoes/escala/cad_escala.php",
+                    type: "POST",
+                    data: {
+                        mes: mes,
+                        ano: ano,
+                        tipo: tipo,
+                        setor: setor,
+                        codigo: codigo,
+                        dia: dia,
+                        hr_in: hr_in,
+                        hr_fn: hr_fn
+                        },
+                    cache: false,
+                    success: function(dataResult){
+                        alert(dataResult);
+                        $('#calendario').load('funcoes/escala/calendario.php?mes='+ mes +'&&ano='+ano+'&&setor='+setor);
+                    },
+                });
+        }
+    }
+
+    function apagar_escala(cd_escala){
+        r = confirm('Tem certeza que quer excluir?');
+        if(r ==  true){
         $.ajax({
-                url: "funcoes/escala/cad_escala.php",
+                url: "funcoes/escala/excluir_escala.php",
                 type: "POST",
                 data: {
-                    mes: mes,
-                    ano: ano,
-                    tipo: tipo,
-                    setor: setor,
-                    codigo: codigo,
-                    dia: dia,
-                    hr_in: hr_in,
-                    hr_fn: hr_fn,
+                    cd_escala: cd_escala
+                    
                     },
                 cache: false,
                 success: function(dataResult){
-                    tabela_escala();
+                    buscar_escala();
                 },
             });
+        }
     }
 
-    function tabela_escala(){
-        alert('Função em deenvolvimento');
+    function abrir_modal_visu(cd_escala){
+        //alert(cd_escala);
+        $('#div_desc').load('funcoes/escala/desc_dia.php?cd_escala='+ cd_escala);
+
+        $("#modal_desc").modal({
+            show: true
+        });
+
     }
+
+    function campo_horario(){
+        var hr_inicial = document.getElementById('hora_inicial').value;
+        var hr_final = document.getElementById('hora_final').value;
+        if(hr_inicial != '' && hr_final != ''){
+
+            if(hr_inicial > hr_final){
+                alert('Hora final não pode ser menor que hora inicial!');
+                document.getElementById('hora_final').focus();
+            }
+        }
+
+    }
+
 
 
 </script>

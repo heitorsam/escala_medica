@@ -11,9 +11,53 @@
     <div class="div_br"> </div> 
 
     <div class="row">
+
         <div class="col-md-2">
+            Ano:
+            <?php
+            echo '<select class="form-control" onchange="campo_dia()" name="ano" id="ano">';
+                $cons_ano = "SELECT DISTINCT res.ANO
+                                FROM(SELECT DISTINCT SUBSTR(esc.PERIODO,4,5) AS  ANO
+                                    FROM escala_medica.ESCALA esc
+
+                                    UNION ALL
+
+                                    SELECT TO_CHAR(SYSDATE+60, 'YYYY') AS ANO
+                                    FROM DUAL
+                                ) res";
+                $result_ano = oci_parse($conn_ora, $cons_ano);
+                oci_execute($result_ano);
+                while($row_ano = oci_fetch_array($result_ano)){
+                    echo '<option value= '. $row_ano['ANO'] .'>'. $row_ano['ANO'] .'</option>';
+                }
+
+            echo '</select>';
+            ?>
+        </div>
+
+        <div class="col-md-1">
+            Mês:
+            <select class="form-control" onchange="campo_dia()" name="mes" id="mes">
+                <option value="01">1</option>
+                <option value="02">2</option>
+                <option value="03">3</option>
+                <option value="04">4</option>
+                <option value="05">5</option>
+                <option value="06">6</option>
+                <option value="07">7</option>
+                <option value="08">8</option>
+                <option value="09">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+        </div>
+        
+        <div id="div_dia" class="col-md-1">
             Dia:
-            <input id="data" type="date" class="form-control">
+            <select id="dia" class="form-control">
+                <option value="">--</option>
+            </select>
         </div>
         <div class="col-md-3">
             Setor:
@@ -32,6 +76,7 @@
         <div class="col-md-2">
             <br>
             <button class="btn btn-primary" onclick="buscar_escala()"><i class="fas fa-search"></i></button>
+            <button class="btn btn-primary" onclick="excel()"><i class="fas fa-file-excel"></i></button>
         </div>
     </div>
     <div class="row">
@@ -43,17 +88,33 @@
 ?>
 
 <script>
+    //
+    now = new Date
 
-    window.onload = function() {buscar_escala() };
+    window.onload = function() { document.getElementById('mes').selectedIndex = now.getMonth();campo_dia(); buscar_escala();};
 
     function buscar_escala(){
-        var data = document.getElementById('data').value;
         var setor = document.getElementById('setor').value;
-        var dia = data.substring(8, 10);
-        var mes = data.substring(5, 7);
-        var ano = data.substring(0, 4);
+        var dia = document.getElementById('dia').value;
+        var mes = document.getElementById('mes').value;
+        var ano = document.getElementById('ano').value;
         $('#tabela_escala').load('funcoes/escala_telefonista/ajax_tabela.php?dia='+ dia +'&&mes=' + mes + '&&ano='+ ano + '&&setor='+ setor);
     }
+
+    function excel(){
+        var excel = document.getElementById('excel').value;
+
+        window.location.href = "funcoes/escala_telefonista/excel.php?excel=" + excel;
+    }
+
+    function campo_dia(){
+        var mes = document.getElementById('mes').value;
+        var ano = document.getElementById('ano').value;
+
+        $('#div_dia').load('funcoes/escala/ajax_campo_dia.php?mes='+ mes +'&&ano=' + ano);
+
+    }
+
 
 </script>
 

@@ -139,7 +139,7 @@
                 cache: false,
                 success: function(dataResult){
                     criar_tabela_setor();
-                    //alert(dataResult);
+                    alert(dataResult);
                     
                 },
             });
@@ -179,6 +179,46 @@
                 document.getElementById('cd_responsavel').value = '';
             }
         }
+    }
+
+    function editar_setor(tp_setor, ds_setor, cd_setor, cd_responsavel, responsavel){
+
+        document.getElementById('cd_setor_modal').value = cd_setor;
+        document.getElementById('ds_setor_modal').value = ds_setor;
+        if(tp_setor == 'P'){
+            document.getElementById('tp_setor_modal').selectedIndex = "0";
+        }else{
+            document.getElementById('tp_setor_modal').selectedIndex = "1";
+        }
+        
+        document.getElementById('cd_responsavel_modal').value = cd_responsavel;
+
+        $('#editar_modal').modal({
+            show: true
+        });
+    }
+
+    function salvar_setor(){
+        var cd_setor = document.getElementById('cd_setor_modal').value;
+        var ds_setor = document.getElementById('ds_setor_modal').value;
+        var tp_setor = document.getElementById('tp_setor_modal').value;
+        var cd_responsavel = document.getElementById('cd_responsavel_modal').value;
+
+        $.ajax({
+                url: "funcoes/setor/ajax_salvar_setor.php",
+                type: "POST",
+                data: {
+                    cd_setor: cd_setor,
+                    ds_setor: ds_setor,
+                    tp_setor: tp_setor,
+                    cd_responsavel: cd_responsavel
+                    },
+                cache: false,
+                success: function(dataResult){
+                    document.location.reload(true);
+                },
+            });
+
     }
 
 

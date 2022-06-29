@@ -24,8 +24,8 @@
                 echo '<th class="align-middle" style="text-align: center !important;"><span>Código Setor</span></th>';
                 echo '<th class="align-middle" style="text-align: center !important;"><span>Descrição</span></th>';
                 echo '<th class="align-middle" style="text-align: center !important;"><span>Tipo</span></th>';
-                echo '<th class="align-middle" style="text-align: center !important;"><span>Código Responsavel</span></th>';
-                echo '<th class="align-middle" style="text-align: center !important;"><span>Responsavel</span></th>';
+                echo '<th class="align-middle" style="text-align: center !important;"><span>Código Responsável</span></th>';
+                echo '<th class="align-middle" style="text-align: center !important;"><span>Responsável</span></th>';
                 echo '<th class="align-middle" style="text-align: center !important;"><span>Opções</span></th>';
             echo '</tr></thead> ';           
 
@@ -120,11 +120,11 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        Código Responsavel:
+                        Código Responsável:
                         <input type="text" class="form-control" onkeyup = "campos_responsavel_modal('1')" id="cd_responsavel_modal">
                     </div>
                     <div class="col-md-4">
-                        Responsavel:
+                        Responsável:
                         <!--auto complete funcionario responsavel-->
                         <?php 
                         

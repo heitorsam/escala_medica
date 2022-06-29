@@ -33,7 +33,7 @@
             <input type="number" id="cd_responsavel" onkeyup = "campos_responsavel('1')" class="form-control">
         </div>
         <div class="col-md-4">
-            Responsavel:
+            Responsável:
             <!--auto complete funcionario responsavel-->
             <?php 
             

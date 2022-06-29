@@ -35,7 +35,7 @@
 
                                 <!--Make sure the form has the autocomplete function switched off:-->
                                 <div class="input-group">
-                                    <input id="input_valor_modal" name="input_valor_modal" type="text" class="form-control" autocomplete="off">
+                                    <input id="input_valor_modal" onkeyup = "campos_responsavel_modal('2')" name="input_valor_modal" type="text" class="form-control" autocomplete="off">
                                 </div>
                                 <script>
                                 function autocomplete(inp, arr) {

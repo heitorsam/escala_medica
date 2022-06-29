@@ -5,7 +5,7 @@
     include 'conexao.php';
 ?>
 
-    <h11><i class="fa fa-building"></i> Escala:</h11>
+    <h11><i class="far fa-calendar-alt"></i> Escala Diaria:</h11>
     <span class="espaco_pequeno" style="width: 6px;" ></span>
     <h27> <a href="home.php" style="color: #444444; text-decoration: none;"> <i class="fa fa-reply" aria-hidden="true"></i> Voltar </a> </h27> 
     <div class="div_br"> </div> 
@@ -35,7 +35,7 @@
             ?>
         </div>
 
-        <div class="col-md-1">
+        <div class="col-md-2">
             Mês:
             <select class="form-control" onchange="campo_dia()" name="mes" id="mes">
                 <option value="01">1</option>
@@ -59,18 +59,18 @@
                 <option value=""></option>
             </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
+            Tipo:
+            <select onchange="$('#div_setor').load('funcoes/escala/ajax_campo_setor.php?var_tipo='+ this.value)" class="form-control" name="tipo" id="tipo">
+                <option value="">Selecione </option>
+                <option value="P">Presencial</option>
+                <option value="D">Distancia</option>
+            </select>
+        </div>
+        <div id="div_setor" class="col-md-3">
             Setor:
-            <select class="form-control" id="setor">
-                <option value=''>Todos</option>
-                <?php
-                    $cons_setor = "SELECT CD_SETOR AS CODIGO, DS_SETOR AS DESCRICAO FROM escala_medica.SETOR";
-                    $result_setor = oci_parse($conn_ora, $cons_setor);
-                    oci_execute($result_setor);
-                    while($row_setor = oci_fetch_array($result_setor)){
-                        echo '<option value="'. $row_setor['CODIGO'] .'" >'. $row_setor['DESCRICAO'] .'</option>';
-                    }
-                ?>
+            <select  id="setor" class="form-control">
+                <option  value="">Selecione</option>
             </select>
         </div>
         <div class="col-md-2">

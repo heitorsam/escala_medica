@@ -5,13 +5,13 @@
     include 'conexao.php';
 ?>
 
-    <h11><i class="fa fa-building"></i> Escala:</h11>
+    <h11><i class="far fa-calendar-alt"></i> Escala:</h11>
     <span class="espaco_pequeno" style="width: 6px;" ></span>
     <h27> <a href="home.php" style="color: #444444; text-decoration: none;"> <i class="fa fa-reply" aria-hidden="true"></i> Voltar </a> </h27> 
     <div class="div_br"> </div> 
 
     <div class="row">
-        <div class="col-md-1">
+        <div class="col-md-2">
             Mês:
             <select class="form-control" onchange="campo_dia()" name="mes" id="mes">
                 <option value="01">1</option>
@@ -70,51 +70,28 @@
             <button class="btn btn-primary" onclick="buscar_escala()"><i class="fas fa-search"></i></button>
         </div>
     </div>
+    <input type="hidden" id="especialidade">
     <div class="row">
         <div class="col-md-2">
             Código:
-            <input type="number" id="cd_responsavel" onkeyup = "campos_responsavel('1')" class="form-control">
+            <input type="number" id="cd_responsavel" onkeyup = "campos_responsavel('1', '<?php echo @$cd_especialidade ?>')" class="form-control">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             Prestador:
             <!--auto complete funcionario responsavel-->
-            <?php 
-            
-                //CONSULTA_LISTA
-                $consulta_lista = "SELECT pre.CD_PRESTADOR AS CODIGO, replace(pre.NM_PRESTADOR,CHR(10),'') AS NOME from dbamv.PRESTADOR pre WHERE pre.TP_SITUACAO = 'A' ORDER BY 2";
-                $result_lista = oci_parse($conn_ora, $consulta_lista);																									
-
-                //EXECUTANDO A CONSULTA SQL (ORACLE)
-                oci_execute($result_lista);            
-
-            ?>
-
-            <script>
-
-                //LISTA
-                var countries = [     
-                    <?php
-                        while($row_lista = oci_fetch_array($result_lista)){	
-                            echo '"'. str_replace('"' , '', $row_lista['NOME']) .'",';                
-                        }
-                    ?>
-                ];
-
-                </script>
-
-                <?php
-                //AUTOCOMPLETE
-                include 'funcoes/escala/autocomplete_prestador.php';
-
-            ?>
-                        
-            <!--FIM CAIXA AUTOCOMPLETE-->   
+            <div id="div_autocomplete">
+                <input class="form-control" type="text" readonly>
+            </div>
         </div>
         <div id="div_dia" class="col-md-1">
             Dia:
             <select class="form-control">
                 <option value="">--</option>
             </select>
+        </div>
+        <div class="col-md-1">
+            Diarista:
+            <input class="form-control" type="checkbox" id="ck_diarista">
         </div>
         <div class="col-md-2">
             Hora Inicial:
@@ -164,7 +141,9 @@
 
 <script>
 
+var r = null;
 now = new Date
+
 
     window.onload = function() { document.getElementById('mes').selectedIndex = now.getMonth();campo_dia();};
 
@@ -181,7 +160,8 @@ now = new Date
         }
     }
 
-    function campos_responsavel(tipo){
+    function campos_responsavel(tipo, cd_especie){
+        
         //tipo 1 : código
         if(tipo == '1'){
             var campo = document.getElementById('cd_responsavel').value;
@@ -197,9 +177,11 @@ now = new Date
                 data: {
                     tipo: tipo,
                     campo: campo,
+                    cd_especie: cd_especie
                     },
                 cache: false,
                 success: function(dataResult){
+                    //alert(dataResult);
                     if(tipo == '1'){
                         document.getElementById('input_valor').value = dataResult;
                     }else{
@@ -234,6 +216,14 @@ now = new Date
         var dia = document.getElementById('dia').value;
         var hr_in = document.getElementById('hora_inicial').value;
         var hr_fn = document.getElementById('hora_final').value;
+        var diarista = document.getElementById('ck_diarista');
+
+        if(diarista.checked == true){
+            diarista = 'S';
+        }else{
+            diarista = 'N';
+        }
+        
 
         if(tipo == ''){
             document.getElementById('tipo').focus();
@@ -262,14 +252,15 @@ now = new Date
                         codigo: codigo,
                         dia: dia,
                         hr_in: hr_in,
-                        hr_fn: hr_fn
+                        hr_fn: hr_fn,
+                        diarista: diarista
                         },
                     cache: false,
                     success: function(dataResult){
-                        if(dataResult == '2'){
+                        if(dataResult != 1){
                             alert(dataResult);
-                        }
-
+                        } 
+      
                         $('#calendario').load('funcoes/escala/calendario.php?mes='+ mes +'&&ano='+ano+'&&setor='+setor);
                     },
                 });
@@ -295,7 +286,6 @@ now = new Date
     }
 
     function abrir_modal_visu(cd_escala){
-        //alert(cd_escala);
         $('#div_desc').load('funcoes/escala/desc_dia.php?cd_escala='+ cd_escala);
 
         $("#modal_desc").modal({
@@ -310,14 +300,18 @@ now = new Date
         if(hr_inicial != '' && hr_final != ''){
 
             if(hr_inicial > hr_final){
-                alert('Hora final não pode ser menor que hora inicial!');
                 document.getElementById('hora_final').focus();
             }
         }
 
     }
 
-
+    function campo_prestador(){
+        var cd_setor = document.getElementById('setor').value;
+        document.getElementById('cd_responsavel').value = '';
+        $('#div_autocomplete').load('funcoes/escala/campo_prestador.php?cd_escala='+ cd_setor);
+      
+    }
 
 </script>
 

@@ -9,6 +9,7 @@ DROP TABLE escala_medica.SETOR;
 CREATE TABLE escala_medica.SETOR(
 
 CD_SETOR            INT NOT NULL,
+CD_ESPECIALID       INTEGER,
 TP_SETOR            VARCHAR(1) NOT NULL,
 DS_SETOR            VARCHAR(50) NOT NULL,
 CD_PRESTADOR_MV     INT NOT NULL,
@@ -21,7 +22,10 @@ HR_ULT_ALT          TIMESTAMP,
 CONSTRAINT pk_cd_setor PRIMARY KEY (CD_SETOR),
 
 --TRAVA DE CARACTER TP SETOR (D OU P)
-CONSTRAINT check_tp_setor CHECK (TP_SETOR IN ('D', 'P'))
+CONSTRAINT check_tp_setor CHECK (TP_SETOR IN ('D', 'P')),
+
+CONSTRAINT FK_CD_ESPECIALID FOREIGN KEY (CD_ESPECIALID)
+REFERENCES DBAMV.ESPECIALID (CD_ESPECIALID)
 
 --FOREING KEY (CHAVE ESTRANGEIRA) CONEXAO COM dbamv.PRESTADOR
 --CONSTRAINT fk_cd_prestador_mv FOREIGN KEY (CD_PRESTADOR_MV) REFERENCES dbamv.PRESTADOR(CD_PRESTADOR)
@@ -44,4 +48,22 @@ create table DIVISAO_HORA
   tp_hora VARCHAR2(1) not null,
   ds_hora VARCHAR2(5) not null
 );
---executar a pagina alimentar_tabela_horas.php localizado 
+--executar a pagina alimentar_tabela_horas.php localizado
+
+DROP TABLE escala_medica.ESCALA;
+
+CREATE TABLE ESCALA
+(
+  CD_ESCALA           INTEGER not null,
+  PERIODO             VARCHAR2(7) not null,
+  CD_SETOR            INTEGER not null,
+  CD_PRESTADOR_MV     INTEGER not null,
+  DIA                 INTEGER,
+  DIARISTA            VARCHAR2(1),
+  HR_INICIAL          VARCHAR2(5),
+  HR_FINAL            VARCHAR2(5),
+  CD_USUARIO_CADASTRO VARCHAR2(20) not null,
+  HR_CADASTRO         TIMESTAMP(6) not null,
+  CD_USUARIO_ULT_ALT  VARCHAR2(20),
+  HR_ULT_ALT          TIMESTAMP(6)
+);

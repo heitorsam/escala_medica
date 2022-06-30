@@ -72,9 +72,9 @@ session_start();
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown06">
 
                         <!--MENU-->
-                            <a class="dropdown-item" style="background-color: #f3f3f3; " href="javascript:void(0)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Cadastros</a>  
-                            <a class="dropdown-item" href="workflow.php"><i class="fa-regular fa-clipboard"></i> Workflow</a>   
-                            <a class="dropdown-item" href="configuracoes.php"><i class="fa-solid fa-gear"></i> Configurações</a>   
+                            <a class="dropdown-item" href="setor.php"><i class="fa fa-building"></i> Setor</a>  
+                            <a class="dropdown-item" href="escala.php"><i class="far fa-calendar-alt"></i> Escala</a>   
+                            <a class="dropdown-item" href="escala_telefonista.php"><i class="far fa-calendar-alt"></i> Escala Diaria</a>   
                             <div class="div_br"> </div>
 
                         </div>

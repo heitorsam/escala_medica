@@ -5,15 +5,15 @@
     include 'conexao.php';
 ?>
 
-    <h11><i class="fa fa-building"></i> Escala:</h11>
+    <h11><i class="far fa-calendar-alt"></i> Escala:</h11>
     <span class="espaco_pequeno" style="width: 6px;" ></span>
     <h27> <a href="home.php" style="color: #444444; text-decoration: none;"> <i class="fa fa-reply" aria-hidden="true"></i> Voltar </a> </h27> 
     <div class="div_br"> </div> 
 
     <div class="row">
-        <div class="col-md-1">
+        <div class="col-md-2">
             Mês:
-            <select class="form-control" onchange="campo_dia()" name="mes" id="mes">
+            <select class="form-control" name="mes" id="mes">
                 <option value="01">1</option>
                 <option value="02">2</option>
                 <option value="03">3</option>
@@ -31,7 +31,7 @@
         <div class="col-md-2">
             Ano:
             <?php
-            echo '<select class="form-control" onchange="campo_dia()" name="ano" id="ano">';
+            echo '<select class="form-control" name="ano" id="ano">';
                 $cons_ano = "SELECT DISTINCT res.ANO
                                 FROM(SELECT DISTINCT SUBSTR(esc.PERIODO,4,5) AS  ANO
                                     FROM escala_medica.ESCALA esc
@@ -61,7 +61,7 @@
         </div>
         <div id="div_setor" class="col-md-3">
             Setor:
-            <select  id="setor" class="form-control">
+            <select  id="setor"  class="form-control">
                 <option  value="">Selecione</option>
             </select>
         </div>
@@ -70,52 +70,28 @@
             <button class="btn btn-primary" onclick="buscar_escala()"><i class="fas fa-search"></i></button>
         </div>
     </div>
+
+
+    <div class="div_br"> </div>            
+
+    <input type="hidden" id="especialidade">
     <div class="row">
-        <div class="col-md-2">
-            Código:
-            <input type="number" id="cd_responsavel" onkeyup = "campos_responsavel('1')" class="form-control">
-        </div>
-        <div class="col-md-4">
+        <div class="col-md-4" id="div_cadastro">
             Prestador:
-            <!--auto complete funcionario responsavel-->
-            <?php 
-            
-                //CONSULTA_LISTA
-                $consulta_lista = "SELECT pre.CD_PRESTADOR AS CODIGO, replace(pre.NM_PRESTADOR,CHR(10),'') AS NOME from dbamv.PRESTADOR pre WHERE pre.TP_SITUACAO = 'A' ORDER BY 2";
-                $result_lista = oci_parse($conn_ora, $consulta_lista);																									
-
-                //EXECUTANDO A CONSULTA SQL (ORACLE)
-                oci_execute($result_lista);            
-
-            ?>
-
-            <script>
-
-                //LISTA
-                var countries = [     
-                    <?php
-                        while($row_lista = oci_fetch_array($result_lista)){	
-                            echo '"'. str_replace('"' , '', $row_lista['NOME']) .'",';                
-                        }
-                    ?>
-                ];
-
-                </script>
-
-                <?php
-                //AUTOCOMPLETE
-                include 'funcoes/escala/autocomplete_prestador.php';
-
-            ?>
-                        
-            <!--FIM CAIXA AUTOCOMPLETE-->   
+            <input type="text" class="form-control" readonly>
         </div>
-        <div id="div_dia" class="col-md-1">
+        <div id="div_dia" class="col-md-2">        
             Dia:
             <select class="form-control">
                 <option value="">--</option>
-            </select>
+            </select>        
         </div>
+
+        <div class="col-md-1">
+            Diarista:
+            <input class="form-control" type="checkbox" id="ck_diarista" style="zoom:0.8; margin-top: 6px;">
+        </div>
+
         <div class="col-md-2">
             Hora Inicial:
             <?php
@@ -131,6 +107,7 @@
                 echo "</select>";
             ?>
         </div>
+
         <div class="col-md-2">
             Hora Final:
             <?php
@@ -146,12 +123,14 @@
                 echo "</select>";
             ?>
         </div>
+
         <div class="col-md-1">
             <br>
             <button class="btn btn-primary" onclick="cad_escala()"><i class="fas fa-plus"></i></button>
         </div>
     </div>
     <div class="div_br"></div>
+    <div class="div_br"> </div>  
 
     <div id ="calendario">
     </div>
@@ -164,9 +143,11 @@
 
 <script>
 
-now = new Date
+    var r = null;
+    now = new Date
 
-    window.onload = function() { document.getElementById('mes').selectedIndex = now.getMonth();campo_dia();};
+
+    window.onload = function() { document.getElementById('mes').selectedIndex = now.getMonth();};
 
 
     function buscar_escala(){
@@ -175,13 +156,15 @@ now = new Date
         var setor = document.getElementById('setor').value;
 
         if(setor != ''){
-            $('#calendario').load('funcoes/escala/calendario.php?mes='+ mes +'&&ano='+ano+'&&setor='+setor);
+            $('#calendario').load('funcoes/escala/ajax_calendario.php?mes='+ mes +'&&ano='+ano+'&&setor='+setor);
         }else{
             document.getElementById('setor');
         }
+
     }
 
-    function campos_responsavel(tipo){
+    function campos_responsavel(tipo, cd_especie){
+        
         //tipo 1 : código
         if(tipo == '1'){
             var campo = document.getElementById('cd_responsavel').value;
@@ -192,14 +175,16 @@ now = new Date
 
         if(campo != ''){
             $.ajax({
-                url: "funcoes/escala/campo_responsavel.php",
+                url: "funcoes/escala/ajax_campo_responsavel.php",
                 type: "POST",
                 data: {
                     tipo: tipo,
                     campo: campo,
+                    cd_especie: cd_especie
                     },
                 cache: false,
                 success: function(dataResult){
+                    //alert(dataResult);
                     if(tipo == '1'){
                         document.getElementById('input_valor').value = dataResult;
                     }else{
@@ -220,9 +205,8 @@ now = new Date
     function campo_dia(){
         var mes = document.getElementById('mes').value;
         var ano = document.getElementById('ano').value;
-
+        
         $('#div_dia').load('funcoes/escala/ajax_campo_dia.php?mes='+ mes +'&&ano=' + ano);
-
     }
 
     function cad_escala(){
@@ -234,14 +218,23 @@ now = new Date
         var dia = document.getElementById('dia').value;
         var hr_in = document.getElementById('hora_inicial').value;
         var hr_fn = document.getElementById('hora_final').value;
+        var diarista = document.getElementById('ck_diarista');
+
+        if(diarista.checked == true){
+            diarista = 'S';
+        }else{
+            diarista = 'N';
+        }
+        
 
         if(tipo == ''){
+            alert('TESTE');
             document.getElementById('tipo').focus();
         }else if(setor == ''){
             document.getElementById('setor').focus();
 
         }else if(codigo == ''){
-            document.getElementById('cd_responsavel').focus();
+            document.getElementById('input_valor').focus();
 
         }else if(hr_in == ''){
             document.getElementById('hora_inicial').focus();
@@ -252,7 +245,7 @@ now = new Date
         }else{
 
             $.ajax({
-                    url: "funcoes/escala/cad_escala.php",
+                    url: "funcoes/escala/ajax_cad_escala.php",
                     type: "POST",
                     data: {
                         mes: mes,
@@ -262,15 +255,16 @@ now = new Date
                         codigo: codigo,
                         dia: dia,
                         hr_in: hr_in,
-                        hr_fn: hr_fn
+                        hr_fn: hr_fn,
+                        diarista: diarista
                         },
                     cache: false,
                     success: function(dataResult){
-                        if(dataResult == '2'){
+                        if(dataResult != 1){
                             alert(dataResult);
-                        }
-
-                        $('#calendario').load('funcoes/escala/calendario.php?mes='+ mes +'&&ano='+ano+'&&setor='+setor);
+                        } 
+      
+                        $('#calendario').load('funcoes/escala/ajax_calendario.php?mes='+ mes +'&&ano='+ano+'&&setor='+setor);
                     },
                 });
         }
@@ -280,7 +274,7 @@ now = new Date
         r = confirm('Tem certeza que quer excluir?');
         if(r ==  true){
         $.ajax({
-                url: "funcoes/escala/excluir_escala.php",
+                url: "funcoes/escala/ajax_excluir_escala.php",
                 type: "POST",
                 data: {
                     cd_escala: cd_escala
@@ -295,7 +289,6 @@ now = new Date
     }
 
     function abrir_modal_visu(cd_escala){
-        //alert(cd_escala);
         $('#div_desc').load('funcoes/escala/desc_dia.php?cd_escala='+ cd_escala);
 
         $("#modal_desc").modal({
@@ -310,14 +303,20 @@ now = new Date
         if(hr_inicial != '' && hr_final != ''){
 
             if(hr_inicial > hr_final){
-                alert('Hora final não pode ser menor que hora inicial!');
                 document.getElementById('hora_final').focus();
             }
         }
 
     }
 
-
+    function campo_prestador(){
+        var cd_setor = document.getElementById('setor').value;
+        //document.getElementById('cd_responsavel').value = '';
+        $('#div_cadastro').load('funcoes/escala/ajax_campo_prestador.php?cd_escala='+ cd_setor);
+        
+        campo_dia();
+      
+    }
 
 </script>
 

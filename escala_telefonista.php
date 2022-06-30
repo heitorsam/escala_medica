@@ -5,7 +5,7 @@
     include 'conexao.php';
 ?>
 
-    <h11><i class="fa fa-building"></i> Escala:</h11>
+    <h11><i class="far fa-calendar-alt"></i> Escala Diaria:</h11>
     <span class="espaco_pequeno" style="width: 6px;" ></span>
     <h27> <a href="home.php" style="color: #444444; text-decoration: none;"> <i class="fa fa-reply" aria-hidden="true"></i> Voltar </a> </h27> 
     <div class="div_br"> </div> 
@@ -35,7 +35,7 @@
             ?>
         </div>
 
-        <div class="col-md-1">
+        <div class="col-md-2">
             Mês:
             <select class="form-control" onchange="campo_dia()" name="mes" id="mes">
                 <option value="01">1</option>
@@ -59,24 +59,24 @@
                 <option value=""></option>
             </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
+            Tipo:
+            <select onchange="$('#div_setor').load('funcoes/escala/ajax_campo_setor.php?var_tipo='+ this.value)" class="form-control" name="tipo" id="tipo">
+                <option value="">Selecione </option>
+                <option value="P">Presencial</option>
+                <option value="D">Distancia</option>
+            </select>
+        </div>
+        <div id="div_setor" class="col-md-2">
             Setor:
-            <select class="form-control" id="setor">
-                <option value=''>Todos</option>
-                <?php
-                    $cons_setor = "SELECT CD_SETOR AS CODIGO, DS_SETOR AS DESCRICAO FROM escala_medica.SETOR";
-                    $result_setor = oci_parse($conn_ora, $cons_setor);
-                    oci_execute($result_setor);
-                    while($row_setor = oci_fetch_array($result_setor)){
-                        echo '<option value="'. $row_setor['CODIGO'] .'" >'. $row_setor['DESCRICAO'] .'</option>';
-                    }
-                ?>
+            <select  id="setor" class="form-control">
+                <option  value="">Selecione</option>
             </select>
         </div>
         <div class="col-md-2">
             <br>
             <button class="btn btn-primary" onclick="buscar_escala()"><i class="fas fa-search"></i></button>
-            <button class="btn btn-primary" onclick="excel()"><i class="fas fa-file-excel"></i></button>
+            <button class="btn btn-primary" id="btn_excel" onclick="excel()" disabled><i class="fas fa-file-excel"></i></button>
         </div>
     </div>
     <div class="row">
@@ -88,23 +88,24 @@
 ?>
 
 <script>
-    //
     now = new Date
 
-    window.onload = function() { document.getElementById('mes').selectedIndex = now.getMonth();campo_dia(); buscar_escala();};
+    window.onload = function() { document.getElementById('mes').selectedIndex = now.getMonth(); campo_dia();};
 
     function buscar_escala(){
+        document.getElementById('btn_excel').disabled = false;
         var setor = document.getElementById('setor').value;
+        var tipo = document.getElementById('tipo').value;
         var dia = document.getElementById('dia').value;
         var mes = document.getElementById('mes').value;
         var ano = document.getElementById('ano').value;
-        $('#tabela_escala').load('funcoes/escala_telefonista/ajax_tabela.php?dia='+ dia +'&&mes=' + mes + '&&ano='+ ano + '&&setor='+ setor);
+        $('#tabela_escala').load('funcoes/escala_telefonista/ajax_tabela.php?dia='+ dia +'&&mes=' + mes + '&&ano='+ ano + '&&setor='+ setor +'&&tp_setor='+ tipo);
     }
 
     function excel(){
-        var excel = document.getElementById('excel').value;
-
-        window.location.href = "funcoes/escala_telefonista/excel.php?excel=" + excel;
+        
+        
+        window.location.href = "funcoes/escala_telefonista/excel.php";
     }
 
     function campo_dia(){

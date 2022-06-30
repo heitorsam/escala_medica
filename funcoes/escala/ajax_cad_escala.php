@@ -11,6 +11,7 @@
     $var_dia = $_POST['dia'];
     $var_hr_in = $_POST['hr_in'];
     $var_hr_fn = $_POST['hr_fn'];
+    $var_diarista = $_POST['diarista'];
     $usuario = $_SESSION['usuarioLogin'];
 
     $var_periodo = $var_mes .'/'. $var_ano;
@@ -47,13 +48,14 @@
     $row_qtd = oci_fetch_array($result_qtd);
 
 
-    if($row_qtd['QTD'] == 0){
+    if($row_qtd['QTD'] == 0 || $var_tipo == 'P'){
 
         $cons_setor = "INSERT INTO escala_medica.ESCALA (CD_ESCALA, 
                                                                 PERIODO, 
                                                                 CD_SETOR, 
                                                                 CD_PRESTADOR_MV, 
                                                                 DIA, 
+                                                                DIARISTA,
                                                                 HR_INICIAL, 
                                                                 HR_FINAL, 
                                                                 CD_USUARIO_CADASTRO, 
@@ -62,7 +64,8 @@
                                     '$var_periodo', 
                                     $var_setor, 
                                     $var_codigo, 
-                                    '$var_dia', 
+                                    '$var_dia',
+                                    '$var_diarista',
                                     '$var_hr_in', 
                                     '$var_hr_fn',
                                     '$usuario', 
@@ -74,7 +77,7 @@
 
     }else{
 
-        echo '2';
+        
         echo 'Já existe um cadastro com esse horario!';
 
     }

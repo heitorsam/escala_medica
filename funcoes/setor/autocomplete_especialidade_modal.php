@@ -37,7 +37,7 @@
 
 <!--Make sure the form has the autocomplete function switched off:-->
 <div class="input-group">
-    <input id="input_valor" onkeyup = "campos_responsavel()" name="input_valor" type="text" class="form-control" autocomplete="off">
+    <input id="input_valor_especialidade_modal" onkeyup = "campos_especialidade_modal('2')" name="input_valor_especialidade_modal" type="text" class="form-control" autocomplete="off">
 </div>
 <script>
 function autocomplete(inp, arr) {
@@ -55,7 +55,7 @@ function autocomplete(inp, arr) {
       a = document.createElement("DIV");
       a.setAttribute("id", this.id + "autocomplete-list");
       a.setAttribute("class", "autocomplete-items");
-      a.setAttribute("onclick", "campos_responsavel()");
+      a.setAttribute("onclick", "campos_especialidade_modal('2')");
       /*append the DIV element as a child of the autocomplete container:*/
       this.parentNode.appendChild(a);
       /*for each item in the array...*/
@@ -154,7 +154,7 @@ function autocomplete(inp, arr) {
 }
 
 /*initiate the autocomplete function on the "input_valor" element, and pass along the countries array as possible autocomplete values:*/
-autocomplete(document.getElementById("input_valor"), countries);
+autocomplete(document.getElementById("input_valor_especialidade_modal"), countries);
 </script>
 
 

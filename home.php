@@ -22,7 +22,7 @@
                 <span class="espaco_pequeno"></span>
                 <a href="escala.php" class="botao_home" type="submit"><i class="far fa-calendar-alt"></i> Escala</a>
                 <span class="espaco_pequeno"></span>
-                <a href="escala_telefonista.php" class="botao_home" type="submit"><i class="far fa-calendar-alt"></i> Escala Telefonista</a>
+                <a href="escala_telefonista.php" class="botao_home" type="submit"><i class="far fa-calendar-alt"></i> Escala Diaria</a>
                 <?php } ?>
 
             <div class="div_br"> </div>

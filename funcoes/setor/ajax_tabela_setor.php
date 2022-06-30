@@ -4,12 +4,13 @@
     $cons_setor = "SELECT str.CD_SETOR,
                         str.DS_SETOR,
                         str.CD_PRESTADOR_MV AS CD_PRESTADOR,
-                        (SELECT pre.NM_PRESTADOR
-                        FROM dbamv.PRESTADOR pre
-                        WHERE pre.CD_PRESTADOR = str.CD_PRESTADOR_MV) AS RESPONSAVEL,
+                        prest.nm_prestador AS RESPONSAVEL,
+                        prest.tp_sexo AS SEXO,  
                         str.TP_SETOR AS TIPO,
-                        str.cd_especialid 
+                        str.cd_especialid
                     FROM escala_medica.setor str
+                    INNER JOIN dbamv.prestador prest
+                    ON prest.cd_prestador = str.cd_prestador_mv
                     ORDER BY 1
                     ";
     $result_setor = oci_parse($conn_ora, $cons_setor);
@@ -36,7 +37,13 @@
                         echo "<td class='align-middle' style='text-align: center;'> ". $row_setor['DS_SETOR'] ." </td>";
                         echo "<td class='align-middle' style='text-align: center;'> ". $row_setor['TIPO'] ." </td>";
                         echo "<td class='align-middle' style='text-align: center;'> ". $row_setor['CD_PRESTADOR'] ." </td>";
-                        echo "<td class='align-middle' style='text-align: center;'> Dr(a). ". $row_setor['RESPONSAVEL'] ." </td>"; ?>
+                        if($row_setor['SEXO'] == 'F'){
+                            echo "<td class='align-middle' style='text-align: center;'> Dra. ". $row_setor['RESPONSAVEL'] ." </td>"; 
+                        }else if($row_setor['SEXO'] == 'M'){
+                            echo "<td class='align-middle' style='text-align: center;'> Dr. ". $row_setor['RESPONSAVEL'] ." </td>"; 
+                        }else{
+                            echo "<td class='align-middle' style='text-align: center;'> Dr(a). ". $row_setor['RESPONSAVEL'] ." </td>"; 
+                        }?>
                         <td class='aling-middle' style='text-align: center;'><button class='btn btn-primary' onclick="editar_setor('<?php echo $row_setor['TIPO'] ?>','<?php echo $row_setor['DS_SETOR'] ?>','<?php echo $row_setor['CD_SETOR'] ?>', '<?php echo $row_setor['CD_PRESTADOR'] ?>', '<?php echo $row_setor['RESPONSAVEL'] ?>', <?php echo $row_setor['CD_ESPECIALID'] ?>)"><i class='fas fa-edit'></i>
                         <?php echo  "</button> <button class='btn btn-adm' onclick='excluir_setor(". $row_setor['CD_SETOR'] .")'><i class='fas fa-trash'></i></button></td>";
                     echo '</tr>';
@@ -70,80 +77,17 @@
                     <div class="col-md-4">
                         Descrição:
                         <input type="text" id="ds_setor_modal" class="form-control" >
-
                         <!--auto complete funcionario responsavel-->
                         <?php 
-
                             //CONSULTA_LISTA
                             $consulta_lista = "SELECT esp.ds_especialid AS Nome FROM dbamv.especialid esp WHERE esp.SN_ATIVO = 'S'";
                             $result_lista = oci_parse($conn_ora, $consulta_lista);																									
 
                             //EXECUTANDO A CONSULTA SQL (ORACLE)
                             oci_execute($result_lista);            
-
                         ?>
 
                         <script>
-
-                            //LISTA
-                            var countries = [     
-                                <?php
-                                    while($row_lista = oci_fetch_array($result_lista)){	
-                                        echo '"'. str_replace('"' , '', $row_lista['NOME']) .'",';                
-                                    }
-                                ?>
-                            ];
-
-                            </script>
-
-                            
-
-                        <?php
-
-                            include 'autocomplete_especialidade_modal.php';
-
-                        ?>
-
-
-
-                                    
-                        <!--FIM CAIXA AUTOCOMPLETE--> 
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        Tipo:
-                        <select class="form-control" onchange="campo_tipo_modal()" id="tp_setor_modal">
-                            <option value="P">Presencial</option>
-                            <option value="D">Distancia</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        Código Responsável:
-                        <input type="text" class="form-control" onkeyup = "campos_responsavel_modal('1')" id="cd_responsavel_modal">
-                    </div>
-                    <div class="col-md-4">
-                        Responsável:
-                        <!--auto complete funcionario responsavel-->
-                        <?php 
-                        
-                            //CONSULTA_LISTA
-                            $consulta_lista = "SELECT pre.CD_PRESTADOR AS CODIGO,
-                                                        replace(pre.NM_PRESTADOR, CHR(10), '') AS NOME
-                                                from dbamv.PRESTADOR pre
-                                                WHERE pre.TP_SITUACAO = 'A'
-                                                AND pre.cd_tip_presta = 8
-                                                ORDER BY 2";
-                            $result_lista = oci_parse($conn_ora, $consulta_lista);																									
-
-                            //EXECUTANDO A CONSULTA SQL (ORACLE)
-                            oci_execute($result_lista);            
-
-                        ?>
-
-                        <script>
-
                             //LISTA
                             var countries = [     
                                 <?php
@@ -155,11 +99,54 @@
 
                         </script>
 
-                            <?php 
-                            
-                            include 'autocomplete_modal.php';
+                        <?php
+                            include 'autocomplete_especialidade_modal.php';
+                        ?>
+         
+                        <!--FIM CAIXA AUTOCOMPLETE--> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        Tipo:
+                        <select class="form-control" onchange="campo_tipo_modal()" id="tp_setor_modal">
+                            <option value="P">Presencial</option>
+                            <option value="D">Distancia</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control" id="cd_responsavel_modal" hidden>
+                    <div class="col-md-4">
+                        Responsável:
+                        <!--auto complete funcionario responsavel-->
+                        <?php 
+                    
+                            //CONSULTA_LISTA
+                            $consulta_lista = "SELECT pre.CD_PRESTADOR AS CODIGO,
+                                                        replace(pre.NM_PRESTADOR, CHR(10), '') AS NOME
+                                                from dbamv.PRESTADOR pre
+                                                WHERE pre.TP_SITUACAO = 'A'
+                                                AND pre.cd_tip_presta = 8
+                                                ORDER BY 2";
+                            $result_lista = oci_parse($conn_ora, $consulta_lista);																									
+                            //EXECUTANDO A CONSULTA SQL (ORACLE)
+                            oci_execute($result_lista);            
 
-                            ?>
+                        ?>
+
+                        <script>
+                            //LISTA
+                            var countries = [     
+                                <?php
+                                    while($row_lista = oci_fetch_array($result_lista)){	
+                                        echo '"'. str_replace('"' , '', $row_lista['NOME']) .'",';                
+                                    }
+                                ?>
+                            ];
+                        </script>
+
+                        <?php   
+                        include 'autocomplete_modal.php';
+                        ?>
                     </div>
                 </div>
             </div>
@@ -170,6 +157,3 @@
         </div>
     </div>
 </div>
-<script>
-    
-</script>

@@ -3,7 +3,7 @@
 
     $cd_setor = $_GET['cd_escala'];
 
-    $cons_esp = "SELECT CD_ESPECIALID AS ESPECIALIDADE FROM escala_medica.SETOR WHERE CD_SETOR = $cd_setor";
+    $cons_esp = "SELECT CD_ESPECIALID AS ESPECIALIDADE FROM escala_medica.SETOR WHERE CD_SETOR LIKE '%$cd_setor%'";
     $result_esp = oci_parse($conn_ora, $cons_esp);																									
 
     //EXECUTANDO A CONSULTA SQL (ORACLE)
@@ -14,8 +14,10 @@
     $cd_especialidade = $row_esp['ESPECIALIDADE'];
 ?>
 
-Código Prestador:
-<input type="number" id="cd_responsavel" onkeyup = "campos_responsavel('1', '<?php echo @$cd_especialidade ?>')" class="form-control">
+
+
+<input type="number" id="cd_responsavel" onkeyup = "campos_responsavel('1', '<?php echo @$cd_especialidade ?>')" class="form-control" hidden>
+
 
 Prestador:     
     <!--auto complete prestador-->  
@@ -30,7 +32,7 @@ Prestador:
                             ON em.CD_PRESTADOR = prest.CD_PRESTADOR
                             WHERE em.SN_ESPECIAL_PRINCIPAL = 'S'
                             AND prest.tp_situacao = 'A'
-                            AND em.CD_ESPECIALID = $cd_especialidade";
+                            AND em.CD_ESPECIALID LIKE '%$cd_especialidade%'";
     }else{
         $consulta_lista =" SELECT pre.CD_PRESTADOR AS CODIGO,
                                 replace(pre.NM_PRESTADOR, CHR(10), '') AS NOME
@@ -66,3 +68,7 @@ Prestador:
 ?>
             
 <!--FIM CAIXA AUTOCOMPLETE-->   
+
+
+
+

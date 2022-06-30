@@ -37,7 +37,7 @@
 
 <!--Make sure the form has the autocomplete function switched off:-->
 <div class="input-group">
-    <input id="input_valor" onkeyup = "campos_responsavel('2')" name="input_valor" type="text" class="form-control" autocomplete="off">
+    <input id="input_valor" onkeyup = "campos_responsavel()" name="input_valor" type="text" class="form-control" autocomplete="off">
 </div>
 <script>
 function autocomplete(inp, arr) {
@@ -55,7 +55,7 @@ function autocomplete(inp, arr) {
       a = document.createElement("DIV");
       a.setAttribute("id", this.id + "autocomplete-list");
       a.setAttribute("class", "autocomplete-items");
-      a.setAttribute("onclick", "campos_responsavel('2')");
+      a.setAttribute("onclick", "campos_responsavel()");
       /*append the DIV element as a child of the autocomplete container:*/
       this.parentNode.appendChild(a);
       /*for each item in the array...*/

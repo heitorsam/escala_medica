@@ -67,7 +67,7 @@
                 <option value="D">Distancia</option>
             </select>
         </div>
-        <div id="div_setor" class="col-md-3">
+        <div id="div_setor" class="col-md-2">
             Setor:
             <select  id="setor" class="form-control">
                 <option  value="">Selecione</option>
@@ -88,18 +88,18 @@
 ?>
 
 <script>
-    //
     now = new Date
 
-    window.onload = function() { document.getElementById('mes').selectedIndex = now.getMonth();campo_dia();};
+    window.onload = function() { document.getElementById('mes').selectedIndex = now.getMonth(); campo_dia();};
 
     function buscar_escala(){
         document.getElementById('btn_excel').disabled = false;
         var setor = document.getElementById('setor').value;
+        var tipo = document.getElementById('tipo').value;
         var dia = document.getElementById('dia').value;
         var mes = document.getElementById('mes').value;
         var ano = document.getElementById('ano').value;
-        $('#tabela_escala').load('funcoes/escala_telefonista/ajax_tabela.php?dia='+ dia +'&&mes=' + mes + '&&ano='+ ano + '&&setor='+ setor);
+        $('#tabela_escala').load('funcoes/escala_telefonista/ajax_tabela.php?dia='+ dia +'&&mes=' + mes + '&&ano='+ ano + '&&setor='+ setor +'&&tp_setor='+ tipo);
     }
 
     function excel(){

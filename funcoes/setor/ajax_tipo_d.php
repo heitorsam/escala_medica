@@ -56,7 +56,7 @@ include '../../conexao.php';
 
         if(campo != ''){
             $.ajax({
-                url: "funcoes/setor/campo_especialidade.php",
+                url: "funcoes/setor/ajax_campo_especialidade.php",
                 type: "POST",
                 data: {
                     tipo: tipo,

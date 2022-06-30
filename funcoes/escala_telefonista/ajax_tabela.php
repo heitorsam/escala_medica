@@ -12,14 +12,18 @@
 
     $setor = $_GET['setor'];
 
+    $tp_setor = $_GET['tp_setor'];
+
     if($mes == ''){
         $cons_escala = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
+                            pr.TP_SEXO AS SEXO,
                             pr.nm_prestador AS NM_PRESTADOR,
                             st.DS_SETOR AS SETOR,
                             esc.hr_inicial AS INICIAL,
                             esc.hr_final AS FINAL,
                             esc.DIA AS DIA,
                             esc.PERIODO,
+                            esc.DIARISTA,
                             (SELECT tip.ds_tip_comun_prest
                             from dbamv.prestador_tip_comun tip
                             where tip.cd_prestador = pr.cd_prestador
@@ -59,14 +63,14 @@
                         
     }else if($dia == ''){
         $cons_escala = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
+                            pr.TP_SEXO AS SEXO,
                             esc.DIA,
                             esc.PERIODO,
                             pr.nm_prestador AS NM_PRESTADOR,
                             st.DS_SETOR AS SETOR,
                             esc.hr_inicial AS INICIAL,
                             esc.hr_final AS FINAL,
-                            esc.DIA AS DIA,
-                            esc.PERIODO,
+                            esc.DIARISTA,
                             (SELECT tip.ds_tip_comun_prest
                             from dbamv.prestador_tip_comun tip
                             where tip.cd_prestador = pr.cd_prestador
@@ -102,19 +106,20 @@
                             ON st.Cd_Setor = esc.cd_setor
                         WHERE esc.periodo = '$mes/$ano'
                         AND esc.CD_SETOR LIKE '%$setor%'
+                        AND st.TP_SETOR LIKE '%$tp_setor%'
                         ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL
                         ";
                         
     }else{
         $cons_escala = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
+                            pr.TP_SEXO AS SEXO,
                             esc.DIA,
                             esc.PERIODO,
                             pr.nm_prestador AS NM_PRESTADOR,
                             st.DS_SETOR AS SETOR,
                             esc.hr_inicial AS INICIAL,
                             esc.hr_final AS FINAL,
-                            esc.DIA AS DIA,
-                            esc.PERIODO,
+                            esc.DIARISTA,
                             (SELECT tip.ds_tip_comun_prest
                             from dbamv.prestador_tip_comun tip
                             where tip.cd_prestador = pr.cd_prestador
@@ -151,8 +156,8 @@
                         WHERE esc.periodo = '$mes/$ano'
                         AND esc.dia = '$dia'
                         AND esc.CD_SETOR  LIKE '%$setor%'
-                        ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL
-                        ";
+                        AND st.TP_SETOR LIKE '%$tp_setor%'
+                        ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL";
                         $_SESSION['tp'] = 1;
     }
 
@@ -205,14 +210,28 @@
                 $var_modal_adicionar = 1;
                 $var_modal_confirmar = 1;
                     while($row_escala = @oci_fetch_array($result_escala)){  ?>  
+                        <?php 
+                            if($row_escala['DIARISTA'] == 'S'){
+                                $var_sn_diarista = 'Diarista - ';
+                            }else{
+                                $var_sn_diarista = ''; 
+                            }
+                            if($row_escala['SEXO'] == 'F'){
+                                $var_dr_nm = 'Dra. ';
+                            }else if($row_escala['SEXO'] == 'M'){
+                                $var_dr_nm = 'Dr. ';
+                            }else{
+                                $var_dr_nm = 'Dr(a). ';
+                            }
                         
+                        ?>
                         <tr>
                             <td class='align-middle' style='text-align: center;'><?php if($row_escala['DIA'] >= 10){
                                                                                             echo @$row_escala['DIA'].'/'. $row_escala['PERIODO']; 
                                                                                         }else{
                                                                                             echo '0'. @$row_escala['DIA'].'/'. $row_escala['PERIODO']; 
                                                                                             }?></td>
-                            <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['NM_PRESTADOR']; ?></td>
+                            <td class='align-middle' style='text-align: center;'><?php echo $var_sn_diarista.''. $var_dr_nm .''. @$row_escala['NM_PRESTADOR']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['SETOR']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['INICIAL']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['FINAL']; ?></td>

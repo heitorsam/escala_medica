@@ -28,10 +28,9 @@
             Descrição:
             <input type="text" id="ds_setor" class="form-control">
         </div>
-        <div class="col-md-2">
-            Código:
-            <input type="number" id="cd_responsavel" onkeyup = "campos_responsavel('1')" class="form-control">
-        </div>
+
+            <input type="number" id="cd_responsavel" class="form-control" hidden> 
+
         <div class="col-md-4">
             Responsável:
             <!--auto complete funcionario responsavel-->
@@ -74,7 +73,7 @@
         </div>
         <div class="col-md-1">
             <br>
-            <button class="btn btn-primary" onclick="cadastrar_setor()"><i class="fas fa-plus"></i></button>
+            <button class="btn btn-primary" id="btn_cad" onclick="cadastrar_setor()" disabled><i class="fas fa-plus" ></i></button>
         </div>
     </div>
     <div class="div_br"></div>
@@ -118,11 +117,11 @@
         }else if(responsavel == ''){
             document.getElementById('input_valor').focus();
         }else if(cd_responsavel == ''){
-            document.getElementById('cd_responsavel').focus();
+            document.getElementById('input_valor').focus();
         }else{
             
             $.ajax({
-                url: "funcoes/setor/cad_setor.php",
+                url: "funcoes/setor/ajax_cad_setor.php",
                 type: "POST",
                 data: {
                     cd_especialidade: cd_especialidade,
@@ -156,7 +155,7 @@
 
     function excluir_setor(cd_setor){
         $.ajax({
-                url: "funcoes/setor/excluir_setor.php",
+                url: "funcoes/setor/ajax_excluir_setor.php",
                 type: "POST",
                 data: {
                     cd_setor: cd_setor
@@ -170,76 +169,51 @@
             });
     }
 
-    function campos_responsavel(tipo){
-        //tipo 1 : código
-        if(tipo == '1'){
-            var campo = document.getElementById('cd_responsavel').value;
-        //tipo 2 : nome
-        }else{
-            var campo = document.getElementById('input_valor').value;
-        }
-
+    function campos_responsavel(){
+        
+        var campo = document.getElementById('input_valor').value;
+        
         if(campo != ''){
             $.ajax({
-                url: "funcoes/setor/campo_responsavel.php",
+                url: "funcoes/setor/ajax_campo_responsavel.php",
                 type: "POST",
                 data: {
-                    tipo: tipo,
                     campo: campo,
                     },
                 cache: false,
                 success: function(dataResult){
                     
-                    if(tipo == '1'){
-                        document.getElementById('input_valor').value = dataResult;
-                    }else{
-                        document.getElementById('cd_responsavel').value = dataResult;
-                    }
+                    document.getElementById('cd_responsavel').value = dataResult;
+                    
                     
                 },
             });
         }else{
-            if(tipo == '1'){
-                document.getElementById('input_valor').value = '';
-            }else{
-                document.getElementById('cd_responsavel').value = '';
-            }
+            
+            document.getElementById('cd_responsavel').value = '';
+            
         }
     }
 
-    function campos_responsavel_modal(tipo){
-        //tipo 1 : código
-        if(tipo == '1'){
-            var campo = document.getElementById('cd_responsavel_modal').value;
-        //tipo 2 : nome
-        }else{
-            var campo = document.getElementById('input_valor_modal').value;
-        }
+    function campos_responsavel_modal(){
+        
+        var campo = document.getElementById('input_valor_modal').value;
+        
 
         if(campo != ''){
             $.ajax({
-                url: "funcoes/setor/campo_responsavel.php",
+                url: "funcoes/setor/ajax_campo_responsavel.php",
                 type: "POST",
                 data: {
-                    tipo: tipo,
                     campo: campo,
                     },
                 cache: false,
                 success: function(dataResult){
-                    if(tipo == '1'){
-                        document.getElementById('input_valor_modal').value = dataResult;
-                    }else{
-                        document.getElementById('cd_responsavel_modal').value = dataResult;
-                    }
-                    
+                    document.getElementById('cd_responsavel_modal').value = dataResult;
                 },
             });
         }else{
-            if(tipo == '1'){
-                document.getElementById('input_valor_modal').value = '';
-            }else{
-                document.getElementById('cd_responsavel_modal').value = '';
-            }
+            document.getElementById('cd_responsavel_modal').value = '';
         }
     }
 
@@ -317,12 +291,17 @@
 
     function campo_tipo(){
         var tipo = document.getElementById('tipo').value;
+        
 
         if(tipo == 'D'){
-            $('#div_tipo').load('funcoes/setor/tipo_d.php');
-        }else{
-            $('#div_tipo').load('funcoes/setor/tipo_p.php');
+            document.getElementById('btn_cad').disabled = false;
+            $('#div_tipo').load('funcoes/setor/ajax_tipo_d.php');
+        }else if(tipo == 'P'){
+            document.getElementById('btn_cad').disabled = false;
+            $('#div_tipo').load('funcoes/setor/ajax_tipo_p.php');
 
+        }else{
+            document.getElementById('btn_cad').disabled = true;
         }
     }
     function campos_especialidade_modal(tipo){
@@ -336,7 +315,7 @@
 
         if(campo != ''){
             $.ajax({
-                url: "funcoes/setor/campo_especialidade.php",
+                url: "funcoes/setor/ajax_campo_especialidade.php",
                 type: "POST",
                 data: {
                     tipo: tipo,
@@ -362,22 +341,27 @@
     }
 
     function campo_tipo_modal(){
+        
         var tipo = document.getElementById('tp_setor_modal').value;
         document.getElementById('cd_especialidade_modal').value = "";
         document.getElementById('input_valor_especialidade_modal').value = "";
         document.getElementById('ds_setor_modal').value = "";
 
         if(tipo == 'P'){
+            
             document.getElementById('ds_setor_modal').value = "";
             document.getElementById('ds_setor_modal').style.display = "block";
             document.getElementById('div_cd').style.display = "none";
             document.getElementById('input_valor_especialidade_modal').style.display = "none";
-        }else{
+        }else if(tipo == 'D'){
+            
             document.getElementById('cd_especialidade_modal').value = "";
             document.getElementById('input_valor_especialidade_modal').value = "";
             document.getElementById('ds_setor_modal').style.display = "none";
             document.getElementById('div_cd').style.display = "block";
             document.getElementById('input_valor_especialidade_modal').style.display = "block";
+        }else{
+            
         }
     }
 

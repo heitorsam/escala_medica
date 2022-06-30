@@ -25,13 +25,27 @@ $result_escala = oci_parse($conn_ora, $cons_escala);
 oci_execute($result_escala);
 
 while($row_escala = oci_fetch_array($result_escala)){ 
+    if($row_escala['DIARISTA'] == 'S'){
+        $var_sn_diarista = 'Diarista - ';
+    }else{
+        $var_sn_diarista = ''; 
+    }
+
+    if($row_escala['SEXO'] == 'F'){
+        $tp_sexo = 'Dra. ';
+    }else if($row_escala['SEXO'] == 'M'){
+        $tp_sexo = 'Dr. ';
+    }else{
+        $tp_sexo = 'Dr(a). ';
+    }
+
     $dadosXls .= " <tr>"; 
     if($row_escala['DIA'] < 10){
         $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> 0".$row_escala['DIA']."/". $row_escala['PERIODO'] ." </td>"; 
     }else{
         $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['DIA']."/". $row_escala['PERIODO'] ." </td>"; 
     }
-    $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ". $row_escala['NM_PRESTADOR'] ."</td>"; 
+    $dadosXls .= " <td class='align-middle' style='text-align: center !important;'>". $var_sn_diarista ."". $tp_sexo ."". $row_escala['NM_PRESTADOR'] ."</td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['INICIAL']." - ". $row_escala['FINAL'] ." </td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['SETOR']." </td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['TELEFONE_COMERCIAL_1']." </td>"; 

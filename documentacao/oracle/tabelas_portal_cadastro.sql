@@ -4,8 +4,26 @@
 ---------
 --SETOR--
 ---------
-
+DROP TABLE escala_medica.ESCALA;
 DROP TABLE escala_medica.SETOR;
+DROP TABLE escala_medica.DIVISAO_HORA;
+
+DROP SEQUENCE escala_medica.SEQ_CD_SETOR; 
+CREATE SEQUENCE escala_medica.SEQ_CD_SETOR 
+START WITH 1    
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
+create table DIVISAO_HORA
+(
+  tp_hora VARCHAR2(1) not null,
+  ds_hora VARCHAR2(5) not null
+);
+--executar a pagina alimentar_tabela_horas.php localizado
+
+
+
 CREATE TABLE escala_medica.SETOR(
 
 CD_SETOR            INT NOT NULL,
@@ -32,26 +50,6 @@ REFERENCES DBAMV.ESPECIALID (CD_ESPECIALID)
 
 );
 
-DROP SEQUENCE escala_medica.SEQ_CD_SETOR; 
-CREATE SEQUENCE escala_medica.SEQ_CD_SETOR 
-START WITH 1    
-INCREMENT BY 1
-NOCACHE
-NOCYCLE;
-
-COMMENT ON COLUMN escala_medica.SETOR.CD_SETOR IS 'SEQ_CD_SETOR';
-COMMENT ON COLUMN escala_medica.SETOR.TP_SETOR IS 'D - Distancia | P - Presencial';
-
-DROP TABLE escala_medica.DIVISAO_HORA;
-create table DIVISAO_HORA
-(
-  tp_hora VARCHAR2(1) not null,
-  ds_hora VARCHAR2(5) not null
-);
---executar a pagina alimentar_tabela_horas.php localizado
-
-DROP TABLE escala_medica.ESCALA;
-
 CREATE TABLE ESCALA
 (
   CD_ESCALA           INTEGER not null,
@@ -75,3 +73,7 @@ CREATE TABLE ESCALA
 
 
 );
+
+COMMENT ON COLUMN escala_medica.SETOR.CD_SETOR IS 'SEQ_CD_SETOR';
+COMMENT ON COLUMN escala_medica.SETOR.TP_SETOR IS 'D - Distancia | P - Presencial';
+

@@ -76,7 +76,7 @@
         <div class="col-md-2">
             <br>
             <button class="btn btn-primary" onclick="buscar_escala()"><i class="fas fa-search"></i></button>
-            <button class="btn btn-primary" onclick="excel()"><i class="fas fa-file-excel"></i></button>
+            <button class="btn btn-primary" id="btn_excel" onclick="excel()" disabled><i class="fas fa-file-excel"></i></button>
         </div>
     </div>
     <div class="row">
@@ -91,9 +91,10 @@
     //
     now = new Date
 
-    window.onload = function() { document.getElementById('mes').selectedIndex = now.getMonth();campo_dia(); buscar_escala();};
+    window.onload = function() { document.getElementById('mes').selectedIndex = now.getMonth();campo_dia();};
 
     function buscar_escala(){
+        document.getElementById('btn_excel').disabled = false;
         var setor = document.getElementById('setor').value;
         var dia = document.getElementById('dia').value;
         var mes = document.getElementById('mes').value;
@@ -102,9 +103,9 @@
     }
 
     function excel(){
-        var excel = document.getElementById('excel').value;
-
-        window.location.href = "funcoes/escala_telefonista/excel.php?excel=" + excel;
+        
+        
+        window.location.href = "funcoes/escala_telefonista/excel.php";
     }
 
     function campo_dia(){

@@ -363,6 +363,9 @@
 
     function campo_tipo_modal(){
         var tipo = document.getElementById('tp_setor_modal').value;
+        document.getElementById('cd_especialidade_modal').value = "";
+        document.getElementById('input_valor_especialidade_modal').value = "";
+        document.getElementById('ds_setor_modal').value = "";
 
         if(tipo == 'P'){
             document.getElementById('ds_setor_modal').value = "";

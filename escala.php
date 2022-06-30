@@ -72,16 +72,12 @@
     </div>
     <input type="hidden" id="especialidade">
     <div class="row">
-        <div class="col-md-2">
+        <div id="div_autocomplete" class="col-md-5">
             Código:
-            <input type="number" id="cd_responsavel" onkeyup = "campos_responsavel('1', '<?php echo @$cd_especialidade ?>')" class="form-control">
-        </div>
-        <div class="col-md-3">
+            <input type="number" class="form-control" readonly>
+        
             Prestador:
-            <!--auto complete funcionario responsavel-->
-            <div id="div_autocomplete">
-                <input class="form-control" type="text" readonly>
-            </div>
+            <input class="form-control" type="text" readonly>
         </div>
         <div id="div_dia" class="col-md-1">
             Dia:
@@ -308,7 +304,7 @@ now = new Date
 
     function campo_prestador(){
         var cd_setor = document.getElementById('setor').value;
-        document.getElementById('cd_responsavel').value = '';
+        //document.getElementById('cd_responsavel').value = '';
         $('#div_autocomplete').load('funcoes/escala/campo_prestador.php?cd_escala='+ cd_setor);
       
     }

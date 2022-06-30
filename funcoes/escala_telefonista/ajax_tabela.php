@@ -1,4 +1,7 @@
 <?php 
+
+    session_start();
+
     include '../../conexao.php';
 
     $dia = $_GET['dia'];
@@ -50,8 +53,10 @@
                             ON esc.cd_prestador_mv = pr.cd_prestador
                         INNER JOIN escala_medica.setor st
                             ON st.Cd_Setor = esc.cd_setor
+                        WHERE esc.periodo = '$mes/$ano'
                         ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL
                         ";
+                        
     }else if($dia == ''){
         $cons_escala = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
                             esc.DIA,
@@ -99,6 +104,7 @@
                         AND esc.CD_SETOR LIKE '%$setor%'
                         ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL
                         ";
+                        
     }else{
         $cons_escala = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
                             esc.DIA,
@@ -144,17 +150,37 @@
                             ON st.Cd_Setor = esc.cd_setor
                         WHERE esc.periodo = '$mes/$ano'
                         AND esc.dia = '$dia'
-                        AND esc.CD_SETOR LIKE '%$setor%'
+                        AND esc.CD_SETOR  LIKE '%$setor%'
                         ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL
                         ";
+                        $_SESSION['tp'] = 1;
     }
 
     $result_escala = oci_parse($conn_ora, $cons_escala);
 
     oci_execute($result_escala);
 
+    $_SESSION['excel'] = $cons_escala;
+
+    if($setor == ''){
+        $_SESSION['tp'] = 0;
+    }else{
+        $_SESSION['tp'] = 1;
+        $_SESSION['setor'] = $setor;
+    }
+
+    if($dia == ''){
+        $_SESSION['dt'] = $mes.'/'.$ano;
+    }else{
+        if($dia > 9){
+            $_SESSION['dt'] = $dia.'/'.$mes.'/'.$ano;
+        }else{
+            $_SESSION['dt'] = '0'.$dia.'/'.$mes.'/'.$ano;
+        }
+    }
+
 ?>
-<input type="hidden" id="excel" value="<?php echo $cons_escala ?>">
+
 <div class="div_br"></div>
 <div class="table-responsive col-md-12">
             

@@ -1,6 +1,8 @@
 <?php 
 include '../../conexao.php';
 
+session_start();
+
 //declaramos uma variavel para monstarmos a tabela 
 
 $date = date('m/d/Y', time());
@@ -8,6 +10,7 @@ $dadosXls = "";
 $dadosXls .= " <table class='table table-fixed table-hover table-striped' cellspacing='0' cellpadding='0' border='1'>"; 
 $dadosXls .= " <thead style = 'background-color: #3185c1; font-color: #fff' ><tr>"; 
 $dadosXls .= " <th class='align-middle' style='text-align: center !important;'>  Dia  </th>"; 
+$dadosXls .= " <th class='align-middle' style='text-align: center !important;'>  Prestador  </th>";
 $dadosXls .= " <th class='align-middle' style='text-align: center !important;'>  Horário  </th>"; 
 $dadosXls .= " <th class='align-middle' style='text-align: center !important;'>  Setor  </th>";  
 $dadosXls .= " <th class='align-middle' style='text-align: center !important;'>  Telefone comercial  </th>"; 
@@ -17,7 +20,7 @@ $dadosXls .= " <th class='align-middle' style='text-align: center !important;'> 
 $dadosXls .= " <th class='align-middle' style='text-align: center !important;'>  E-mail  </th>"; 
 $dadosXls .= " </thead></tr>"; 
 
-$cons_escala = $_GET['excel'];
+$cons_escala = $_SESSION['excel'];
 $result_escala = oci_parse($conn_ora, $cons_escala);
 oci_execute($result_escala);
 
@@ -28,6 +31,7 @@ while($row_escala = oci_fetch_array($result_escala)){
     }else{
         $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['DIA']."/". $row_escala['PERIODO'] ." </td>"; 
     }
+    $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ". $row_escala['NM_PRESTADOR'] ."</td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['INICIAL']." - ". $row_escala['FINAL'] ." </td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['SETOR']." </td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['TELEFONE_COMERCIAL_1']." </td>"; 
@@ -36,10 +40,18 @@ while($row_escala = oci_fetch_array($result_escala)){
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['TELEFONE_COMERCIAL_2']." </td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['CELULAR_2']." </td>"; 
     $dadosXls .= " </tr>"; 
+    if($_SESSION['tp'] == 1){
+        $setor = $row_escala['SETOR'];
+    }
 } 
 $dadosXls .= " </table>";
 // Definimos o nome do arquivo que será exportado 
-$arquivo = "escala_medica-". $date .".xls"; 
+
+if($_SESSION['tp'] == 1){
+    $arquivo = "escala_medica-". $setor ."-". $_SESSION['dt'] .".xls"; 
+}else{
+    $arquivo = "escala_medica-". $_SESSION['dt'] .".xls"; 
+}
 // Configurações header para forçar o download 
 header('Content-Type: application/vnd.ms-excel'); 
 header('Content-Disposition: attachment;filename="'.$arquivo.'"'); 

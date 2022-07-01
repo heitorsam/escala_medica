@@ -46,7 +46,11 @@ session_start();
     <header>    
 
         <nav class="navbar navbar-expand-md navbar-dark bg-color">
-            <a class="navbar-brand" href="home.php">
+            <?php if($_SESSION['sn_administrador'] == 'S'){
+                echo '<a class="navbar-brand" href="home.php">';
+            }else{ 
+                echo '<a class="navbar-brand">';
+            }?>    
                 <img src="img/logo/icone_santa_casa_sjc_branco.png" height="28px" width="28px" class="d-inline-block align-top" alt="Santa Casa de São José dos Campos">
                 <h10>Escala Médica</h10>
             </a>
@@ -65,6 +69,7 @@ session_start();
                         <h10><a class="nav-link" href="#"><i class="fa fa-question-circle-o" aria-hidden="true"></i> Faq</a></h10>
                     </li>
                 </div>
+                <?php if($_SESSION['sn_administrador'] == 'S'){?>
                 <div class="menu_preto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -80,6 +85,7 @@ session_start();
                         </div>
                     </li>
                 </div>
+                <?php } ?>
                 </li>
                 <div class="menu_perfil">
                     <li class="nav-item dropdown">

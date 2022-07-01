@@ -26,6 +26,7 @@
         oci_execute($result_horas_fn);
     }
 
+    header('Location:../home.php');
 
 
 

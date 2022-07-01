@@ -50,10 +50,10 @@
 		if(isset($resultado)){
 			
 			if($resultado[0] == 'Login efetuado com sucesso') {
-				$_SESSION['usuarioLogin'] = $usuario;
-				$_SESSION['usuarioNome'] = $resultado[1];
-				$_SESSION['sn_administrador'] = $resultado[2];
-				$_SESSION['sn_call_center'] = $resultado[3];
+				echo $_SESSION['usuarioLogin'] = $usuario;
+				echo $_SESSION['usuarioNome'] = $resultado[1];
+				echo $_SESSION['sn_administrador'] = $resultado[2];
+				echo $_SESSION['sn_call_center'] = $resultado[3];
 				header("Location: $pag_apos");
 			} else { 
 				$_SESSION['msgerro'] = $resultado[0] . '!';

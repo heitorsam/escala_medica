@@ -7,7 +7,9 @@
 
     <h11><i class="far fa-calendar-alt"></i> Escala Diaria:</h11>
     <span class="espaco_pequeno" style="width: 6px;" ></span>
+    <?php if($_SESSION['sn_administrador'] == 'S'){ ?>
     <h27> <a href="home.php" style="color: #444444; text-decoration: none;"> <i class="fa fa-reply" aria-hidden="true"></i> Voltar </a> </h27> 
+    <?php } ?>
     <div class="div_br"> </div> 
 
     <div class="row">

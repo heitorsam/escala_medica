@@ -20,7 +20,7 @@ create table DIVISAO_HORA
   tp_hora VARCHAR2(1) not null,
   ds_hora VARCHAR2(5) not null
 );
---executar a pagina alimentar_tabela_horas.php localizado
+--essa tabela sera alimentada assim que abrir a home
 
 
 

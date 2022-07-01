@@ -74,7 +74,7 @@
 
     <div class="div_br"> </div>            
 
-    <input type="hidden" id="especialidade">
+    <input type="text" id="especialidade" hidden>
     <div class="row">
         <div class="col-md-4" id="div_cadastro">
             Prestador:

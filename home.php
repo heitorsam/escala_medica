@@ -39,9 +39,9 @@
                 <a href="escala.php" class="botao_home" type="submit"><i class="far fa-calendar-alt"></i> Escala</a>
                 <span class="espaco_pequeno"></span>
                 <?php } ?>
-                <a href="escala_telefonista.php" class="botao_home" type="submit"><i class="far fa-calendar-alt"></i> Escala Diaria</a>
+                <a href="escala_diaria.php" class="botao_home" type="submit"><i class="far fa-calendar-alt"></i> Escala Diaria</a>
                 <?php if($var_sn_adm == 'N'){
-                    header('Location:escala_telefonista.php');
+                    header('Location:escala_diaria.php');
                 }?>
             <div class="div_br"> </div>
             <div class="div_br"> </div>

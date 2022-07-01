@@ -63,7 +63,7 @@
         </div>
         <div class="col-md-2">
             Tipo:
-            <select onchange="$('#div_setor').load('funcoes/escala/ajax_campo_setor.php?var_tipo='+ this.value)" class="form-control" name="tipo" id="tipo">
+            <select onchange="$('#div_setor').load('funcoes/escala_diaria/ajax_campo_setor.php?var_tipo='+ this.value)" class="form-control" name="tipo" id="tipo">
                 <option value="">Selecione </option>
                 <option value="P">Presencial</option>
                 <option value="D">Distancia</option>
@@ -101,20 +101,18 @@
         var dia = document.getElementById('dia').value;
         var mes = document.getElementById('mes').value;
         var ano = document.getElementById('ano').value;
-        $('#tabela_escala').load('funcoes/escala_telefonista/ajax_tabela.php?dia='+ dia +'&&mes=' + mes + '&&ano='+ ano + '&&setor='+ setor +'&&tp_setor='+ tipo);
+        $('#tabela_escala').load('funcoes/escala_diaria/ajax_tabela.php?dia='+ dia +'&&mes=' + mes + '&&ano='+ ano + '&&setor='+ setor +'&&tp_setor='+ tipo);
     }
 
     function excel(){
-        
-        
-        window.location.href = "funcoes/escala_telefonista/excel.php";
+        window.location.href = "funcoes/escala_diaria/excel.php";
     }
 
     function campo_dia(){
         var mes = document.getElementById('mes').value;
         var ano = document.getElementById('ano').value;
 
-        $('#div_dia').load('funcoes/escala_telefonista/ajax_campo_dia.php?mes='+ mes +'&&ano=' + ano);
+        $('#div_dia').load('funcoes/escala_diaria/ajax_campo_dia.php?mes='+ mes +'&&ano=' + ano);
 
     }
 

@@ -7,7 +7,7 @@
     if($var_tipo == '1'){
         $cons_campo = "SELECT DS_ESPECIALID AS CAMPO FROM dbamv.especialid WHERE CD_ESPECIALID = '$var_campo' AND SN_ATIVO = 'S'";
     }else{
-        $cons_campo = "SELECT CD_ESPECIALID AS CAMPO FROM dbamv.especialid WHERE DS_ESPECIALID = '$var_campo' AND SN_ATIVO = 'S'";
+        $cons_campo = "SELECT CD_ESPECIALID AS CAMPO FROM dbamv.especialid WHERE DS_ESPECIALID = UPPER('$var_campo') AND SN_ATIVO = 'S'";
     }
 
     $result_campo = oci_parse($conn_ora, $cons_campo);

@@ -79,7 +79,7 @@ session_start();
                         <!--MENU-->
                             <a class="dropdown-item" href="setor.php"><i class="fa fa-building"></i> Setor</a>  
                             <a class="dropdown-item" href="escala.php"><i class="far fa-calendar-alt"></i> Escala</a>   
-                            <a class="dropdown-item" href="escala_telefonista.php"><i class="far fa-calendar-alt"></i> Escala Diaria</a>   
+                            <a class="dropdown-item" href="escala_diaria.php"><i class="far fa-calendar-alt"></i> Escala Diaria</a>   
                             <div class="div_br"> </div>
 
                         </div>

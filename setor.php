@@ -38,7 +38,7 @@
     <div class="row">
         <div class="col-md-2">
             CRM:
-            <input type="text" onkeyup ="campos_responsavel('1')" id="cd_responsavel" class="form-control" autocomplete="off"> 
+            <input type="text" onkeyup ="debounce(function() {campos_responsavel('1')}, 2000)" id="cd_responsavel" class="form-control" autocomplete="off"> 
         </div>
         <div class="col-md-4">
             Responsável:
@@ -97,8 +97,20 @@
 
 <script>
 
-    window.onload = function() { criar_tabela_setor();
-                                    document.getElementById('div_exame').style.display = "none"; };
+    window.onload = function() { criar_tabela_setor(); document.getElementById('div_exame').style.display = "none"; };
+
+    const myInput = document.querySelector('input'),
+	mySpan = document.querySelector('span');
+    let counter = 0;
+    
+    function debounce(func, wait) {
+        let timer = null;
+        
+        return function() {
+            clearTimeout(timer);
+            timer = setTimeout(func, wait);
+	    }
+    }
 
     function cadastrar_setor(){
         var tipo = document.getElementById('tipo').value;
@@ -407,18 +419,7 @@
             
         }
     }
-    const myInput = document.querySelector('input'),
-	mySpan = document.querySelector('span');
-    let counter = 0;
-
-    function debounce(func, wait) {
-        let timer = null;
-        return function() {
-            clearTimeout(timer);
-            timer = setTimeout(func, wait);
-	}
-
-}
+    
 
 </script>
 

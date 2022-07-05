@@ -156,7 +156,7 @@
                     },
                 cache: false,
                 success: function(dataResult){   
-                    //alert(dataResult);
+                    alert(dataResult);
                     if(tipo == 'P' || tipo == 'F'){
                         document.getElementById('ds_setor').value = '';
                     }else if(tipo == 'D' && sn_exame == 'S'){
@@ -267,7 +267,7 @@
         }
     }
 
-    function editar_setor(tp_setor, ds_setor, cd_setor, cd_responsavel, responsavel, cd_especie, sn_exame){
+    function editar_setor(tp_setor, ds_setor, cd_setor, cd_responsavel, responsavel, cd_especie, ds_especie){
         
         if(tp_setor == 'P' ){
             document.getElementById('tp_setor_modal').selectedIndex = "0";
@@ -283,6 +283,7 @@
         }
 
         document.getElementById('ds_setor_modal').value = ds_setor;
+        document.getElementById('ds_especie_modal').value = ds_especie;
         document.getElementById('cd_especialidade_modal').value = cd_especie;
         document.getElementById('cd_setor_modal').value = cd_setor;
         document.getElementById('cd_responsavel_modal').value = cd_responsavel;

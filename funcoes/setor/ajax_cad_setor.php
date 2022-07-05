@@ -3,7 +3,7 @@
 
     session_start();
 
-    $var_cd_especialidade = $_POST['cd_especialidade'];
+    $var_cd_especialidade = @$_POST['cd_especialidade'];
     $var_tipo = $_POST['tipo'];
     $var_ds = $_POST['ds_setor'];
     $var_responsavel = $_POST['cd_responsavel'];
@@ -31,6 +31,22 @@
     $row_seq_nextval = oci_fetch_array($result_seq_nextval);
 
     $var_cd_produto = $row_seq_nextval['CD_SETOR'];
+
+    if($var_cd_especialidade == '' && $var_sn_exame == 'S'){
+        ECHO $cons_cd_especialidade = "SELECT CD_ESPECIALIDADE FROM escala_medica.Exame WHERE CD_EXAME = $var_cd_exame";
+
+        $result_cd_especialidade = oci_parse($conn_ora, $cons_cd_especialidade);
+        oci_execute($result_cd_especialidade);
+        $row_cd_especialidade = oci_fetch_array($result_cd_especialidade);
+
+        $var_cd_especialidade = $row_cd_especialidade['CD_ESPECIALIDADE'];
+    }
+
+
+
+
+
+
 
    
     if($var_cd_especialidade == ''){

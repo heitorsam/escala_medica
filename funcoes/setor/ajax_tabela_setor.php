@@ -3,14 +3,17 @@
 
     $cons_setor = "SELECT str.CD_SETOR,
                         str.DS_SETOR,
-                        str.CD_CONSELHO AS CD_PRESTADOR,
+                        str.CD_CONSELHO    AS CD_PRESTADOR,
                         prest.nm_prestador AS RESPONSAVEL,
-                        prest.tp_sexo AS SEXO,  
-                        str.TP_SETOR AS TIPO,
-                        str.cd_especialid
+                        prest.tp_sexo      AS SEXO,
+                        str.TP_SETOR       AS TIPO,
+                        str.cd_especialid,
+                        esp.ds_especialid
                     FROM escala_medica.setor str
                     INNER JOIN dbamv.prestador prest
                     ON prest.ds_codigo_conselho = TO_CHAR(str.cd_conselho)
+                    INNER JOIN dbamv.especialid esp
+                    ON esp.cd_especialid = str.cd_especialid
                     WHERE prest.cd_tip_presta = 8
                     ORDER BY 1
                     ";
@@ -45,7 +48,7 @@
                         }else{
                             echo "<td class='align-middle' style='text-align: center;'> Dr(a). ". $row_setor['RESPONSAVEL'] ." </td>"; 
                         }?>
-                        <td class='aling-middle' style='text-align: center;'><button class='btn btn-primary' onclick="editar_setor('<?php echo $row_setor['TIPO'] ?>','<?php echo $row_setor['DS_SETOR'] ?>','<?php echo $row_setor['CD_SETOR'] ?>', '<?php echo $row_setor['CD_PRESTADOR'] ?>', '<?php echo $row_setor['RESPONSAVEL'] ?>', <?php echo $row_setor['CD_ESPECIALID'] ?>)"><i class='fas fa-edit'></i>
+                        <td class='aling-middle' style='text-align: center;'><button class='btn btn-primary' onclick="editar_setor('<?php echo $row_setor['TIPO'] ?>','<?php echo $row_setor['DS_SETOR'] ?>','<?php echo $row_setor['CD_SETOR'] ?>', '<?php echo $row_setor['CD_PRESTADOR'] ?>', '<?php echo $row_setor['RESPONSAVEL'] ?>', <?php echo $row_setor['CD_ESPECIALID'] ?>,'<?php echo $row_setor['DS_ESPECIALID'] ?>')"><i class='fas fa-edit'></i>
                         <?php echo  "</button> <button class='btn btn-adm' onclick='excluir_setor(". $row_setor['CD_SETOR'] .")'><i class='fas fa-trash'></i></button></td>";
                     echo '</tr>';
                 } 
@@ -72,11 +75,15 @@
                         <input type="text" class="form-control" id="cd_setor_modal" readonly>
                     </div>
                     <div class="col-md-2" id="div_cd">
-                        Código:
+                        Código Especi.:
                         <input type="number" id="cd_especialidade_modal" class="form-control" disabled>
                     </div>
-                    <div class="col-md-4">
-                        Descrição:
+                    <div class="col-md-3">
+                        Descrição Especi.:
+                        <input type="text" id="ds_especie_modal" class="form-control" disabled>
+                    </div>
+                    <div class="col-md-3">
+                        Descrição setor:
                         <input type="text" id="ds_setor_modal" class="form-control" disabled>
                     </div>
                 </div>

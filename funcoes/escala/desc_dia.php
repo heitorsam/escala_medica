@@ -6,6 +6,7 @@
     $cons_desc = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
                     esc.DIA,
                     esc.PERIODO,
+                    pr.ds_codigo_conselho AS CD_CONSELHO,
                     pr.nm_prestador AS NM_PRESTADOR,
                     st.DS_SETOR AS SETOR,
                     esc.hr_inicial AS INICIAL,
@@ -51,7 +52,11 @@
 
 <div class="row">
                     <div class="col-md-3">
-                        Código do Prestdor:
+                        CRM:
+                        <input type="text" id="crm_prestador" value="<?php echo $row_desc['CD_CONSELHO'] ?>" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-3">
+                        Código Prestador:
                         <input type="text" id="cd_prestador" value="<?php echo $row_desc['CD_PRESTADOR'] ?>" class="form-control" readonly>
                     </div>
                     <div class="col-md-4">

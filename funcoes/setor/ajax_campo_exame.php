@@ -8,7 +8,7 @@
         $cons_campo = "SELECT DS_EXAME AS CAMPO FROM escala_medica.EXAME WHERE CD_ESPECIALIDADE = $var_campo";
 
     }else{
-        $cons_campo = "SELECT CD_ESPECIALIDADE AS CAMPO FROM escala_medica.EXAME WHERE DS_EXAME = '$var_campo'";
+        $cons_campo = "SELECT CD_EXAME AS CAMPO FROM escala_medica.EXAME WHERE DS_EXAME = '$var_campo'";
     }
 
     $result_campo = oci_parse($conn_ora, $cons_campo);

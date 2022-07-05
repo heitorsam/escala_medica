@@ -57,6 +57,7 @@
                 <option value="">Selecione </option>
                 <option value="P">Presencial</option>
                 <option value="D">Distancia</option>
+                <option value="F">Fixa</option>
             </select>
         </div>
         <div id="div_setor" class="col-md-3">
@@ -74,7 +75,6 @@
 
     <div class="div_br"> </div>            
 
-    <input type="text" id="especialidade" hidden>
     <div class="row">
         <div class="col-md-4" id="div_cadastro">
             Prestador:
@@ -154,11 +154,12 @@
         var mes = document.getElementById('mes').value;
         var ano = document.getElementById('ano').value;
         var setor = document.getElementById('setor').value;
+        var tipo = document.getElementById('tipo').value;
 
         if(setor != ''){
-            $('#calendario').load('funcoes/escala/ajax_calendario.php?mes='+ mes +'&&ano='+ano+'&&setor='+setor);
+            $('#calendario').load('funcoes/escala/ajax_calendario.php?mes='+ mes +'&&ano='+ ano +'&&setor='+ setor + '&&tipo='+ tipo);
         }else{
-            document.getElementById('setor');
+            document.getElementById('setor').focus();
         }
 
     }
@@ -219,6 +220,7 @@
         var hr_in = document.getElementById('hora_inicial').value;
         var hr_fn = document.getElementById('hora_final').value;
         var diarista = document.getElementById('ck_diarista');
+        var presrador = document.getElementById('input_valor').value;
 
         if(diarista.checked == true){
             diarista = 'S';
@@ -228,14 +230,15 @@
         
 
         if(tipo == ''){
-            alert('TESTE');
             document.getElementById('tipo').focus();
         }else if(setor == ''){
             document.getElementById('setor').focus();
 
         }else if(codigo == ''){
-            document.getElementById('input_valor').focus();
+            document.getElementById('cd_responsavel').focus();
 
+        }else if(presrador == ''){
+            document.getElementById('input_valor').focus();
         }else if(hr_in == ''){
             document.getElementById('hora_inicial').focus();
 
@@ -260,6 +263,7 @@
                         },
                     cache: false,
                     success: function(dataResult){
+                        
                         if(dataResult != 1){
                             alert(dataResult);
                         } 
@@ -311,7 +315,6 @@
 
     function campo_prestador(){
         var cd_setor = document.getElementById('setor').value;
-        //document.getElementById('cd_responsavel').value = '';
         $('#div_cadastro').load('funcoes/escala/ajax_campo_prestador.php?cd_escala='+ cd_setor);
         
         campo_dia();

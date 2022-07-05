@@ -34,7 +34,7 @@
                         and tip.cd_tip_comun = 11) CELULAR_2
                 FROM escala_medica.ESCALA esc
                 INNER JOIN dbamv.Prestador pr
-                    ON esc.cd_prestador_mv = pr.cd_prestador
+                    ON pr.cd_prestador = esc.cd_prestador_mv
                 INNER JOIN escala_medica.setor st
                     ON st.Cd_Setor = esc.cd_setor
                     WHERE esc.CD_ESCALA = $cd_escala

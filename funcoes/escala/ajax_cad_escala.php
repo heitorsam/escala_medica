@@ -16,6 +16,19 @@
 
     $var_periodo = $var_mes .'/'. $var_ano;
 
+    $cons_responsavel = "SELECT pr.CD_PRESTADOR AS CODIGO 
+                            FROM dbamv.PRESTADOR pr 
+                        WHERE pr.Ds_Codigo_Conselho = '$var_codigo'
+                        AND pr.CD_TIP_PRESTA = 8";
+
+    $result_responsavel = oci_parse($conn_ora, $cons_responsavel);
+
+    oci_execute($result_responsavel);
+
+    $row_responsavel = oci_fetch_array($result_responsavel);
+
+    $var_responsavel = $row_responsavel['CODIGO'];
+
     $cons_seq_nextval="SELECT escala_medica.SEQ_CD_ESCALA.nextval AS CD_ESCALA
                         FROM DUAL";
 
@@ -50,26 +63,28 @@
 
     if($row_qtd['QTD'] == 0 || $var_tipo == 'P'){
 
-        $cons_setor = "INSERT INTO escala_medica.ESCALA (CD_ESCALA, 
-                                                                PERIODO, 
-                                                                CD_SETOR, 
-                                                                CD_PRESTADOR_MV, 
-                                                                DIA, 
-                                                                DIARISTA,
-                                                                HR_INICIAL, 
-                                                                HR_FINAL, 
-                                                                CD_USUARIO_CADASTRO, 
-                                                                HR_CADASTRO)
-                            VALUES($var_cd_escala, 
-                                    '$var_periodo', 
-                                    $var_setor, 
-                                    $var_codigo, 
-                                    '$var_dia',
-                                    '$var_diarista',
-                                    '$var_hr_in', 
-                                    '$var_hr_fn',
-                                    '$usuario', 
-                                    SYSDATE)";
+        $cons_setor = "INSERT INTO escala_medica.ESCALA
+                            (CD_ESCALA,
+                            PERIODO,
+                            CD_SETOR,
+                            CD_PRESTADOR_MV,
+                            DIA,
+                            DIARISTA,
+                            HR_INICIAL,
+                            HR_FINAL,
+                            CD_USUARIO_CADASTRO,
+                            HR_CADASTRO)
+                        VALUES
+                            ($var_cd_escala,
+                            '$var_periodo',
+                            $var_setor,
+                            $var_responsavel,
+                            '$var_dia',
+                            '$var_diarista',
+                            '$var_hr_in',
+                            '$var_hr_fn',
+                            '$usuario',
+                            SYSDATE)";
         $result_setor = oci_parse($conn_ora, $cons_setor);
         oci_execute($result_setor);
 

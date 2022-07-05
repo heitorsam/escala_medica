@@ -3,6 +3,7 @@ include '../../conexao.php';
 
 session_start();
 
+$hora = date('H:i');
 //declaramos uma variavel para monstarmos a tabela 
 
 $date = date('m/d/Y', time());
@@ -10,14 +11,15 @@ $dadosXls = "";
 $dadosXls .= " <table class='table table-fixed table-hover table-striped' cellspacing='0' cellpadding='0'>"; 
 $dadosXls .= " <thead><tr>"; 
 $dadosXls .= " <th style='background-color: red;'>  Dia  </th>"; 
-$dadosXls .= " <th style='color: red;'>  Prestador  </th>";
 $dadosXls .= " <th>  Horário  </th>"; 
+$dadosXls .= " <th style='color: red;'>  Prestador  </th>";
 $dadosXls .= " <th>  Setor  </th>";  
 $dadosXls .= " <th>  Telefone comercial  </th>"; 
-$dadosXls .= " <th>  Telefone comercial 2  </th>"; 
 $dadosXls .= " <th>  Celular  </th>"; 
-$dadosXls .= " <th>  Celular 2  </th>"; 
 $dadosXls .= " <th>  E-mail  </th>"; 
+$dadosXls .= " <th>  Telefone comercial 2  </th>"; 
+$dadosXls .= " <th>  Celular 2  </th>"; 
+
 $dadosXls .= " </tr></thead>"; 
 
 $cons_escala = $_SESSION['excel'];
@@ -45,8 +47,8 @@ while($row_escala = oci_fetch_array($result_escala)){
     }else{
         $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['DIA']."/". $row_escala['PERIODO'] ." </td>"; 
     }
-    $dadosXls .= " <td class='align-middle' style='text-align: center !important;'>". $var_sn_diarista ."". $tp_sexo ."". $row_escala['NM_PRESTADOR'] ."</td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['INICIAL']." - ". $row_escala['FINAL'] ." </td>"; 
+    $dadosXls .= " <td class='align-middle' style='text-align: center !important;'>". $var_sn_diarista ."". $tp_sexo ."". $row_escala['NM_PRESTADOR'] ."</td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['SETOR']." </td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['TELEFONE_COMERCIAL_1']." </td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['CELULAR']." </td>"; 
@@ -54,11 +56,15 @@ while($row_escala = oci_fetch_array($result_escala)){
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['TELEFONE_COMERCIAL_2']." </td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['CELULAR_2']." </td>"; 
     $dadosXls .= " </tr>"; 
+    
     if($_SESSION['tp'] == 1){
         $setor = $row_escala['SETOR'];
     }
 } 
+$dadosXls .= "<tr>Gerado as ". $hora ." do dia ". $date ."</tr>";
 $dadosXls .= " </table>";
+
+
 // Definimos o nome do arquivo que será exportado 
 
 if($_SESSION['tp'] == 1){

@@ -5,10 +5,10 @@
     $tipo = $_POST['tipo'];
 
     if($tipo == '1'){
-        $cons_campo = "SELECT NM_PRESTADOR AS CAMPO FROM dbamv.PRESTADOR WHERE DS_CODIGO_CONSELHO = TO_CHAR('$var_campo') AND TP_SITUACAO = 'A' AND cd_tip_presta = 8";
+        $cons_campo = "SELECT DS_EXAME AS CAMPO FROM escala_medica.EXAME WHERE CD_ESPECIALIDADE = $var_campo";
 
     }else{
-        $cons_campo = "SELECT DS_CODIGO_CONSELHO AS CAMPO FROM dbamv.PRESTADOR WHERE NM_PRESTADOR = UPPER('$var_campo') AND TP_SITUACAO = 'A' AND cd_tip_presta = 8";
+        $cons_campo = "SELECT CD_ESPECIALIDADE AS CAMPO FROM escala_medica.EXAME WHERE DS_EXAME = '$var_campo'";
     }
 
     $result_campo = oci_parse($conn_ora, $cons_campo);

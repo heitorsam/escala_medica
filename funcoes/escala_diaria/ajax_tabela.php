@@ -60,7 +60,7 @@
                         WHERE esc.periodo = '$mes/$ano'
                         AND esc.CD_SETOR LIKE '%$setor%'
                         AND st.TP_SETOR LIKE '%$tp_setor%'
-                        ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL
+                        ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL, ESC.CD_SETOR
                         ";
                         
     }else if($tp_setor == ''){
@@ -109,7 +109,7 @@
                         WHERE esc.periodo = '$mes/$ano'
                         AND esc.dia LIKE '%$dia%'
                         AND esc.CD_SETOR  LIKE '%$setor%'
-                        ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL";
+                        ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL, esc.CD_SETOR";
                         $_SESSION['tp'] = 1;
     }else if($setor == ''){
         $cons_escala = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
@@ -157,9 +157,9 @@
                         WHERE esc.periodo = '$mes/$ano'
                         AND esc.dia LIKE '%$dia%'
                         AND st.TP_SETOR LIKE '%$tp_setor%'
-                        ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL";
+                        ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL, esc.CD_SETOR";
     }
-
+    //echo $cons_escala;
     $result_escala = oci_parse($conn_ora, $cons_escala);
 
     oci_execute($result_escala);
@@ -198,10 +198,10 @@
             <th class="align-middle" style="text-align: center !important;"><span>Inicio</span></th>
             <th class="align-middle" style="text-align: center !important;"><span>Fim</span></th>
             <th class="align-middle" style="text-align: center !important;"><span>Telefone Comercial 1</span></th>
-            <th class="align-middle" style="text-align: center !important;"><span>Telefone Comercial 2</span></th>
             <th class="align-middle" style="text-align: center !important;"><span>Celular</span></th>
-            <th class="align-middle" style="text-align: center !important;"><span>Celular 2</span></th>
             <th class="align-middle" style="text-align: center !important;"><span>E-mail</span></th>
+            <th class="align-middle" style="text-align: center !important;"><span>Telefone Comercial 2</span></th>
+            <th class="align-middle" style="text-align: center !important;"><span>Celular 2</span></th>
         </tr></thead>            
 
         <tbody> 
@@ -235,10 +235,11 @@
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['INICIAL']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['FINAL']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['TELEFONE_COMERCIAL_1']; ?></td>
-                            <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['TELEFONE_COMERCIAL_2']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['CELULAR']; ?></td>
+                            <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['E_MAIL']; ?></td>
+                            <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['TELEFONE_COMERCIAL_2']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['CELULAR_2']; ?></td>
-                            <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['E_MAIL']; ?></td> 
+                             
                         </tr>
                     
                     <?php 

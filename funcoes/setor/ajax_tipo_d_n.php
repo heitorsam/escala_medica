@@ -1,9 +1,9 @@
 <?php
 include '../../conexao.php';
 ?>
-    <div class="col-md-12">
-        Código:
-        <input type="number" id="cd_especialidade" onkeyup = "campos_especialidade('1')" class="form-control">
+<div class="col-md-12">
+    Código:
+    <input type="number" id="cd_especialidade" onkeyup = "campos_especialidade('1')" class="form-control">
     Especialidade:
     <!--auto complete funcionario responsavel-->
     <?php 
@@ -43,7 +43,7 @@ include '../../conexao.php';
                 
     <!--FIM CAIXA AUTOCOMPLETE--> 
 
-    </div>
+</div>
 <script>
     function campos_especialidade(tipo){
         //tipo 1 : código

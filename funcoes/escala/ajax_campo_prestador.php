@@ -15,8 +15,8 @@
 ?>
 
 
-
-<input type="number" id="cd_responsavel" onkeyup = "campos_responsavel('1', '<?php echo @$cd_especialidade ?>')" class="form-control" hidden>
+CRM:
+<input type="text" id="cd_responsavel" onkeyup = "campos_responsavel('1', '<?php echo @$cd_especialidade ?>')" class="form-control" autocomplete="off">
 
 
 Prestador:     
@@ -26,15 +26,15 @@ Prestador:
     if($cd_especialidade != ''){
 
     //CONSULTA_LISTA
-        $consulta_lista = "SELECT prest.CD_PRESTADOR,  replace(prest.NM_PRESTADOR, CHR(10), '') AS NOME
+        $consulta_lista = "SELECT prest.DS_CODIGO_CONSELHO,  replace(prest.NM_PRESTADOR, CHR(10), '') AS NOME
                             FROM dbamv.PRESTADOR prest
                             INNER JOIN dbamv.ESP_MED em
                             ON em.CD_PRESTADOR = prest.CD_PRESTADOR
-                            WHERE em.SN_ESPECIAL_PRINCIPAL = 'S'
-                            AND prest.tp_situacao = 'A'
+                            WHERE prest.tp_situacao = 'A'
+                            AND prest.cd_tip_presta = 8
                             AND em.CD_ESPECIALID = '$cd_especialidade'";
     }else{
-        $consulta_lista =" SELECT pre.CD_PRESTADOR AS CODIGO,
+        $consulta_lista =" SELECT pre.DS_CODIGO_CONSELHO AS CODIGO,
                                 replace(pre.NM_PRESTADOR, CHR(10), '') AS NOME
                             from dbamv.PRESTADOR pre
                             WHERE pre.TP_SITUACAO = 'A'

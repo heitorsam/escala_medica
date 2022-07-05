@@ -77,6 +77,7 @@ session_start();
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown06">
 
                         <!--MENU-->
+                            <a class="dropdown-item" href="exame.php"><i class="far fa-clipboard"></i> Exame</a>  
                             <a class="dropdown-item" href="setor.php"><i class="fa fa-building"></i> Setor</a>  
                             <a class="dropdown-item" href="escala.php"><i class="far fa-calendar-alt"></i> Escala</a>   
                             <a class="dropdown-item" href="escala_diaria.php"><i class="far fa-calendar-alt"></i> Escala Diaria</a>   

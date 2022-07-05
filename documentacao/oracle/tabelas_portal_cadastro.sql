@@ -4,14 +4,6 @@
 ---------
 --SETOR--
 ---------
-DELETE escala_medica.ESCALA;
-DELETE escala_medica.SETOR;
-DELETE escala_medica.DIVISAO_HORA;
-
-DROP TABLE escala_medica.ESCALA;
-DROP TABLE escala_medica.SETOR;
-DROP TABLE escala_medica.DIVISAO_HORA;
-
 DROP SEQUENCE escala_medica.SEQ_CD_SETOR; 
 CREATE SEQUENCE escala_medica.SEQ_CD_SETOR 
 START WITH 1    
@@ -19,6 +11,14 @@ INCREMENT BY 1
 NOCACHE
 NOCYCLE;
 
+DROP SEQUENCE escala_medica.SEQ_CD_EXAME; 
+CREATE SEQUENCE escala_medica.SEQ_CD_EXAME 
+START WITH 1    
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
+DROP TABLE escala_medica.DIVISAO_HORA;
 create table DIVISAO_HORA
 (
   tp_hora VARCHAR2(1) not null,
@@ -27,14 +27,17 @@ create table DIVISAO_HORA
 --essa tabela sera alimentada assim que abrir a home
 
 
-
+DROP TABLE escala_medica.SETOR;
 CREATE TABLE escala_medica.SETOR(
 
 CD_SETOR            INT NOT NULL,
 CD_ESPECIALID       INTEGER,
 TP_SETOR            VARCHAR(1) NOT NULL,
+SN_EXAME            VARCHAR(1) NOT NULL,
+CD_EXAME            INTEGER,
 DS_SETOR            VARCHAR(50) NOT NULL,
 CD_PRESTADOR_MV     INT NOT NULL,
+CD_CONSELHO         VARCHAR2(30) NOT NULL,
 CD_USUARIO_CADASTRO VARCHAR(20) NOT NULL,
 HR_CADASTRO         TIMESTAMP NOT NULL,
 CD_USUARIO_ULT_ALT  VARCHAR(20),
@@ -44,13 +47,15 @@ HR_ULT_ALT          TIMESTAMP,
 CONSTRAINT pk_cd_setor PRIMARY KEY (CD_SETOR),
 
 --TRAVA DE CARACTER TP SETOR (D OU P)
-CONSTRAINT check_tp_setor CHECK (TP_SETOR IN ('D', 'P'))
+CONSTRAINT check_tp_setor CHECK (TP_SETOR IN ('D', 'P', 'F'))
 
 --KEY (CHAVE ESTRANGEIRA) CONEXAO COM dbamv.PRESTADOR
 --CONSTRAINT fk_cd_prestador_mv FOREIGN KEY (CD_PRESTADOR_MV) REFERENCES dbamv.PRESTADOR(CD_PRESTADOR)
 
 );
 
+
+DROP TABLE escala_medica.ESCALA;
 CREATE TABLE ESCALA
 (
   CD_ESCALA           INTEGER not null,
@@ -72,5 +77,20 @@ CREATE TABLE ESCALA
 );
 
 COMMENT ON COLUMN escala_medica.SETOR.CD_SETOR IS 'SEQ_CD_SETOR';
-COMMENT ON COLUMN escala_medica.SETOR.TP_SETOR IS 'D - Distancia | P - Presencial';
+COMMENT ON COLUMN escala_medica.SETOR.TP_SETOR IS 'D - Distancia | P - Presencial | F - Fixa';
+
+DELETE escala_medica.EXAME;
+DROP TABLE escala_medica.EXAME;
+
+CREATE TABLE escala_medica.EXAME
+(
+  CD_EXAME            INTEGER NOT NULL,
+  DS_EXAME            VARCHAR2(40) NOT NULL,
+  CD_ESPECIALIDADE    INTEGER NOT NULL,
+  CD_USUARIO_CADASTRO VARCHAR2(20) NOT NULL,
+  HR_CADASTRO         TIMESTAMP(6) NOT NULL,
+  CD_USUARIO_ULT_ALT  VARCHAR2(20),
+  HR_ULT_ALT          TIMESTAMP(6)
+
+);
 

@@ -22,15 +22,24 @@
                 <option value="">Selecione</option>
                 <option value="D">Distancia</option>
                 <option value="P">Presencial</option>
+                <option value="F">Fixa</option>
             </select>
+        </div>
+        <div class="col-md-1" id="div_exame">
+            Exame:
+            <input type="checkbox" id="ck_exame" onclick="campo_tipo()" class="form-control" style="zoom:0.8; margin-top: 6px;">
         </div>
         <div id="div_tipo">
             Descrição:
             <input type="text" id="ds_setor" class="form-control">
         </div>
-
-            <input type="number" id="cd_responsavel" class="form-control" hidden> 
-
+    </div>
+    <div class="div_br"></div>
+    <div class="row">
+        <div class="col-md-2">
+            CRM:
+            <input type="text" onkeyup ="campos_responsavel('1')" id="cd_responsavel" class="form-control" autocomplete="off"> 
+        </div>
         <div class="col-md-4">
             Responsável:
             <!--auto complete funcionario responsavel-->
@@ -88,15 +97,29 @@
 
 <script>
 
-    window.onload = function() { criar_tabela_setor() };
+    window.onload = function() { criar_tabela_setor();
+                                    document.getElementById('div_exame').style.display = "none"; };
 
     function cadastrar_setor(){
         var tipo = document.getElementById('tipo').value;
-        if(tipo == 'P'){
+        var sn_exame = document.getElementById('ck_exame').checked;
+        
+        if(sn_exame == true){
+            sn_exame = 'S';
+        }else{
+            sn_exame = 'N';
+        }
+
+        if(tipo == 'P' || tipo == 'F'){
             var cd_especialidade = null;
             var ds_setor = document.getElementById('ds_setor').value;
-        }else{
+            var cd_exame = null;
+        }else if(tipo == 'D' && sn_exame == 'S'){
             
+            var cd_exame = document.getElementById('cd_exame').value;
+            var ds_setor = document.getElementById('input_valor_exame').value;
+        }else{
+            var cd_exame = null;
             var cd_especialidade = document.getElementById('cd_especialidade').value;
             var ds_setor = document.getElementById('input_valor_tipo').value;
         }
@@ -108,7 +131,7 @@
         }else if(cd_especialidade == '' && tipo == 'D'){
             document.getElementById('cd_especialidade').focus();
         }else if(ds_setor == ''){
-            if(tipo == 'P'){
+            if(tipo == 'P' || tipo == 'F'){
                 document.getElementById('ds_setor').focus();
             }else{
                 document.getElementById('input_valor_tipo').focus();
@@ -124,16 +147,21 @@
                 url: "funcoes/setor/ajax_cad_setor.php",
                 type: "POST",
                 data: {
+                    cd_exame: cd_exame,
                     cd_especialidade: cd_especialidade,
                     tipo: tipo,
                     ds_setor: ds_setor,
-                    cd_responsavel: cd_responsavel
+                    cd_responsavel: cd_responsavel,
+                    sn_exame: sn_exame,
                     },
                 cache: false,
                 success: function(dataResult){   
-                             
-                    if(tipo == 'P'){
+                    //alert(dataResult);
+                    if(tipo == 'P' || tipo == 'F'){
                         document.getElementById('ds_setor').value = '';
+                    }else if(tipo == 'D' && sn_exame == 'S'){
+                        document.getElementById('cd_exame').value = '';
+                        document.getElementById('input_valor_exame').value = '';
                     }else{
                         document.getElementById('cd_especialidade').value = '';
                         document.getElementById('input_valor_tipo').value = '';
@@ -169,9 +197,14 @@
             });
     }
 
-    function campos_responsavel(){
-        
-        var campo = document.getElementById('input_valor').value;
+    function campos_responsavel(tipo){
+        if(tipo == 1){
+            var campo = document.getElementById('cd_responsavel').value;
+
+        }else{
+            var campo = document.getElementById('input_valor').value;
+
+        }
         
         if(campo != ''){
             $.ajax({
@@ -179,69 +212,78 @@
                 type: "POST",
                 data: {
                     campo: campo,
+                    tipo: tipo
                     },
                 cache: false,
                 success: function(dataResult){
-                    
-                    document.getElementById('cd_responsavel').value = dataResult;
-                    
-                    
+                    if(tipo == 1){
+                        document.getElementById('input_valor').value = dataResult;
+                    }else{
+                        document.getElementById('cd_responsavel').value = dataResult;
+                    }
                 },
             });
         }else{
-            
-            document.getElementById('cd_responsavel').value = '';
+            if(tipo == 1){
+                document.getElementById('input_valor').value = '';
+
+            }else{
+                document.getElementById('cd_responsavel').value = '';
+
+            }
             
         }
     }
 
-    function campos_responsavel_modal(){
-        
-        var campo = document.getElementById('input_valor_modal').value;
-        
-
+    function campos_responsavel_modal(tipo){
+        if(tipo == 1){
+           var campo = document.getElementById('cd_responsavel_modal').value;
+        }else{
+            var campo = document.getElementById('input_valor_modal').value;
+        }
         if(campo != ''){
             $.ajax({
                 url: "funcoes/setor/ajax_campo_responsavel.php",
                 type: "POST",
                 data: {
                     campo: campo,
+                    tipo: tipo
                     },
                 cache: false,
                 success: function(dataResult){
-                    document.getElementById('cd_responsavel_modal').value = dataResult;
+                    if(tipo == 1){
+                        document.getElementById('input_valor_modal').value = dataResult
+                    }else{
+                        document.getElementById('cd_responsavel_modal').value = dataResult;
+                    }
                 },
             });
         }else{
-            document.getElementById('cd_responsavel_modal').value = '';
+            if(tipo == 1){
+                document.getElementById('input_valor_modal').value = '';
+            }else{
+                document.getElementById('cd_responsavel_modal').value = '';
+            }
         }
     }
 
-    function editar_setor(tp_setor, ds_setor, cd_setor, cd_responsavel, responsavel, cd_especie){
-
+    function editar_setor(tp_setor, ds_setor, cd_setor, cd_responsavel, responsavel, cd_especie, sn_exame){
         
-        document.getElementById('ds_setor_modal').style.display = "none";
-        document.getElementById('div_cd').style.display = "none";
-        document.getElementById('input_valor_especialidade_modal').style.display = "none";
-        
-
-        if(tp_setor == 'P'){
+        if(tp_setor == 'P' ){
             document.getElementById('tp_setor_modal').selectedIndex = "0";
-            document.getElementById('ds_setor_modal').style.display = "block";
             document.getElementById('div_cd').style.display = "none";
-            document.getElementById('input_valor_especialidade_modal').style.display = "none";
+        }else if(tp_setor == 'F'){
+            document.getElementById('tp_setor_modal').selectedIndex = "2";
+            document.getElementById('div_cd').style.display = "none";
         }else{
             document.getElementById('tp_setor_modal').selectedIndex = "1";
-            document.getElementById('ds_setor_modal').style.display = "none";
             document.getElementById('div_cd').style.display = "block";
-            document.getElementById('input_valor_especialidade_modal').style.display = "block";
             
             
         }
 
         document.getElementById('ds_setor_modal').value = ds_setor;
         document.getElementById('cd_especialidade_modal').value = cd_especie;
-        document.getElementById('input_valor_especialidade_modal').value = ds_setor;
         document.getElementById('cd_setor_modal').value = cd_setor;
         document.getElementById('cd_responsavel_modal').value = cd_responsavel;
         document.getElementById('input_valor_modal').value = responsavel;
@@ -252,33 +294,20 @@
     }
 
     function salvar_setor(){
-        var cd_setor = document.getElementById('cd_setor_modal').value;
-        var cd_especie = document.getElementById('cd_especialidade_modal').value
-        var tp_setor = document.getElementById('tp_setor_modal').value;
-        var cd_responsavel = document.getElementById('cd_responsavel_modal').value;
-        
-        if(cd_especie == '' && tp_setor == 'P'){
-            var ds_setor = document.getElementById('ds_setor_modal').value;
-        }else{
-            var ds_setor = document.getElementById('input_valor_especialidade_modal').value;
-        }
 
-        if(tp_setor == 'D' && cd_especie == ''){
-            alert('Especie não pode ser vazia');
-        }else if(cd_responsavel == ''){
+        var cd_setor = document.getElementById('cd_setor_modal').value;
+        var cd_responsavel = document.getElementById('cd_responsavel_modal').value;
+
+
+        if(cd_responsavel == ''){
             alert('Responsavel não pode ser vazio');
-        }else if(ds_setor == ''){
-            alert('A descrição não pode ser vazia');
         }else{
             $.ajax({
                 url: "funcoes/setor/ajax_salvar_setor.php",
                 type: "POST",
                 data: {
                     cd_setor: cd_setor,
-                    ds_setor: ds_setor,
-                    tp_setor: tp_setor,
                     cd_responsavel: cd_responsavel,
-                    cd_especie: cd_especie
                     },
                 cache: false,
                 success: function(dataResult){
@@ -291,16 +320,26 @@
 
     function campo_tipo(){
         var tipo = document.getElementById('tipo').value;
+        var sn_exame = document.getElementById('ck_exame').checked;
         
-
         if(tipo == 'D'){
+            document.getElementById('div_exame').style.display = "block";
+            if(sn_exame == true){
+                $('#div_tipo').load('funcoes/setor/ajax_tipo_d_s.php');
+            }else{
+                $('#div_tipo').load('funcoes/setor/ajax_tipo_d_n.php');
+            }
             document.getElementById('btn_cad').disabled = false;
-            $('#div_tipo').load('funcoes/setor/ajax_tipo_d.php');
-        }else if(tipo == 'P'){
+        }else if(tipo == 'P' || tipo == 'F'){
+            document.getElementById('ck_exame').checked = false;
+            document.getElementById('div_exame').style.display = "none";
             document.getElementById('btn_cad').disabled = false;
             $('#div_tipo').load('funcoes/setor/ajax_tipo_p.php');
 
         }else{
+            $('#div_tipo').load('funcoes/setor/ajax_tipo_p.php');
+            document.getElementById('ck_exame').checked = false;
+            document.getElementById('div_exame').style.display = "none";
             document.getElementById('btn_cad').disabled = true;
         }
     }
@@ -347,7 +386,7 @@
         document.getElementById('input_valor_especialidade_modal').value = "";
         document.getElementById('ds_setor_modal').value = "";
 
-        if(tipo == 'P'){
+        if(tipo == 'P' || tipo == 'F'){
             
             document.getElementById('ds_setor_modal').value = "";
             document.getElementById('ds_setor_modal').style.display = "block";
@@ -367,3 +406,5 @@
 
 
 </script>
+
+

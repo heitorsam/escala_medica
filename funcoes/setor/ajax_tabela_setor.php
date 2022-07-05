@@ -3,14 +3,15 @@
 
     $cons_setor = "SELECT str.CD_SETOR,
                         str.DS_SETOR,
-                        str.CD_PRESTADOR_MV AS CD_PRESTADOR,
+                        str.CD_CONSELHO AS CD_PRESTADOR,
                         prest.nm_prestador AS RESPONSAVEL,
                         prest.tp_sexo AS SEXO,  
                         str.TP_SETOR AS TIPO,
                         str.cd_especialid
                     FROM escala_medica.setor str
                     INNER JOIN dbamv.prestador prest
-                    ON prest.cd_prestador = str.cd_prestador_mv
+                    ON prest.ds_codigo_conselho = TO_CHAR(str.cd_conselho)
+                    WHERE prest.cd_tip_presta = 8
                     ORDER BY 1
                     ";
     $result_setor = oci_parse($conn_ora, $cons_setor);
@@ -25,7 +26,7 @@
                 echo '<th class="align-middle" style="text-align: center !important;"><span>Código Setor</span></th>';
                 echo '<th class="align-middle" style="text-align: center !important;"><span>Descrição</span></th>';
                 echo '<th class="align-middle" style="text-align: center !important;"><span>Tipo</span></th>';
-                echo '<th class="align-middle" style="text-align: center !important;"><span>Código Responsável</span></th>';
+                echo '<th class="align-middle" style="text-align: center !important;"><span>CRM</span></th>';
                 echo '<th class="align-middle" style="text-align: center !important;"><span>Responsável</span></th>';
                 echo '<th class="align-middle" style="text-align: center !important;"><span>Opções</span></th>';
             echo '</tr></thead> ';           
@@ -66,55 +67,32 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-2" id="div_tipo">
+                    <div class="col-md-2">
                         Código do Setor:
                         <input type="text" class="form-control" id="cd_setor_modal" readonly>
                     </div>
                     <div class="col-md-2" id="div_cd">
                         Código:
-                        <input type="number" id="cd_especialidade_modal" onkeyup = "campos_especialidade_modal('1')" class="form-control" >
+                        <input type="number" id="cd_especialidade_modal" class="form-control" disabled>
                     </div>
                     <div class="col-md-4">
                         Descrição:
-                        <input type="text" id="ds_setor_modal" class="form-control" >
-                        <!--auto complete funcionario responsavel-->
-                        <?php 
-                            //CONSULTA_LISTA
-                            $consulta_lista = "SELECT esp.ds_especialid AS Nome FROM dbamv.especialid esp WHERE esp.SN_ATIVO = 'S'";
-                            $result_lista = oci_parse($conn_ora, $consulta_lista);																									
-
-                            //EXECUTANDO A CONSULTA SQL (ORACLE)
-                            oci_execute($result_lista);            
-                        ?>
-
-                        <script>
-                            //LISTA
-                            var countries = [     
-                                <?php
-                                    while($row_lista = oci_fetch_array($result_lista)){	
-                                        echo '"'. str_replace('"' , '', $row_lista['NOME']) .'",';                
-                                    }
-                                ?>
-                            ];
-
-                        </script>
-
-                        <?php
-                            include 'autocomplete_especialidade_modal.php';
-                        ?>
-         
-                        <!--FIM CAIXA AUTOCOMPLETE--> 
+                        <input type="text" id="ds_setor_modal" class="form-control" disabled>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2">
                         Tipo:
-                        <select class="form-control" onchange="campo_tipo_modal()" id="tp_setor_modal">
+                        <select class="form-control" id="tp_setor_modal" disabled>
                             <option value="P">Presencial</option>
                             <option value="D">Distancia</option>
+                            <option value="F">Fixo</option>
                         </select>
                     </div>
-                    <input type="text" class="form-control" id="cd_responsavel_modal" hidden>
+                    <div class="col-md-2">
+                        CRM:
+                        <input type="text" class="form-control" onkeyup = "campos_responsavel_modal('1')" id="cd_responsavel_modal">
+                    </div>
                     <div class="col-md-4">
                         Responsável:
                         <!--auto complete funcionario responsavel-->

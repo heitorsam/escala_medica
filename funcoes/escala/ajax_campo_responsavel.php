@@ -11,25 +11,33 @@
                                 FROM dbamv.PRESTADOR prest
                             INNER JOIN dbamv.ESP_MED em
                                 ON em.CD_PRESTADOR = prest.CD_PRESTADOR
-                            WHERE prest.CD_PRESTADOR = $var_campo
+                            WHERE prest.DS_CODIGO_CONSELHO = '$var_campo'
                                 AND prest.TP_SITUACAO = 'A'
-                                AND em.SN_ESPECIAL_PRINCIPAL = 'S'
-                                AND em.CD_ESPECIALID = $var_especie";
+                                AND em.CD_ESPECIALID = $var_especie
+                                AND prest.cd_tip_presta = 8";
         }else{
-            $cons_campo = "SELECT prest.CD_PRESTADOR AS CAMPO
+            $cons_campo = "SELECT prest.DS_CODIGO_CONSELHO AS CAMPO
                                 FROM dbamv.PRESTADOR prest
                             INNER JOIN dbamv.ESP_MED em
                                 ON em.CD_PRESTADOR = prest.CD_PRESTADOR
                             WHERE prest.NM_PRESTADOR = UPPER('$var_campo')
                                 AND prest.TP_SITUACAO = 'A'
-                                AND em.SN_ESPECIAL_PRINCIPAL = 'S'
-                                AND em.CD_ESPECIALID = $var_especie";
+                                AND em.CD_ESPECIALID = $var_especie
+                                AND prest.cd_tip_presta = 8";
         }
     }else{
         if($var_tipo == '1'){
-            $cons_campo = "SELECT NM_PRESTADOR AS CAMPO FROM dbamv.PRESTADOR WHERE CD_PRESTADOR = '$var_campo' AND TP_SITUACAO = 'A'";
+            $cons_campo = "SELECT NM_PRESTADOR AS CAMPO 
+                            FROM dbamv.PRESTADOR 
+                            WHERE DS_CODIGO_CONSELHO = '$var_campo' 
+                            AND TP_SITUACAO = 'A'
+                            AND cd_tip_presta = 8";
         }else{
-            $cons_campo = "SELECT CD_PRESTADOR AS CAMPO FROM dbamv.PRESTADOR WHERE NM_PRESTADOR = UPPER('$var_campo') AND TP_SITUACAO = 'A'";
+            $cons_campo = "SELECT DS_CODIGO_CONSELHO AS CAMPO 
+                            FROM dbamv.PRESTADOR 
+                            WHERE NM_PRESTADOR = UPPER('$var_campo') 
+                            AND TP_SITUACAO = 'A'
+                            AND cd_tip_presta = 8";
         }
     }
 

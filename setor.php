@@ -200,10 +200,10 @@
     function campos_responsavel(tipo){
         if(tipo == 1){
             var campo = document.getElementById('cd_responsavel').value;
-
+            //alert(campo);
         }else{
             var campo = document.getElementById('input_valor').value;
-
+            //alert(campo);
         }
         
         if(campo != ''){
@@ -272,12 +272,15 @@
         if(tp_setor == 'P' ){
             document.getElementById('tp_setor_modal').selectedIndex = "0";
             document.getElementById('div_cd').style.display = "none";
+            document.getElementById('div_ds').style.display = "none";
         }else if(tp_setor == 'F'){
             document.getElementById('tp_setor_modal').selectedIndex = "2";
             document.getElementById('div_cd').style.display = "none";
+            document.getElementById('div_ds').style.display = "none";
         }else{
             document.getElementById('tp_setor_modal').selectedIndex = "1";
             document.getElementById('div_cd').style.display = "block";
+            document.getElementById('div_ds').style.display = "none";
             
             
         }
@@ -404,7 +407,18 @@
             
         }
     }
+    const myInput = document.querySelector('input'),
+	mySpan = document.querySelector('span');
+    let counter = 0;
 
+    function debounce(func, wait) {
+        let timer = null;
+        return function() {
+            clearTimeout(timer);
+            timer = setTimeout(func, wait);
+	}
+
+}
 
 </script>
 

@@ -51,52 +51,57 @@
 
 
 <div class="row">
-                    <div class="col-md-3">
-                        CRM:
-                        <input type="text" id="crm_prestador" value="<?php echo $row_desc['CD_CONSELHO'] ?>" class="form-control" readonly>
-                    </div>
-                    <div class="col-md-3">
-                        Código Prestador:
-                        <input type="text" id="cd_prestador" value="<?php echo $row_desc['CD_PRESTADOR'] ?>" class="form-control" readonly>
-                    </div>
-                    <div class="col-md-4">
-                        Prestador:
-                        <input type="text" id="nm_prestador" value="<?php echo $row_desc['NM_PRESTADOR'] ?>" class="form-control" readonly>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        Setor:
-                        <input type="text" id="setor" value="<?php echo $row_desc['SETOR'] ?>" class="form-control" readonly>
-                    </div>
-                    <div class="col-md-2">
-                        Hora Inicial:
-                        <input type="text" id="hr_inicial" value="<?php echo $row_desc['INICIAL'] ?>" class="form-control" readonly>
-                    </div>
-                    <div class="col-md-2">
-                        Hora Final:
-                        <input type="text" id="hr_final" value="<?php echo $row_desc['FINAL'] ?>" class="form-control" readonly>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        Telefone Comercial:
-                        <input type="text" id="tlf_comrecial" value="<?php echo @$row_desc['TELEFONE_COMERCIAL_1'] ?>" class="form-control" readonly>
-                    </div>
-                    <div class="col-md-3">
-                        Celular:
-                        <input type="text" id="celular" value="<?php echo @$row_desc['CELULAR'] ?>" class="form-control" readonly>
-                    </div>
-                    <div class="col-md-3">
-                        Telefone Comercial 2:
-                        <input type="text" id="tlf_comrecial_2" value="<?php echo @$row_desc['TELEFONE_COMERCIAL_2'] ?>" class="form-control" readonly>
-                    </div>
-                    <div class="col-md-3">
-                        Celular 2:
-                        <input type="text" id="celular_2" value="<?php echo @$row_desc['CELULAR_2'] ?>" class="form-control" readonly>
-                    </div>
-                    <div class="col-md-5">
-                        Email:
-                        <input type="text" id="email" value="<?php echo @$row_desc['E_MAIL'] ?>" class="form-control" readonly>
-                    </div>
-                </div>
+    <div class="col-md-3">
+        CRM:
+        <input type="text" id="crm_prestador" value="<?php echo $row_desc['CD_CONSELHO'] ?>" class="form-control" readonly>
+    </div>
+    <div class="col-md-3">
+        Código Prestador:
+        <input type="text" id="cd_prestador" value="<?php echo $row_desc['CD_PRESTADOR'] ?>" class="form-control" readonly>
+    </div>
+    <div class="col-md-4">
+        Prestador:
+        <input type="text" id="nm_prestador" value="<?php echo $row_desc['NM_PRESTADOR'] ?>" class="form-control" readonly>
+    </div>
+</div>
+<div class="div_br"></div>
+<div class="row">
+    <div class="col-md-3">
+        Setor:
+        <input type="text" id="setor" value="<?php echo $row_desc['SETOR'] ?>" class="form-control" readonly>
+    </div>
+    <div class="col-md-2">
+        Hora Inicial:
+        <input type="text" id="hr_inicial" value="<?php echo $row_desc['INICIAL'] ?>" class="form-control" readonly>
+    </div>
+    <div class="col-md-2">
+        Hora Final:
+        <input type="text" id="hr_final" value="<?php echo $row_desc['FINAL'] ?>" class="form-control" readonly>
+    </div>
+</div>
+<div class="div_br"></div>
+<div class="row">
+    <div class="col-md-3">
+        Telefone Comercial:
+        <input type="text" id="tlf_comrecial" value="<?php echo @$row_desc['TELEFONE_COMERCIAL_1'] ?>" class="form-control" readonly>
+    </div>
+    <div class="col-md-3">
+        Celular:
+        <input type="text" id="celular" value="<?php echo @$row_desc['CELULAR'] ?>" class="form-control" readonly>
+    </div>
+    <div class="col-md-3">
+        Telefone Comercial 2:
+        <input type="text" id="tlf_comrecial_2" value="<?php echo @$row_desc['TELEFONE_COMERCIAL_2'] ?>" class="form-control" readonly>
+    </div>
+    <div class="col-md-3">
+        Celular 2:
+        <input type="text" id="celular_2" value="<?php echo @$row_desc['CELULAR_2'] ?>" class="form-control" readonly>
+    </div>
+</div>
+<div class="div_br"></div>
+<div class="row">
+    <div class="col-md-5">
+        Email:
+        <input type="text" id="email" value="<?php echo @$row_desc['E_MAIL'] ?>" class="form-control" readonly>
+    </div>
+</div>

@@ -37,7 +37,7 @@
 
 <!--Make sure the form has the autocomplete function switched off:-->
 <div class="input-group">
-    <input id="input_valor" onkeyup = "campos_responsavel('2')" name="input_valor" type="text" class="form-control" autocomplete="off">
+    <input id="input_valor" name="input_valor" type="text" class="form-control" autocomplete="off">
 </div>
 <script>
 function autocomplete(inp, arr) {

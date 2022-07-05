@@ -11,12 +11,11 @@
                         esp.ds_especialid
                     FROM escala_medica.setor str
                     INNER JOIN dbamv.prestador prest
-                    ON prest.ds_codigo_conselho = TO_CHAR(str.cd_conselho)
-                    INNER JOIN dbamv.especialid esp
+                    ON prest.Cd_Prestador = str.cd_prestador_mv
+                    LEFT JOIN dbamv.especialid esp
                     ON esp.cd_especialid = str.cd_especialid
                     WHERE prest.cd_tip_presta = 8
-                    ORDER BY 1
-                    ";
+                    ORDER BY 1";
     $result_setor = oci_parse($conn_ora, $cons_setor);
     oci_execute($result_setor);
 
@@ -48,7 +47,7 @@
                         }else{
                             echo "<td class='align-middle' style='text-align: center;'> Dr(a). ". $row_setor['RESPONSAVEL'] ." </td>"; 
                         }?>
-                        <td class='aling-middle' style='text-align: center;'><button class='btn btn-primary' onclick="editar_setor('<?php echo $row_setor['TIPO'] ?>','<?php echo $row_setor['DS_SETOR'] ?>','<?php echo $row_setor['CD_SETOR'] ?>', '<?php echo $row_setor['CD_PRESTADOR'] ?>', '<?php echo $row_setor['RESPONSAVEL'] ?>', <?php echo $row_setor['CD_ESPECIALID'] ?>,'<?php echo $row_setor['DS_ESPECIALID'] ?>')"><i class='fas fa-edit'></i>
+                        <td class='aling-middle' style='text-align: center;'><button class='btn btn-primary' onclick="editar_setor('<?php echo $row_setor['TIPO'] ?>','<?php echo $row_setor['DS_SETOR'] ?>','<?php echo $row_setor['CD_SETOR'] ?>', '<?php echo $row_setor['CD_PRESTADOR'] ?>', '<?php echo $row_setor['RESPONSAVEL'] ?>', '<?php echo $row_setor['CD_ESPECIALID'] ?>','<?php echo $row_setor['DS_ESPECIALID'] ?>')"><i class='fas fa-edit'></i>
                         <?php echo  "</button> <button class='btn btn-adm' onclick='excluir_setor(". $row_setor['CD_SETOR'] .")'><i class='fas fa-trash'></i></button></td>";
                     echo '</tr>';
                 } 
@@ -78,7 +77,7 @@
                         Código Especi.:
                         <input type="number" id="cd_especialidade_modal" class="form-control" disabled>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" id="div_ds">
                         Descrição Especi.:
                         <input type="text" id="ds_especie_modal" class="form-control" disabled>
                     </div>

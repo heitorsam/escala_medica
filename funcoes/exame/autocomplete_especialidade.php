@@ -37,7 +37,7 @@
 
 <!--Make sure the form has the autocomplete function switched off:-->
 <div class="input-group">
-    <input id="input_valor_tipo" name="input_valor_tipo" onkeyup ="campos_especialidade('2')" type="text" class="form-control" autocomplete="off">
+    <input id="input_valor_tipo" name="input_valor_tipo" type="text" class="form-control" autocomplete="off">
 </div>
 <script>
 function autocomplete(inp, arr) {

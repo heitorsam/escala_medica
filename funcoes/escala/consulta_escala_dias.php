@@ -32,7 +32,7 @@
 
 
     while ($row_escala = oci_fetch_array($rescult_escala)){             
-
+        $tipo = $row_escala['TP_SETOR'];
         if($tipo <> 'P'){
             //IF VAGO PRIMEIRO HORARIO
             if($row_escala['HR_INICIAL'] <> '00:00' && $contador_vago == 0){

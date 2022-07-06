@@ -107,7 +107,7 @@
                         INNER JOIN escala_medica.setor st
                             ON st.Cd_Setor = esc.cd_setor
                         WHERE esc.periodo = '$mes/$ano'
-                        AND esc.dia LIKE '%$dia%'
+                        AND esc.dia = '$dia'
                         AND esc.CD_SETOR  LIKE '%$setor%'
                         ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL, esc.CD_SETOR";
                         $_SESSION['tp'] = 1;
@@ -155,8 +155,56 @@
                         INNER JOIN escala_medica.setor st
                             ON st.Cd_Setor = esc.cd_setor
                         WHERE esc.periodo = '$mes/$ano'
-                        AND esc.dia LIKE '%$dia%'
+                        AND esc.dia = '$dia'
                         AND st.TP_SETOR LIKE '%$tp_setor%'
+                        ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL, esc.CD_SETOR";
+    }else{
+        $cons_escala = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
+                            pr.TP_SEXO AS SEXO,
+                            esc.DIA,
+                            esc.PERIODO,
+                            pr.nm_prestador AS NM_PRESTADOR,
+                            st.DS_SETOR AS SETOR,
+                            esc.hr_inicial AS INICIAL,
+                            esc.hr_final AS FINAL,
+                            esc.DIARISTA,
+                            (SELECT tip.ds_tip_comun_prest
+                            from dbamv.prestador_tip_comun tip
+                            where tip.cd_prestador = pr.cd_prestador
+                                and tip.cd_tip_comun = 1) TELEFONE_COMERCIAL_1,
+                            (SELECT tip.ds_tip_comun_prest
+                            from dbamv.prestador_tip_comun tip
+                            where tip.cd_prestador = pr.cd_prestador
+                                and tip.cd_tip_comun = 3) CELULAR,
+                            (SELECT tip.ds_tip_comun_prest
+                            from dbamv.prestador_tip_comun tip
+                            where tip.cd_prestador = pr.cd_prestador
+                                and tip.cd_tip_comun = 7) E_MAIL,
+                            (SELECT tip.ds_tip_comun_prest
+                            from dbamv.prestador_tip_comun tip
+                            where tip.cd_prestador = pr.cd_prestador
+                                and tip.cd_tip_comun = 10) TELEFONE_COMERCIAL_2,
+                            (SELECT tip.ds_tip_comun_prest
+                            from dbamv.prestador_tip_comun tip
+                            where tip.cd_prestador = pr.cd_prestador
+                                and tip.cd_tip_comun = 11) CELULAR_2,
+                            (SELECT tip.nr_ddd_celular
+                            from dbamv.prestador_tip_comun tip
+                            where tip.cd_prestador = pr.cd_prestador
+                                and tip.cd_tip_comun = 1) DDD,
+                            (SELECT tip.nr_ddi_celular
+                            from dbamv.prestador_tip_comun tip
+                            where tip.cd_prestador = pr.cd_prestador
+                                and tip.cd_tip_comun = 1) DDI
+                        FROM escala_medica.ESCALA esc
+                        INNER JOIN dbamv.Prestador pr
+                            ON esc.cd_prestador_mv = pr.cd_prestador
+                        INNER JOIN escala_medica.setor st
+                            ON st.Cd_Setor = esc.cd_setor
+                        WHERE esc.periodo = '$mes/$ano'
+                        AND esc.dia = '$dia'
+                        AND st.TP_SETOR LIKE '%$tp_setor%'
+                        AND esc.CD_SETOR  LIKE '%$setor%'
                         ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL, esc.CD_SETOR";
     }
     //echo $cons_escala;

@@ -164,7 +164,7 @@
                     },
                 cache: false,
                 success: function(dataResult){   
-                    alert(dataResult);
+                    //alert(dataResult);
                     if(tipo == 'P' || tipo == 'F'){
                         document.getElementById('ds_setor').value = '';
                     }else if(tipo == 'D' && sn_exame == 'S'){

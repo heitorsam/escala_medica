@@ -3,7 +3,7 @@ include '../../conexao.php';
 
 session_start();
 
-$hora = date('H:i');
+$data = date('m/d/Y H:i', time());
 //declaramos uma variavel para monstarmos a tabela 
 
 $date = date('m/d/Y', time());
@@ -61,7 +61,7 @@ while($row_escala = oci_fetch_array($result_escala)){
         $setor = $row_escala['SETOR'];
     }
 } 
-$dadosXls .= "<tr>Gerado as ". $hora ." do dia ". $date ."</tr>";
+$dadosXls .= "<tr>Gerado no dia ". $data ."</tr>";
 $dadosXls .= " </table>";
 
 

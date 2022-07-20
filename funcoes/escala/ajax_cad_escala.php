@@ -46,13 +46,21 @@
                       WHEN calc.HR_FINAL_PHP BETWEEN calc.HR_INICIAL AND calc.HR_FINAL THEN 1
                       ELSE 0
                     END AS QTD_OCORRENCIAS
-                    FROM (SELECT esc.CD_ESCALA, esc.HR_INICIAL, esc.HR_FINAL,
-                          '$var_hr_in' AS HR_INICIAL_PHP,
-                          '$var_hr_fn' AS HR_FINAL_PHP 
+                    FROM (SELECT esc.CD_ESCALA, 
+                          TO_DATE(LPAD(esc.DIA,2) || '/' || '$var_periodo' || ' ' || esc.HR_INICIAL || ':00', 'DD/MM/YYYY HH24:MI:SS') AS HR_INICIAL,
+                          CASE 
+                          WHEN esc.HR_FINAL < esc.HR_INICIAL THEN TO_DATE(LPAD(esc.DIA,2) || '/' || '$var_periodo' || ' ' || esc.HR_FINAL || ':00', 'DD/MM/YYYY HH24:MI:SS') + 1
+                          ELSE TO_DATE(LPAD(esc.DIA,2) || '/' || '$var_periodo' || ' ' || esc.HR_FINAL || ':00', 'DD/MM/YYYY HH24:MI:SS')
+                          END AS HR_FINAL,
+                          TO_DATE(LPAD($var_dia,2) || '/' || '$var_periodo' || ' ' || '$var_hr_in' || ':00', 'DD/MM/YYYY HH24:MI:SS') AS HR_INICIAL_PHP,
+                          CASE 
+                          WHEN '$var_hr_fn' < '$var_hr_in' THEN TO_DATE(LPAD($var_dia,2) || '/' || '$var_periodo' || ' ' || '$var_hr_fn' || ':00', 'DD/MM/YYYY HH24:MI:SS') + 1
+                          ELSE TO_DATE(LPAD($var_dia,2) || '/' || '$var_periodo' || ' ' || '$var_hr_fn' || ':00', 'DD/MM/YYYY HH24:MI:SS')
+                          END AS HR_FINAL_PHP
                           FROM escala_medica.ESCALA esc
                           WHERE esc.CD_SETOR = $var_setor 
-                          AND esc.PERIODO = '$var_periodo' 
-                          AND esc.DIA = $var_dia) calc ) res";
+                          AND esc.PERIODO = '$var_periodo'                    
+                          ) calc ) res";
 
     $result_qtd = oci_parse($conn_ora, $cons_qtd);
 

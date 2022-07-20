@@ -14,15 +14,17 @@
 
     $tp_setor = $_GET['tp_setor'];
 
-    if($dia == ''){
-        $cons_escala = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
+    $cons_escala = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
                             pr.TP_SEXO AS SEXO,
                             esc.DIA,
                             esc.PERIODO,
                             pr.nm_prestador AS NM_PRESTADOR,
                             st.DS_SETOR AS SETOR,
-                            esc.hr_inicial AS INICIAL,
-                            esc.hr_final AS FINAL,
+                            TO_CHAR(TO_DATE(LPAD(esc.DIA,2) || '/' || '01/2022' || ' ' || esc.HR_INICIAL || ':00', 'DD/MM/YYYY HH24:MI:SS'),'DD/MM/YYYY HH24:MI') AS INICIAL,
+                            CASE 
+                            WHEN esc.HR_FINAL < esc.HR_INICIAL THEN TO_CHAR(TO_DATE(LPAD(esc.DIA,2) || '/' || '01/2022' || ' ' || esc.HR_FINAL || ':00', 'DD/MM/YYYY HH24:MI:SS') + 1,'DD/MM/YYYY HH24:MI')
+                                ELSE TO_CHAR(TO_DATE(LPAD(esc.DIA,2) || '/' || '01/2022' || ' ' || esc.HR_FINAL || ':00', 'DD/MM/YYYY HH24:MI:SS'),'DD/MM/YYYY HH24:MI')
+                            END AS FINAL,
                             esc.DIARISTA,
                             (SELECT tip.ds_tip_comun_prest
                             from dbamv.prestador_tip_comun tip
@@ -57,156 +59,21 @@
                             ON esc.cd_prestador_mv = pr.cd_prestador
                         INNER JOIN escala_medica.setor st
                             ON st.Cd_Setor = esc.cd_setor
-                        WHERE esc.periodo = '$mes/$ano'
-                        AND esc.CD_SETOR LIKE '%$setor%'
-                        AND st.TP_SETOR LIKE '%$tp_setor%'
-                        ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL, ESC.CD_SETOR
-                        ";
+                        WHERE esc.periodo = '$mes/$ano'";                     
+
+                        //REGRA DIA 
+                        if($dia <> ''){
+
+                            $cons_escala .=  "AND esc.dia = '$dia'";
+                        }
+
+                        if($tp_setor <> ''){
+
+                            $cons_escala .= "AND esc.CD_SETOR = '$setor' AND st.TP_SETOR = '$tp_setor'";
+                        } 
                         
-    }else if($tp_setor == ''){
-        $cons_escala = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
-                            pr.TP_SEXO AS SEXO,
-                            esc.DIA,
-                            esc.PERIODO,
-                            pr.nm_prestador AS NM_PRESTADOR,
-                            st.DS_SETOR AS SETOR,
-                            esc.hr_inicial AS INICIAL,
-                            esc.hr_final AS FINAL,
-                            esc.DIARISTA,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 1) TELEFONE_COMERCIAL_1,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 3) CELULAR,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 7) E_MAIL,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 10) TELEFONE_COMERCIAL_2,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 11) CELULAR_2,
-                            (SELECT tip.nr_ddd_celular
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 1) DDD,
-                            (SELECT tip.nr_ddi_celular
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 1) DDI
-                        FROM escala_medica.ESCALA esc
-                        INNER JOIN dbamv.Prestador pr
-                            ON esc.cd_prestador_mv = pr.cd_prestador
-                        INNER JOIN escala_medica.setor st
-                            ON st.Cd_Setor = esc.cd_setor
-                        WHERE esc.periodo = '$mes/$ano'
-                        AND esc.dia = '$dia'
-                        AND esc.CD_SETOR  LIKE '%$setor%'
-                        ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL, esc.CD_SETOR";
-                        $_SESSION['tp'] = 1;
-    }else if($setor == ''){
-        $cons_escala = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
-                            pr.TP_SEXO AS SEXO,
-                            esc.DIA,
-                            esc.PERIODO,
-                            pr.nm_prestador AS NM_PRESTADOR,
-                            st.DS_SETOR AS SETOR,
-                            esc.hr_inicial AS INICIAL,
-                            esc.hr_final AS FINAL,
-                            esc.DIARISTA,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 1) TELEFONE_COMERCIAL_1,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 3) CELULAR,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 7) E_MAIL,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 10) TELEFONE_COMERCIAL_2,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 11) CELULAR_2,
-                            (SELECT tip.nr_ddd_celular
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 1) DDD,
-                            (SELECT tip.nr_ddi_celular
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 1) DDI
-                        FROM escala_medica.ESCALA esc
-                        INNER JOIN dbamv.Prestador pr
-                            ON esc.cd_prestador_mv = pr.cd_prestador
-                        INNER JOIN escala_medica.setor st
-                            ON st.Cd_Setor = esc.cd_setor
-                        WHERE esc.periodo = '$mes/$ano'
-                        AND esc.dia = '$dia'
-                        AND st.TP_SETOR LIKE '%$tp_setor%'
-                        ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL, esc.CD_SETOR";
-    }else{
-        $cons_escala = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
-                            pr.TP_SEXO AS SEXO,
-                            esc.DIA,
-                            esc.PERIODO,
-                            pr.nm_prestador AS NM_PRESTADOR,
-                            st.DS_SETOR AS SETOR,
-                            esc.hr_inicial AS INICIAL,
-                            esc.hr_final AS FINAL,
-                            esc.DIARISTA,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 1) TELEFONE_COMERCIAL_1,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 3) CELULAR,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 7) E_MAIL,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 10) TELEFONE_COMERCIAL_2,
-                            (SELECT tip.ds_tip_comun_prest
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 11) CELULAR_2,
-                            (SELECT tip.nr_ddd_celular
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 1) DDD,
-                            (SELECT tip.nr_ddi_celular
-                            from dbamv.prestador_tip_comun tip
-                            where tip.cd_prestador = pr.cd_prestador
-                                and tip.cd_tip_comun = 1) DDI
-                        FROM escala_medica.ESCALA esc
-                        INNER JOIN dbamv.Prestador pr
-                            ON esc.cd_prestador_mv = pr.cd_prestador
-                        INNER JOIN escala_medica.setor st
-                            ON st.Cd_Setor = esc.cd_setor
-                        WHERE esc.periodo = '$mes/$ano'
-                        AND esc.dia = '$dia'
-                        AND st.TP_SETOR LIKE '%$tp_setor%'
-                        AND esc.CD_SETOR  LIKE '%$setor%'
-                        ORDER BY esc.PERIODO DESC, esc.DIA, esc.HR_INICIAL, esc.HR_FINAL, esc.CD_SETOR";
-    }
+                        $cons_escala .= "ORDER BY ESC.CD_SETOR, TO_CHAR(TO_DATE(LPAD(esc.DIA,2) || '/' || '01/2022' || ' ' || esc.HR_INICIAL || ':00', 'DD/MM/YYYY HH24:MI:SS'),'YYYY_MM_DD')";
+
     //echo $cons_escala;
     $result_escala = oci_parse($conn_ora, $cons_escala);
 
@@ -221,16 +88,6 @@
         $_SESSION['setor'] = $setor;
     }
 
-    if($dia == ''){
-        $_SESSION['dt'] = $mes.'/'.$ano;
-    }else{
-        if($dia > 9){
-            $_SESSION['dt'] = $dia.'/'.$mes.'/'.$ano;
-        }else{
-            $_SESSION['dt'] = '0'.$dia.'/'.$mes.'/'.$ano;
-        }
-    }
-
 ?>
 
 <div class="div_br"></div>
@@ -240,16 +97,15 @@
 
         <thead><tr>
             <!--COLUNAS-->
-            <th class="align-middle" style="text-align: center !important;"><span>Dia</span></th>
-            <th class="align-middle" style="text-align: center !important;"><span>Prestador</span></th>
-            <th class="align-middle" style="text-align: center !important;"><span>Setor</span></th>
+            <th class="align-middle" style="text-align: center !important;"><span>Setor</span></th> 
             <th class="align-middle" style="text-align: center !important;"><span>Inicio</span></th>
             <th class="align-middle" style="text-align: center !important;"><span>Fim</span></th>
-            <th class="align-middle" style="text-align: center !important;"><span>Telefone Comercial 1</span></th>
+            <th class="align-middle" style="text-align: center !important;"><span>Prestador</span></th>                       
+            <th class="align-middle" style="text-align: center !important;"><span>Comercial 1</span></th>
             <th class="align-middle" style="text-align: center !important;"><span>Celular</span></th>
             <th class="align-middle" style="text-align: center !important;"><span>E-mail</span></th>
-            <th class="align-middle" style="text-align: center !important;"><span>Telefone Comercial 2</span></th>
-            <th class="align-middle" style="text-align: center !important;"><span>Celular 2</span></th>
+            <th class="align-middle" style="text-align: center !important;"><span>Comercial 2</span></th>
+            <th class="align-middle" style="text-align: center !important;"><span>Celular 2</span></th>
         </tr></thead>            
 
         <tbody> 
@@ -273,15 +129,10 @@
                         
                         ?>
                         <tr>
-                            <td class='align-middle' style='text-align: center;'><?php if($row_escala['DIA'] >= 10){
-                                                                                            echo @$row_escala['DIA'].'/'. $row_escala['PERIODO']; 
-                                                                                        }else{
-                                                                                            echo '0'. @$row_escala['DIA'].'/'. $row_escala['PERIODO']; 
-                                                                                            }?></td>
-                            <td class='align-middle' style='text-align: center;'><?php echo $var_sn_diarista.''. $var_dr_nm .''. @$row_escala['NM_PRESTADOR']; ?></td>
-                            <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['SETOR']; ?></td>
+                            <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['SETOR']; ?></td> 
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['INICIAL']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['FINAL']; ?></td>
+                            <td class='align-middle' style='text-align: center;'><?php echo $var_sn_diarista.''. $var_dr_nm .''. @$row_escala['NM_PRESTADOR']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['TELEFONE_COMERCIAL_1']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['CELULAR']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['E_MAIL']; ?></td>

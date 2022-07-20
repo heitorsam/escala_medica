@@ -1,7 +1,6 @@
 <?php 
     //CABECALHO
     include 'cabecalho.php';
-
     include 'conexao.php';
 ?>
 
@@ -91,6 +90,7 @@
 ?>
 
 <script>
+    
     now = new Date
 
     window.onload = function() { document.getElementById('mes').selectedIndex = now.getMonth(); campo_dia();};
@@ -116,7 +116,6 @@
         $('#div_dia').load('funcoes/escala_diaria/ajax_campo_dia.php?mes='+ mes +'&&ano=' + ano);
 
     }
-
 
 </script>
 

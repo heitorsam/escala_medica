@@ -38,43 +38,6 @@
 
         $var_cd_escala = $row_seq_nextval['CD_ESCALA'];
 
-<<<<<<< HEAD
-    
-=======
-    $cons_qtd = "SELECT SUM(res.QTD_OCORRENCIAS) AS QTD 
-                    FROM(
-                    SELECT calc.*,
-                    CASE 
-                      WHEN calc.HR_INICIAL_PHP BETWEEN calc.HR_INICIAL AND calc.HR_FINAL THEN 1
-                      WHEN calc.HR_FINAL_PHP BETWEEN calc.HR_INICIAL AND calc.HR_FINAL THEN 1
-                      ELSE 0
-                    END AS QTD_OCORRENCIAS
-                    FROM (SELECT esc.CD_ESCALA, 
-                          TO_DATE(LPAD(esc.DIA,2) || '/' || '$var_periodo' || ' ' || esc.HR_INICIAL || ':00', 'DD/MM/YYYY HH24:MI:SS') AS HR_INICIAL,
-                          CASE 
-                          WHEN esc.HR_FINAL < esc.HR_INICIAL THEN TO_DATE(LPAD(esc.DIA,2) || '/' || '$var_periodo' || ' ' || esc.HR_FINAL || ':00', 'DD/MM/YYYY HH24:MI:SS') + 1
-                          ELSE TO_DATE(LPAD(esc.DIA,2) || '/' || '$var_periodo' || ' ' || esc.HR_FINAL || ':00', 'DD/MM/YYYY HH24:MI:SS')
-                          END AS HR_FINAL,
-                          TO_DATE(LPAD($var_dia,2) || '/' || '$var_periodo' || ' ' || '$var_hr_in' || ':00', 'DD/MM/YYYY HH24:MI:SS') AS HR_INICIAL_PHP,
-                          CASE 
-                          WHEN '$var_hr_fn' < '$var_hr_in' THEN TO_DATE(LPAD($var_dia,2) || '/' || '$var_periodo' || ' ' || '$var_hr_fn' || ':00', 'DD/MM/YYYY HH24:MI:SS') + 1
-                          ELSE TO_DATE(LPAD($var_dia,2) || '/' || '$var_periodo' || ' ' || '$var_hr_fn' || ':00', 'DD/MM/YYYY HH24:MI:SS')
-                          END AS HR_FINAL_PHP
-                          FROM escala_medica.ESCALA esc
-                          WHERE esc.CD_SETOR = $var_setor 
-                          AND esc.PERIODO = '$var_periodo'                    
-                          ) calc ) res";
-
-    $result_qtd = oci_parse($conn_ora, $cons_qtd);
-
-    oci_execute($result_qtd);
-
-    $row_qtd = oci_fetch_array($result_qtd);
-
-
-    if($row_qtd['QTD'] == 0 || $var_tipo == 'P'){
->>>>>>> a6ccce0c4dbe5401278df9e7796ac3d89c36c47f
-
         $cons_setor = "INSERT INTO escala_medica.ESCALA
                             (CD_ESCALA,
                             PERIODO,

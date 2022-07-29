@@ -1,11 +1,16 @@
 <?php
     include '../../conexao.php';
 
-    $cons_escala = "SELECT st.ds_setor,
+    $cons_escala = "SELECT 
+                    esc.CD_ESCALA,
+                    st.ds_setor,
                     st.tp_setor,
                     prest.nm_mnemonico AS NOME,
                     esc.hr_inicial,
-                    esc.hr_final,
+                    CASE
+                    WHEN esc.hr_final < esc.HR_INICIAL THEN '23:59'
+                    ELSE esc.HR_FINAL
+                    END HR_FINAL,
                     esc.periodo,
                     esc.dia,
                     esc.CD_ESCALA,
@@ -20,7 +25,34 @@
                     WHERE TO_CHAR(TO_DATE(esc.periodo, 'MM/YY'), 'MM/YYYY') = '$mes/$ano'
                     AND esc.DIA = $dia
                     AND esc.CD_SETOR = $setor
-                    ORDER BY esc.hr_inicial ASC, esc.hr_final ASC";
+                    UNION ALL 
+                    
+                    SELECT 
+                    esc.CD_ESCALA,
+                    st.ds_setor,
+                    st.tp_setor,
+                    prest.nm_mnemonico AS NOME,
+                    CASE
+                    WHEN esc.HR_FINAL < esc.hr_inicial THEN '00:00'
+                    ELSE esc.hr_inicial
+                    END hr_inicial,
+                    esc.HR_FINAL,
+                    esc.periodo,
+                    esc.dia + 1 AS DIA,
+                    esc.CD_ESCALA,
+                    esc.CD_PRESTADOR_MV,
+                    esc.DIARISTA,
+                    prest.TP_SEXO AS SEXO
+                    FROM escala_medica.ESCALA esc
+                    INNER JOIN escala_medica.SETOR st
+                    ON st.cd_setor = esc.cd_setor
+                    INNER JOIN dbamv.prestador prest
+                    ON prest.cd_prestador = esc.cd_prestador_mv
+                    WHERE TO_CHAR(TO_DATE(esc.periodo, 'MM/YY'), 'MM/YYYY') = '$mes/$ano'
+                    AND esc.DIA = $dia - 1
+                    AND esc.CD_SETOR = $setor
+                    AND esc.hr_final < esc.HR_INICIAL
+                    ORDER BY 5 ASC, 6 ASC ";
 
     $rescult_escala = oci_parse($conn_ora, $cons_escala);
 

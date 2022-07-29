@@ -243,7 +243,7 @@
         }else if(hr_in == ''){
             document.getElementById('hora_inicial').focus();
 
-        }else if(hr_fn == '' || hr_fn < hr_in){
+        }else if(hr_fn == ''){
             document.getElementById('hora_final').focus();
 
         }else{
@@ -298,14 +298,14 @@
     }
 
     function campo_horario(){
-        var hr_inicial = document.getElementById('hora_inicial').value;
-        var hr_final = document.getElementById('hora_final').value;
-        if(hr_inicial != '' && hr_final != ''){
+        //var hr_inicial = document.getElementById('hora_inicial').value;
+        //var hr_final = document.getElementById('hora_final').value;
+        //if(hr_inicial != '' && hr_final != ''){
 
-            if(hr_inicial > hr_final){
-                document.getElementById('hora_final').focus();
-            }
-        }
+            //if(hr_inicial > hr_final){
+                //document.getElementById('hora_final').focus();
+            //}
+        //}
 
     }
 

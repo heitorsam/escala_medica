@@ -27,39 +27,10 @@
     oci_execute($rescult_escala);
 
     $contador_dias = 0;
-    $contador_vago = 0;
-    $vago_ultimo_valor = '00:00';
 
 
     while ($row_escala = oci_fetch_array($rescult_escala)){             
         $tipo = $row_escala['TP_SETOR'];
-        if($tipo <> 'P'){
-            //IF VAGO PRIMEIRO HORARIO
-            if($row_escala['HR_INICIAL'] <> '00:00' && $contador_vago == 0){
-                echo '</br>';
-                echo '<div style="font-size: 12px; color: red;" > <i class="far fa-clock"></i> ' . '00:00' . ' - ' . 
-                str_pad(substr($row_escala['HR_INICIAL'],0,2) -1, 2, "0", STR_PAD_LEFT). ':59'; 
-                echo '</br>';  
-                echo ' Vago </div>';        
-                $contador_dias++;
-            }
-            
-            //IF VAGO INTERMEDIARIO
-            if($row_escala['HR_INICIAL'] <> $vago_ultimo_valor && $contador_vago <> 0 ){
-                
-                echo '<div style="border-top: solid 1px #838383; width: 10%; margin: 0 auto; margin-top:8px; margin-bottom:8px;"></div>';
-
-                echo '<div style="font-size: 12px; color: red;" > <i class="far fa-clock"></i> ' . $vago_ultimo_valor
-                . ' - ' . 
-                str_pad(substr($row_escala['HR_INICIAL'],0,2) -1, 2, "0", STR_PAD_LEFT). ':59';
-                echo '</br>';
-                echo 'Vago</div>';
-
-            } 
-
-            //VALOR VAGO NECESSARIO PARA CALCULAR DADOS
-            $vago_ultimo_valor = str_pad(substr($row_escala['HR_FINAL'],0,2) + 1, 2, "0", STR_PAD_LEFT). ':00';
-        }
         if($contador_dias == 0){
 
             echo '</br>';
@@ -87,18 +58,10 @@
         echo '<i class="fas fa-user-md"></i> ' . $sn_diaria .''. $dr_nm .''.  $row_escala['NOME'].'  <i class="fas fa-info-circle" style="color: #3185c1" onclick="abrir_modal_visu('. $row_escala['CD_ESCALA'] .')"></i></div>';
           
         $contador_dias++;
-        $contador_vago++;
+
     }
 
-    if($tipo <> 'P'){
-        //IF VAGO FINAL
-        if($vago_ultimo_valor <> '24:00'){
 
-            echo '<div style="font-size: 12px; color: red;" > <i class="far fa-clock"></i> ' . $vago_ultimo_valor . ' - ' . '23:59' . '';
-            echo '</br>';
-            echo 'Vago </div>';
-        } 
-    }
     echo '</br>';
 
 

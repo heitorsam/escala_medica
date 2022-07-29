@@ -38,30 +38,7 @@
 
         $var_cd_escala = $row_seq_nextval['CD_ESCALA'];
 
-    $cons_qtd = "SELECT SUM(res.QTD_OCORRENCIAS) AS QTD 
-                    FROM(
-                    SELECT calc.*,
-                    CASE 
-                      WHEN calc.HR_INICIAL_PHP BETWEEN calc.HR_INICIAL AND calc.HR_FINAL THEN 1
-                      WHEN calc.HR_FINAL_PHP BETWEEN calc.HR_INICIAL AND calc.HR_FINAL THEN 1
-                      ELSE 0
-                    END AS QTD_OCORRENCIAS
-                    FROM (SELECT esc.CD_ESCALA, esc.HR_INICIAL, esc.HR_FINAL,
-                          '$var_hr_in' AS HR_INICIAL_PHP,
-                          '$var_hr_fn' AS HR_FINAL_PHP 
-                          FROM escala_medica.ESCALA esc
-                          WHERE esc.CD_SETOR = $var_setor 
-                          AND esc.PERIODO = '$var_periodo' 
-                          AND esc.DIA = $var_dia) calc ) res";
-
-    $result_qtd = oci_parse($conn_ora, $cons_qtd);
-
-    oci_execute($result_qtd);
-
-    $row_qtd = oci_fetch_array($result_qtd);
-
-
-    if($row_qtd['QTD'] == 0 || $var_tipo == 'P'){
+    
 
         $cons_setor = "INSERT INTO escala_medica.ESCALA
                             (CD_ESCALA,
@@ -87,15 +64,6 @@
                             SYSDATE)";
         $result_setor = oci_parse($conn_ora, $cons_setor);
         oci_execute($result_setor);
-
-        echo '1';
-
-    }else{
-
-        
-        echo 'Já existe um cadastro com esse horario!';
-
-    }
 
 ?>
 

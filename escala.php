@@ -264,11 +264,6 @@
                         },
                     cache: false,
                     success: function(dataResult){
-                        
-                        if(dataResult != 1){
-                            alert(dataResult);
-                        } 
-      
                         $('#calendario').load('funcoes/escala/ajax_calendario.php?mes='+ mes +'&&ano='+ano+'&&setor='+setor);
                     },
                 });

@@ -16,7 +16,7 @@
     if($var_qtd == 0){
         $cons_exame = "DELETE escala_medica.EXAME str WHERE str.CD_EXAME = $var_cd_exame";
         $result_exame = oci_parse($conn_ora, $cons_exame);
-        //oci_execute($result_exame);
+        oci_execute($result_exame);
         echo 'Exame apagado com sucesso!';
     }else{
         echo 'Já existe um setor vinculado a esse exame';

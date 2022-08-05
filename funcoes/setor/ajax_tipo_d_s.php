@@ -8,7 +8,9 @@ include '../../conexao.php';
         <?php 
 
             //CONSULTA_LISTA
-            $consulta_lista = "SELECT ex.DS_EXAME AS NOME FROM escala_medica.EXAME ex";
+            $consulta_lista = "SELECT ex.DS_EXAME AS NOME 
+                                FROM escala_medica.EXAME ex
+                                ORDER BY 1 ASC";
             $result_lista = oci_parse($conn_ora, $consulta_lista);																									
 
             //EXECUTANDO A CONSULTA SQL (ORACLE)

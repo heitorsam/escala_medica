@@ -14,7 +14,8 @@
                             WHERE prest.DS_CODIGO_CONSELHO = '$var_campo'
                                 AND prest.TP_SITUACAO = 'A'
                                 AND em.CD_ESPECIALID = $var_especie
-                                AND prest.cd_tip_presta = 8";
+                                AND prest.cd_tip_presta = 8
+                                ORDER BY prest.NM_PRESTADOR ASC";
         }else{
             $cons_campo = "SELECT prest.DS_CODIGO_CONSELHO AS CAMPO
                                 FROM dbamv.PRESTADOR prest
@@ -31,13 +32,15 @@
                             FROM dbamv.PRESTADOR 
                             WHERE DS_CODIGO_CONSELHO = '$var_campo' 
                             AND TP_SITUACAO = 'A'
-                            AND cd_tip_presta = 8";
+                            AND cd_tip_presta = 8
+                            ORDER BY NM_PRESTADOR ASC";
         }else{
             $cons_campo = "SELECT DS_CODIGO_CONSELHO AS CAMPO 
                             FROM dbamv.PRESTADOR 
                             WHERE NM_PRESTADOR = UPPER('$var_campo') 
                             AND TP_SITUACAO = 'A'
-                            AND cd_tip_presta = 8";
+                            AND cd_tip_presta = 8
+                            ORDER BY DS_CODIGO_CONSELHO";
         }
     }
 

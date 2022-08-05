@@ -5,7 +5,8 @@ session_start();
 
 $data = date('m/d/Y H:i', time());
 //declaramos uma variavel para monstarmos a tabela 
-
+$ano = $_GET['ano'];
+$mes = $_GET['mes'];
 $date = date('m/d/Y', time());
 $dadosXls = ""; 
 $dadosXls .= " <table class='table table-fixed table-hover table-striped' cellspacing='0' cellpadding='0'>"; 
@@ -23,7 +24,7 @@ $dadosXls .= " <th>  Celular 2  </th>";
 
 $dadosXls .= " </tr></thead>"; 
 
-echo $cons_escala = $_SESSION['excel'];
+$cons_escala = $_SESSION['excel'];
 $result_escala = oci_parse($conn_ora, $cons_escala);
 oci_execute($result_escala);
 
@@ -55,9 +56,8 @@ while($row_escala = oci_fetch_array($result_escala)){
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['CELULAR_2']." </td>"; 
     $dadosXls .= " </tr>"; 
     
-    if($_SESSION['tp'] == 1){
-        $setor = $row_escala['SETOR'];
-    }
+    $setor = $row_escala['SETOR'];
+    
 } 
 $dadosXls .= "<tr>Gerado no dia ". $data ."</tr>";
 $dadosXls .= " </table>";
@@ -65,11 +65,13 @@ $dadosXls .= " </table>";
 
 // Definimos o nome do arquivo que será exportado 
 
-if($_SESSION['tp'] == 1){
-    $arquivo = "escala_medica-". $setor ."-". $_SESSION['dt'] .".xls"; 
+if(@$setor <> ''){
+    $arquivo = "escala_medica-". $setor ."-".$mes."/".$ano."/.xls"; 
 }else{
-    $arquivo = "escala_medica-". $_SESSION['dt'] .".xls"; 
+    $arquivo = "escala_medica-".$mes."/".$ano."/.xls"; 
+
 }
+
 // Configurações header para forçar o download 
 header('Content-Type: application/vnd.ms-excel'); 
 header('Content-Disposition: attachment;filename="'.$arquivo.'"'); 

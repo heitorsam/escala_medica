@@ -5,7 +5,7 @@
     $var_tipo = $_GET['var_tipo'];
     if($var_tipo != ''){
     
-        $cons_setor = "SELECT DS_SETOR AS SETOR, CD_SETOR AS CODIGO FROM escala_medica.SETOR WHERE TP_SETOR = '$var_tipo'";
+        $cons_setor = "SELECT DS_SETOR AS SETOR, CD_SETOR AS CODIGO FROM escala_medica.SETOR WHERE TP_SETOR = '$var_tipo' ORDER BY DS_SETOR ASC";
 
         $result_setor = oci_parse($conn_ora, $cons_setor);
 

@@ -66,7 +66,7 @@
                 <option value="">Selecione </option>
                 <option value="P">Presencial</option>
                 <option value="D">Distancia</option>
-                <option value="F">Fixa</option>
+                <!--<option value="F">Fixa</option>-->
             </select>
         </div>
         <div id="div_setor" class="col-md-2">
@@ -106,7 +106,10 @@
     }
 
     function excel(){
-        window.location.href = "funcoes/escala_diaria/excel.php";
+        var mes = document.getElementById('mes').value;
+        var ano = document.getElementById('ano').value;
+        window.location.href = "funcoes/escala_diaria/excel.php?mes="+ mes +"&&ano="+ano;
+
     }
 
     function campo_dia(){

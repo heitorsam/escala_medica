@@ -15,7 +15,7 @@
                     LEFT JOIN dbamv.especialid esp
                     ON esp.cd_especialid = str.cd_especialid
                     WHERE prest.cd_tip_presta = 8
-                    ORDER BY 1";
+                    ORDER BY 2";
     $result_setor = oci_parse($conn_ora, $cons_setor);
     oci_execute($result_setor);
 

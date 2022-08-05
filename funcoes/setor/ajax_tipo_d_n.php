@@ -9,7 +9,10 @@ include '../../conexao.php';
     <?php 
 
         //CONSULTA_LISTA
-        $consulta_lista = "SELECT esp.ds_especialid AS Nome FROM dbamv.especialid esp WHERE esp.SN_ATIVO = 'S'";
+        $consulta_lista = "SELECT esp.ds_especialid AS Nome 
+                            FROM dbamv.especialid esp 
+                            WHERE esp.SN_ATIVO = 'S'
+                            ORDER BY esp.DS_ESPECIALID";
         $result_lista = oci_parse($conn_ora, $consulta_lista);																									
 
         //EXECUTANDO A CONSULTA SQL (ORACLE)

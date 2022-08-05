@@ -57,7 +57,7 @@
                 <option value="">Selecione </option>
                 <option value="P">Presencial</option>
                 <option value="D">Distancia</option>
-                <option value="F">Fixa</option>
+                <!--<option value="F">Fixa</option>-->
             </select>
         </div>
         <div id="div_setor" class="col-md-3">

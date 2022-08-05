@@ -22,7 +22,7 @@
                 <option value="">Selecione</option>
                 <option value="D">Distancia</option>
                 <option value="P">Presencial</option>
-                <option value="F">Fixa</option>
+                <!--<option value="F">Fixa</option>-->
             </select>
         </div>
         <div class="col-md-1" id="div_exame">

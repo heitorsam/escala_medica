@@ -3,7 +3,9 @@
 
     $var_cd_setor = $_POST['cd_setor'];
 
-    $cons_qtd = "SELECT COUNT(*) AS QTD FROM escala_medica.ESCALA WHERE CD_SETOR = '$var_cd_setor'";
+    $cons_qtd = "SELECT COUNT(*) AS QTD 
+                    FROM escala_medica.ESCALA 
+                    WHERE CD_SETOR = '$var_cd_setor'";
 
     $result_qtd = oci_parse($conn_ora, $cons_qtd);
 

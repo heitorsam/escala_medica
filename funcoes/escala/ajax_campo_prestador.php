@@ -3,7 +3,7 @@
 
     $cd_setor = $_GET['cd_escala'];
 
-    $cons_esp = "SELECT CD_ESPECIALID AS ESPECIALIDADE FROM escala_medica.SETOR WHERE CD_SETOR = '$cd_setor'";
+    $cons_esp = "SELECT CD_ESPECIALID AS ESPECIALIDADE FROM escala_medica.SETOR WHERE CD_SETOR = '$cd_setor' ORDER BY CD_ESPECIALID ASC";
     $result_esp = oci_parse($conn_ora, $cons_esp);																									
 
     //EXECUTANDO A CONSULTA SQL (ORACLE)
@@ -32,7 +32,8 @@ Prestador:
                             ON em.CD_PRESTADOR = prest.CD_PRESTADOR
                             WHERE prest.tp_situacao = 'A'
                             AND prest.cd_tip_presta = 8
-                            AND em.CD_ESPECIALID = '$cd_especialidade'";
+                            AND em.CD_ESPECIALID = '$cd_especialidade'
+                            ORDER BY prest.DS_CODIGO_CONSELHO ASC";
     }else{
         $consulta_lista =" SELECT pre.DS_CODIGO_CONSELHO AS CODIGO,
                                 replace(pre.NM_PRESTADOR, CHR(10), '') AS NOME

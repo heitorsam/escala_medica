@@ -14,10 +14,13 @@
 
     $tp_setor = $_GET['tp_setor'];
 
+    $num = $_GET['num'];
+
     $cons_escala = "SELECT esc.CD_PRESTADOR_MV AS CD_PRESTADOR,
                             pr.TP_SEXO AS SEXO,
                             esc.DIA,
                             esc.PERIODO,
+                            ESC.NUM_PRESTADOR,
                             pr.nm_prestador AS NM_PRESTADOR,
                             st.DS_SETOR AS SETOR,
                             TO_CHAR(TO_DATE(LPAD(esc.DIA,2) || '/' || '01/2022' || ' ' || esc.HR_INICIAL || ':00', 'DD/MM/YYYY HH24:MI:SS'),'DD/MM/YYYY HH24:MI') AS INICIAL,
@@ -71,8 +74,13 @@
 
                             $cons_escala .= "AND esc.CD_SETOR = '$setor' AND st.TP_SETOR = '$tp_setor'";
                         } 
+
+                        if($num <> ''){
+                            $cons_escala .= "AND esc.NUM_PRESTADOR = $num";
+
+                        }
                         
-                        $cons_escala .= "ORDER BY ESC.CD_SETOR, TO_CHAR(TO_DATE(LPAD(esc.DIA,2) || '/' || '01/2022' || ' ' || esc.HR_INICIAL || ':00', 'DD/MM/YYYY HH24:MI:SS'),'YYYY_MM_DD')";
+                        $cons_escala .= "ORDER BY ESC.CD_SETOR, TO_CHAR(TO_DATE(LPAD(esc.DIA,2) || '/' || '01/2022' || ' ' || esc.HR_INICIAL || ':00', 'DD/MM/YYYY HH24:MI:SS'),'YYYY_MM_DD'), ESC.NUM_PRESTADOR ASC";
 
     //echo $cons_escala;
     $result_escala = oci_parse($conn_ora, $cons_escala);
@@ -100,7 +108,8 @@
             <th class="align-middle" style="text-align: center !important;"><span>Setor</span></th> 
             <th class="align-middle" style="text-align: center !important;"><span>Inicio</span></th>
             <th class="align-middle" style="text-align: center !important;"><span>Fim</span></th>
-            <th class="align-middle" style="text-align: center !important;"><span>Prestador</span></th>                       
+            <th class="align-middle" style="text-align: center !important;"><span>Prestador</span></th>  
+            <th class="align-middle" style="text-align: center !important;"><span>Ordem</span></th>                     
             <th class="align-middle" style="text-align: center !important;"><span>Comercial 1</span></th>
             <th class="align-middle" style="text-align: center !important;"><span>Celular</span></th>
             <th class="align-middle" style="text-align: center !important;"><span>E-mail</span></th>
@@ -133,6 +142,7 @@
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['INICIAL']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['FINAL']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo $var_sn_diarista.''. $var_dr_nm .''. @$row_escala['NM_PRESTADOR']; ?></td>
+                            <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['NUM_PRESTADOR']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['TELEFONE_COMERCIAL_1']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['CELULAR']; ?></td>
                             <td class='align-middle' style='text-align: center;'><?php echo @$row_escala['E_MAIL']; ?></td>

@@ -16,6 +16,7 @@ $dadosXls .= " <th>  Setor  </th>";
 $dadosXls .= " <th>  Inicio  </th>";  
 $dadosXls .= " <th>  Fim  </th>";  
 $dadosXls .= " <th>  Prestador  </th>";  
+$dadosXls .= " <th>Ordem</th>";                 
 $dadosXls .= " <th>  Comercial 1 </th>"; 
 $dadosXls .= " <th>  Celular  </th>"; 
 $dadosXls .= " <th>  E-mail  </th>"; 
@@ -49,6 +50,7 @@ while($row_escala = oci_fetch_array($result_escala)){
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['INICIAL']." </td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['FINAL']." </td>";  
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'>". $var_sn_diarista ."". $tp_sexo ."". $row_escala['NM_PRESTADOR'] ."</td>"; 
+    $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['NUM_PRESTADOR']." </td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['TELEFONE_COMERCIAL_1']." </td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['CELULAR']." </td>"; 
     $dadosXls .= " <td class='align-middle' style='text-align: center !important;'> ".$row_escala['E_MAIL']." </td>"; 

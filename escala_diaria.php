@@ -60,6 +60,8 @@
                 <option value=""></option>
             </select>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-2">
             Tipo:
             <select onchange="$('#div_setor').load('funcoes/escala_diaria/ajax_campo_setor.php?var_tipo='+ this.value)" class="form-control" name="tipo" id="tipo">
@@ -74,6 +76,22 @@
             <select  id="setor" class="form-control">
                 <option  value="">Selecione</option>
             </select>
+        </div>
+        <div class="col-md-2">        
+            Plantonista:
+            <select id="num_plantonista" class="form-control">
+                <option value="">Todos</option>    
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>        
         </div>
         <div class="col-md-2">
             <br>
@@ -99,16 +117,18 @@
         document.getElementById('btn_excel').disabled = false;
         var setor = document.getElementById('setor').value;
         var tipo = document.getElementById('tipo').value;
+        var num_plantonista = document.getElementById('num_plantonista').value;
         var dia = document.getElementById('dia').value;
         var mes = document.getElementById('mes').value;
         var ano = document.getElementById('ano').value;
-        $('#tabela_escala').load('funcoes/escala_diaria/ajax_tabela.php?dia='+ dia +'&&mes=' + mes + '&&ano='+ ano + '&&setor='+ setor +'&&tp_setor='+ tipo);
+        $('#tabela_escala').load('funcoes/escala_diaria/ajax_tabela.php?dia='+ dia +'&&mes=' + mes + '&&ano='+ ano + '&&setor='+ setor +'&&tp_setor='+ tipo+'&num='+ num_plantonista);
     }
 
     function excel(){
         var mes = document.getElementById('mes').value;
         var ano = document.getElementById('ano').value;
-        window.location.href = "funcoes/escala_diaria/excel.php?mes="+ mes +"&&ano="+ano;
+        var num_plantonista = document.getElementById('num_plantonista').value;
+        window.location.href = "funcoes/escala_diaria/excel.php?mes="+ mes +"&&ano="+ano+"&num="+num_plantonista;
 
     }
 

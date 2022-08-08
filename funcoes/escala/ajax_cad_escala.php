@@ -7,6 +7,7 @@
     $var_ano = $_POST['ano'];
     $var_tipo = $_POST['tipo'];
     $var_setor = $_POST['setor'];
+    $var_num_plantonista = $_POST['num_plantonista'];
     $var_codigo = $_POST['codigo'];
     $var_dia = $_POST['dia'];
     $var_hr_in = $_POST['hr_in'];
@@ -43,6 +44,7 @@
                             PERIODO,
                             CD_SETOR,
                             CD_PRESTADOR_MV,
+                            NUM_PRESTADOR,
                             DIA,
                             DIARISTA,
                             HR_INICIAL,
@@ -54,6 +56,7 @@
                             '$var_periodo',
                             $var_setor,
                             $var_responsavel,
+                            $var_num_plantonista,
                             '$var_dia',
                             '$var_diarista',
                             '$var_hr_in',

@@ -11,7 +11,7 @@
     
     $row_esp = oci_fetch_array($result_esp);
 
-    $cd_especialidade = $row_esp['ESPECIALIDADE'];
+    @$cd_especialidade = $row_esp['ESPECIALIDADE'];
 ?>
 
 

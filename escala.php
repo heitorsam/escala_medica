@@ -81,6 +81,26 @@
             Prestador:
             <input type="text" class="form-control" readonly>
         </div>
+
+        <div class="col-md-1">        
+            Plantonista:
+            <select id="num_plantonista" class="form-control">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>        
+        </div>
+    </div>
+
+    <div class="row">
+
         <div id="div_dia" class="col-md-2">        
             Dia:
             <select class="form-control">
@@ -88,10 +108,13 @@
             </select>        
         </div>
 
+        
+        
         <div class="col-md-1">
             Diarista:
             <input class="form-control" type="checkbox" id="ck_diarista" style="zoom:0.8; margin-top: 6px;">
         </div>
+
 
         <div class="col-md-2">
             Hora Inicial:
@@ -216,6 +239,7 @@
         var ano = document.getElementById('ano').value;
         var tipo = document.getElementById('tipo').value;
         var setor = document.getElementById('setor').value;
+        var num_plantonista = document.getElementById('num_plantonista').value;
         var codigo = document.getElementById('cd_responsavel').value;
         var dia = document.getElementById('dia').value;
         var hr_in = document.getElementById('hora_inicial').value;
@@ -256,6 +280,7 @@
                         ano: ano,
                         tipo: tipo,
                         setor: setor,
+                        num_plantonista: num_plantonista,
                         codigo: codigo,
                         dia: dia,
                         hr_in: hr_in,

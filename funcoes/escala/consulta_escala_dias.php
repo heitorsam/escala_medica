@@ -7,6 +7,7 @@
                     st.tp_setor,
                     prest.nm_mnemonico AS NOME,
                     esc.hr_inicial,
+                    ESC.NUM_PRESTADOR,
                     CASE
                     WHEN esc.hr_final < esc.HR_INICIAL THEN '23:59'
                     ELSE esc.HR_FINAL
@@ -36,6 +37,7 @@
                     WHEN esc.HR_FINAL < esc.hr_inicial THEN '00:00'
                     ELSE esc.hr_inicial
                     END hr_inicial,
+                    ESC.NUM_PRESTADOR,
                     esc.HR_FINAL,
                     esc.periodo,
                     esc.dia + 1 AS DIA,
@@ -52,7 +54,7 @@
                     AND esc.DIA = $dia - 1
                     AND esc.CD_SETOR = $setor
                     AND esc.hr_final < esc.HR_INICIAL
-                    ORDER BY 5 ASC, 6 ASC ";
+                    ORDER BY 5 ASC, 6 ASC, 7 ASC ";
 
     $rescult_escala = oci_parse($conn_ora, $cons_escala);
 
@@ -87,7 +89,7 @@
 
         echo '<div style="font-size: 12px;" > <i class="far fa-clock"></i> '.$row_escala['HR_INICIAL']. ' - '. $row_escala['HR_FINAL'].'  <i class="far fa-trash-alt" style="color: red" onclick="apagar_escala('. $row_escala['CD_ESCALA'] .')" ></i>';
         echo '</br>';
-        echo '<i class="fas fa-user-md"></i> ' . $sn_diaria .''. $dr_nm .''.  $row_escala['NOME'].'  <i class="fas fa-info-circle" style="color: #3185c1" onclick="abrir_modal_visu('. $row_escala['CD_ESCALA'] .')"></i></div>';
+        echo '<i class="fas fa-user-md"></i> ' . $sn_diaria .''. $dr_nm .''.  $row_escala['NOME'].' - '. $row_escala['NUM_PRESTADOR'] .'  <i class="fas fa-info-circle" style="color: #3185c1" onclick="abrir_modal_visu('. $row_escala['CD_ESCALA'] .')"></i></div>';
           
         $contador_dias++;
 

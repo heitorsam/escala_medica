@@ -20,7 +20,9 @@
                             pr.TP_SEXO AS SEXO,
                             esc.DIA,
                             esc.PERIODO,
-                            ESC.NUM_PRESTADOR,
+                            CASE WHEN esc.NUM_PRESTADOR = 'R' THEN 'Retaguarda'
+                            ELSE
+                            ESC.NUM_PRESTADOR END AS NUM_PRESTADOR,
                             pr.nm_prestador AS NM_PRESTADOR,
                             st.DS_SETOR AS SETOR,
                             TO_CHAR(TO_DATE(LPAD(esc.DIA,2) || '/' || '01/2022' || ' ' || esc.HR_INICIAL || ':00', 'DD/MM/YYYY HH24:MI:SS'),'DD/MM/YYYY HH24:MI') AS INICIAL,
@@ -76,7 +78,7 @@
                         } 
 
                         if($num <> ''){
-                            $cons_escala .= "AND esc.NUM_PRESTADOR = $num";
+                            $cons_escala .= "AND esc.NUM_PRESTADOR = '$num'";
 
                         }
                         

@@ -57,7 +57,7 @@
                     AND esc.DIA = $dia - 1
                     AND esc.CD_SETOR = $setor
                     AND esc.hr_final < esc.HR_INICIAL
-                    AND esc.num_prestador = 'R'
+                    AND esc.num_prestador <> 'R'
                     ORDER BY 5 ASC, 6 ASC, 7 ASC ";
 
         $cons_escala_r = "SELECT 
@@ -161,15 +161,20 @@
 
     }
 
+    $contador_dias = 0;
+
+
     while ($row_escala = oci_fetch_array($rescult_escala_r)){             
         $tipo = $row_escala['TP_SETOR'];
         if($contador_dias == 0){
 
-            echo '</br>';
-
-        }else{
+            
             echo '<div style="border-top: solid 1px #838383; width: 10%; margin: 0 auto; margin-top:8px; margin-bottom:8px;"></div>';
             echo '<div style="margin: 0 auto; margin-top:8px; margin-bottom:8px;">Retaguarda</div>';
+            echo '<div style="border-top: solid 1px #838383; width: 10%; margin: 0 auto; margin-top:8px; margin-bottom:8px;"></div>';
+
+        }else{
+
             echo '<div style="border-top: solid 1px #838383; width: 10%; margin: 0 auto; margin-top:8px; margin-bottom:8px;"></div>';
         }
         if($row_escala['DIARISTA'] == 'S'){

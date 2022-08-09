@@ -82,7 +82,7 @@
             <input type="text" class="form-control" readonly>
         </div>
 
-        <div class="col-md-1">        
+        <div class="col-md-3">        
             Plantonista:
             <select id="num_plantonista" class="form-control">
                 <option value="1">1</option>
@@ -95,6 +95,7 @@
                 <option value="8">8</option>
                 <option value="9">9</option>
                 <option value="10">10</option>
+                <option value="R">Retaguarda</option>
             </select>        
         </div>
     </div>
@@ -289,6 +290,7 @@
                         },
                     cache: false,
                     success: function(dataResult){
+                        console.log(dataResult);
                         $('#calendario').load('funcoes/escala/ajax_calendario.php?mes='+ mes +'&&ano='+ano+'&&setor='+setor);
                     },
                 });

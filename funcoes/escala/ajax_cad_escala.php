@@ -39,7 +39,7 @@
 
         $var_cd_escala = $row_seq_nextval['CD_ESCALA'];
 
-        $cons_setor = "INSERT INTO escala_medica.ESCALA
+        echo $cons_setor = "INSERT INTO escala_medica.ESCALA
                             (CD_ESCALA,
                             PERIODO,
                             CD_SETOR,
@@ -56,7 +56,7 @@
                             '$var_periodo',
                             $var_setor,
                             $var_responsavel,
-                            $var_num_plantonista,
+                            '$var_num_plantonista',
                             '$var_dia',
                             '$var_diarista',
                             '$var_hr_in',

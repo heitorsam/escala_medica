@@ -77,7 +77,7 @@
                 <option  value="">Selecione</option>
             </select>
         </div>
-        <div class="col-md-2">        
+        <div class="col-md-3">        
             Plantonista:
             <select id="num_plantonista" class="form-control">
                 <option value="">Todos</option>    
@@ -91,6 +91,7 @@
                 <option value="8">8</option>
                 <option value="9">9</option>
                 <option value="10">10</option>
+                <option value="R">Retaguarda</option>
             </select>        
         </div>
         <div class="col-md-2">

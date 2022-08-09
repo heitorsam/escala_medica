@@ -62,7 +62,7 @@ CREATE TABLE ESCALA
   PERIODO             VARCHAR2(7) not null,
   CD_SETOR            INTEGER not null,
   CD_PRESTADOR_MV     INTEGER not null,
-  num_PRESTADOR       INTEGER not null,
+  num_PRESTADOR       VARCHAR2(10) not null,
   DIA                 INTEGER,
   DIARISTA            VARCHAR2(1),
   HR_INICIAL          VARCHAR2(5),

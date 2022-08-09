@@ -99,6 +99,8 @@
         </div>
     </div>
 
+    <div class="div_br"></div>
+    
     <div class="row">
 
         <div id="div_dia" class="col-md-2">        
@@ -106,9 +108,7 @@
             <select class="form-control">
                 <option value="">--</option>
             </select>        
-        </div>
-
-        
+        </div>        
         
         <div class="col-md-1">
             Diarista:

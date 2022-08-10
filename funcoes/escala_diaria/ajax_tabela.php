@@ -74,8 +74,13 @@
 
                         if($tp_setor <> ''){
 
-                            $cons_escala .= "AND esc.CD_SETOR = '$setor' AND st.TP_SETOR = '$tp_setor'";
+                            $cons_escala .= "AND st.TP_SETOR = '$tp_setor'";
                         } 
+
+                        if($setor <> ''){
+                            $cons_escala .= "AND esc.CD_SETOR = '$setor'";
+
+                        }
 
                         if($num <> ''){
                             $cons_escala .= "AND esc.NUM_PRESTADOR = '$num'";

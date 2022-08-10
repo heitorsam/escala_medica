@@ -68,7 +68,7 @@
         <div class="col-md-2">
             Tipo:
             <select onchange="$('#div_setor').load('funcoes/escala_diaria/ajax_campo_setor.php?var_tipo='+ this.value)" class="form-control" name="tipo" id="tipo">
-                <option value="">Selecione </option>
+                <option value="">Todos </option>
                 <option value="P">Presencial</option>
                 <option value="D">Distancia</option>
                 <!--<option value="F">Fixa</option>-->
@@ -77,7 +77,7 @@
         <div id="div_setor" class="col-md-2">
             Setor:
             <select  id="setor" class="form-control">
-                <option  value="">Selecione</option>
+                <option  value="">Todos</option>
             </select>
         </div>
         <div class="col-md-3">        

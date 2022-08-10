@@ -12,7 +12,7 @@
         oci_execute($result_setor);
         echo 'Setor:';
         echo '<select id="setor" class="form-control" onchange="campo_prestador()">';
-        echo '<option  value="">Selecione</option>';
+        echo '<option  value="">Todos</option>';
             while($row_setor = oci_fetch_array($result_setor)){
                 echo '<option value='. $row_setor['CODIGO'] .'>'. $row_setor['SETOR'] .'</option>';
             }
@@ -21,7 +21,7 @@
     }else{ ?>
         Setor:
         <select id="setor" class="form-control">
-            <option  value="">Selecione</option>
+            <option  value="">Todos</option>
         </select>
     <?php
     }

@@ -20,7 +20,7 @@
     $cons_responsavel = "SELECT pr.CD_PRESTADOR AS CODIGO 
                             FROM dbamv.PRESTADOR pr 
                         WHERE pr.Ds_Codigo_Conselho = '$var_codigo'
-                        AND pr.CD_TIP_PRESTA = 8";
+                        AND pr.CD_TIP_PRESTA in (3, 8)";
 
     $result_responsavel = oci_parse($conn_ora, $cons_responsavel);
 

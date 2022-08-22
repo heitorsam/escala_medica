@@ -14,7 +14,7 @@
                     ON prest.Cd_Prestador = str.cd_prestador_mv
                     LEFT JOIN dbamv.especialid esp
                     ON esp.cd_especialid = str.cd_especialid
-                    WHERE prest.cd_tip_presta = 8
+                    WHERE prest.cd_tip_presta in (3, 8)
                     ORDER BY 2";
     $result_setor = oci_parse($conn_ora, $cons_setor);
     oci_execute($result_setor);
@@ -109,7 +109,7 @@
                                                         replace(pre.NM_PRESTADOR, CHR(10), '') AS NOME
                                                 from dbamv.PRESTADOR pre
                                                 WHERE pre.TP_SITUACAO = 'A'
-                                                AND pre.cd_tip_presta = 8
+                                                AND pre.cd_tip_presta in (3, 8)
                                                 ORDER BY 2";
                             $result_lista = oci_parse($conn_ora, $consulta_lista);																									
                             //EXECUTANDO A CONSULTA SQL (ORACLE)

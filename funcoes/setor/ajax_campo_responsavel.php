@@ -9,7 +9,7 @@
                         FROM dbamv.PRESTADOR 
                         WHERE DS_CODIGO_CONSELHO = TO_CHAR('$var_campo') 
                         AND TP_SITUACAO = 'A' 
-                        AND cd_tip_presta = 8
+                        AND cd_tip_presta in (3, 8)
                         ORDER BY NM_PRESTADOR ASC";
 
     }else{
@@ -17,7 +17,7 @@
                         FROM dbamv.PRESTADOR 
                         WHERE NM_PRESTADOR = UPPER('$var_campo') 
                         AND TP_SITUACAO = 'A' 
-                        AND cd_tip_presta = 8
+                        AND cd_tip_presta in (3, 8)
                         ORDER BY DS_CODIGO_CONSELHO ASC";
     }
 

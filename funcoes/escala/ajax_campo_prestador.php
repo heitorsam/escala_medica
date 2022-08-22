@@ -31,7 +31,7 @@ Prestador:
                             INNER JOIN dbamv.ESP_MED em
                             ON em.CD_PRESTADOR = prest.CD_PRESTADOR
                             WHERE prest.tp_situacao = 'A'
-                            AND prest.cd_tip_presta = 8
+                            AND prest.cd_tip_presta in (3, 8)
                             AND em.CD_ESPECIALID = '$cd_especialidade'
                             ORDER BY prest.DS_CODIGO_CONSELHO ASC";
     }else{
@@ -39,7 +39,7 @@ Prestador:
                                 replace(pre.NM_PRESTADOR, CHR(10), '') AS NOME
                             from dbamv.PRESTADOR pre
                             WHERE pre.TP_SITUACAO = 'A'
-                            AND pre.cd_tip_presta = 8
+                            AND pre.cd_tip_presta in (3, 8)
                             ORDER BY 2";
     }
     $result_lista = oci_parse($conn_ora, $consulta_lista);																									

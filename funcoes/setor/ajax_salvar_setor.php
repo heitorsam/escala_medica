@@ -11,7 +11,7 @@
     $cons_cd_prest = "SELECT CD_PRESTADOR 
                         FROM dbamv.PRESTADOR 
                         WHERE DS_CODIGO_CONSELHO = '$var_cd_conselho'
-                        AND CD_TIP_PRESTA = 8";
+                        AND CD_TIP_PRESTA in (3, 8)";
 
     $result_cd_prest = oci_parse($conn_ora, $cons_cd_prest);
 

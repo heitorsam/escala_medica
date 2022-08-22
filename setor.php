@@ -50,7 +50,7 @@
                                             replace(pre.NM_PRESTADOR, CHR(10), '') AS NOME
                                     from dbamv.PRESTADOR pre
                                     WHERE pre.TP_SITUACAO = 'A'
-                                    AND pre.cd_tip_presta = 8
+                                    AND pre.cd_tip_presta in (3, 8)
                                     ORDER BY 2";
                 $result_lista = oci_parse($conn_ora, $consulta_lista);																									
 

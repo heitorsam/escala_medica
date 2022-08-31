@@ -83,11 +83,11 @@
                         }
 
                         if($num <> ''){
-                            $cons_escala .= "AND esc.NUM_PRESTADOR = '$num'";
+                            $cons_escala .= "AND NUM_PRESTADOR = '$num'";
 
                         }
                         
-                        $cons_escala .= "ORDER BY ESC.CD_SETOR, TO_CHAR(TO_DATE(LPAD(esc.DIA,2) || '/' || '01/2022' || ' ' || esc.HR_INICIAL || ':00', 'DD/MM/YYYY HH24:MI:SS'),'YYYY_MM_DD'), ESC.NUM_PRESTADOR ASC";
+                        $cons_escala .= "ORDER BY ESC.CD_SETOR, INICIAL, NUM_PRESTADOR ASC";
 
     //echo $cons_escala;
     $result_escala = oci_parse($conn_ora, $cons_escala);

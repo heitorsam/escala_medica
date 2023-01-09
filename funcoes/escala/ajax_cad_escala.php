@@ -17,10 +17,33 @@
 
     $var_periodo = $var_mes .'/'. $var_ano;
 
+
+    //VERIFICANDO SE O SETOR POSSUI ESPECIALIDADE
+    $cons_tp_setor = "SELECT st.TP_SETOR, st.CD_ESPECIALID
+                      FROM escala_medica.SETOR st
+                      WHERE st.CD_SETOR = '$var_setor'";
+
+    $result_tp_setor = oci_parse($conn_ora, $cons_tp_setor);
+
+    oci_execute($result_tp_setor);
+
+    $row_tp_setor = oci_fetch_array($result_tp_setor);
+
+    $var_tp_setor = $row_tp_setor['TP_SETOR'];
+    $var_cd_especialid = $row_tp_setor['CD_ESPECIALID'];
+
     $cons_responsavel = "SELECT pr.CD_PRESTADOR AS CODIGO 
-                            FROM dbamv.PRESTADOR pr 
-                        WHERE pr.Ds_Codigo_Conselho = '$var_codigo'
-                        AND pr.CD_TIP_PRESTA in (3, 8)";
+                         FROM dbamv.PRESTADOR pr 
+                         LEFT JOIN dbamv.ESP_MED esp
+                           ON esp.CD_PRESTADOR = pr.CD_PRESTADOR
+                         WHERE pr.Ds_Codigo_Conselho = '$var_codigo'
+                         AND pr.CD_TIP_PRESTA in (3, 8)";
+                    
+    if($var_tp_setor == 'D'){
+
+        $cons_responsavel .= " AND esp.CD_ESPECIALID = '$var_cd_especialid'";
+
+    }
 
     $result_responsavel = oci_parse($conn_ora, $cons_responsavel);
 

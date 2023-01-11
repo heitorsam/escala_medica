@@ -50,6 +50,20 @@
 		if(isset($resultado)){
 			
 			if($resultado[0] == 'Login efetuado com sucesso') {
+
+
+				$cons_acesso_login="INSERT INTO portal_projetos.ACESSO
+                    SELECT portal_projetos.SEQ_CD_ACESSO.NEXTVAL AS CD_ACESSO,
+                    20 AS CD_PORTFOLIO,
+                    'ESCALA MEDICA' AS DS_PROJETO,
+                    '$usuario' AS CD_USUARIO_ACESSO,
+                    SYSDATE AS HR_ACESSO
+                    FROM DUAL";
+
+				$result_acesso = oci_parse($conn_ora,$cons_acesso_login);
+
+				$valida_acesso = oci_execute($result_acesso);
+
 				echo $_SESSION['usuarioLogin'] = $usuario;
 				echo $_SESSION['usuarioNome'] = $resultado[1];
 				echo $_SESSION['sn_administrador'] = $resultado[2];

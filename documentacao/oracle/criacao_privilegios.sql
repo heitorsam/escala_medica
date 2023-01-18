@@ -13,6 +13,9 @@ GRANT SELECT ON dbasgu.USUARIOS TO escala_medica;
 GRANT SELECT ON DBASGU.PAPEL_USUARIOS TO escala_medica;
 GRANT SELECT ON DBASGU.PAPEL TO escala_medica;
 
+GRANT SELECT ON portal_projetos.SEQ_CD_ACESSO TO escala_medica;
+GRANT INSERT ON portal_projetos.ACESSO TO escala_medica;
+
 --SEQUENCES
 --GRANT SELECT ON dbamv.SEQ_PRODUTO TO portal_cadastro;
 

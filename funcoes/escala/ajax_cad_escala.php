@@ -32,16 +32,16 @@
     $var_tp_setor = $row_tp_setor['TP_SETOR'];
     $var_cd_especialid = $row_tp_setor['CD_ESPECIALID'];
 
-    $cons_responsavel = "SELECT pr.CD_PRESTADOR AS CODIGO 
+     $cons_responsavel = "SELECT pr.CD_PRESTADOR AS CODIGO 
                          FROM dbamv.PRESTADOR pr 
                          LEFT JOIN dbamv.ESP_MED esp
                            ON esp.CD_PRESTADOR = pr.CD_PRESTADOR
                          WHERE pr.Ds_Codigo_Conselho = '$var_codigo'
                          AND pr.CD_TIP_PRESTA in (3, 8)";
                     
-    if($var_tp_setor == 'D'){
+    if($var_tp_setor == 'D' && isset($var_cd_especialid)){
 
-        $cons_responsavel .= " AND esp.CD_ESPECIALID = '$var_cd_especialid'";
+        echo $cons_responsavel .= " AND esp.CD_ESPECIALID = '$var_cd_especialid'";
 
     }
 
